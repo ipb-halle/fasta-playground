@@ -1,8 +1,13 @@
 package de.ipb_halle.fasta_playground.fastaresult;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+
 public class FastaResultBuilder {
 	private double bitScore;
-	private String expectationValue;
+	private double expectationValue;
 	private int smithWatermanScore;
 	private double identity;
 	private double similarity;
@@ -26,15 +31,27 @@ public class FastaResultBuilder {
 	protected FastaResultBuilder() {
 	}
 
-	public FastaResult build() {
-		return new FastaResult(this);
+	public FastaResult build() throws FastaResultParserException {
+		FastaResult result = new FastaResult(this);
+
+		// Validate the result using bean validation (JSR 349).
+		Set<ConstraintViolation<FastaResult>> constraintViolations = Validation.buildDefaultValidatorFactory()
+				.getValidator().validate(result);
+		if (constraintViolations.size() > 0) {
+			StringBuilder messages = new StringBuilder();
+			messages.append("Unable to build a valid FASTA result:");
+			constraintViolations.forEach(violation -> messages.append("\n").append(violation.getMessage()));
+			throw new FastaResultParserException(messages.toString());
+		}
+
+		return result;
 	}
 
 	public double getBitScore() {
 		return bitScore;
 	}
 
-	public String getExpectationValue() {
+	public double getExpectationValue() {
 		return expectationValue;
 	}
 
@@ -119,7 +136,7 @@ public class FastaResultBuilder {
 		return this;
 	}
 
-	public FastaResultBuilder expectationValue(String expectationValue) {
+	public FastaResultBuilder expectationValue(double expectationValue) {
 		this.expectationValue = expectationValue;
 		return this;
 	}

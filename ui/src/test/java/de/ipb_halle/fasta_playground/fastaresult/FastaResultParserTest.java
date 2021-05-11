@@ -10,19 +10,22 @@ import java.util.List;
 import org.junit.Test;
 
 public class FastaResultParserTest {
-	private static double delta = 0.001;
+	// relative error in tests with double values
+	private static double delta = 0.001d;
 
 	@Test
 	public void testParse() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results1.txt"));
 		List<FastaResult> res = new FastaResultParser(reader).parse();
+		double r;
+
 		assertEquals(4, res.size());
 
-		assertEquals(96.5, res.get(0).getBitScore(), delta);
-		assertEquals("5.2e-25", res.get(0).getExpectationValue());
+		assertEquals(96.5d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(5.2e-25d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(313, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000, res.get(0).getIdentity(), delta);
-		assertEquals(1.000, res.get(0).getSimilarity(), delta);
+		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
+		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
 		assertEquals(50, res.get(0).getOverlap());
 		assertEquals("query1", res.get(0).getQuerySequenceName());
 		assertEquals("query sequence", res.get(0).getQuerySequenceDescription());
@@ -47,11 +50,11 @@ public class FastaResultParserTest {
 				   + "::::::::::::::::::::::::::::::",
 				res.get(0).getConsensusLine());
 
-		assertEquals(36.1, res.get(1).getBitScore(), delta);
-		assertEquals("8e-07", res.get(1).getExpectationValue());
+		assertEquals(36.1d, r = res.get(1).getBitScore(), r * delta);
+		assertEquals(8e-07d, r = res.get(1).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(1).getSmithWatermanScore());
-		assertEquals(0.400, res.get(1).getIdentity(), delta);
-		assertEquals(0.733, res.get(1).getSimilarity(), delta);
+		assertEquals(0.400d, r = res.get(1).getIdentity(), r * delta);
+		assertEquals(0.733d, r = res.get(1).getSimilarity(), r * delta);
 		assertEquals(45, res.get(1).getOverlap());
 		assertEquals("query1", res.get(1).getQuerySequenceName());
 		assertEquals("query sequence", res.get(1).getQuerySequenceDescription());
@@ -77,11 +80,11 @@ public class FastaResultParserTest {
 				   + "-: . .:.:::::: :: ::.",
 				res.get(1).getConsensusLine());
 
-		assertEquals(36.1, res.get(2).getBitScore(), delta);
-		assertEquals("8e-07", res.get(2).getExpectationValue());
+		assertEquals(36.1d, r = res.get(2).getBitScore(), r * delta);
+		assertEquals(8e-07d, r = res.get(2).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(2).getSmithWatermanScore());
-		assertEquals(0.400, res.get(2).getIdentity(), delta);
-		assertEquals(0.733, res.get(2).getSimilarity(), delta);
+		assertEquals(0.400d, r = res.get(2).getIdentity(), r * delta);
+		assertEquals(0.733d, r = res.get(2).getSimilarity(), r * delta);
 		assertEquals(45, res.get(2).getOverlap());
 		assertEquals("query1", res.get(2).getQuerySequenceName());
 		assertEquals("query sequence", res.get(2).getQuerySequenceDescription());
@@ -107,11 +110,11 @@ public class FastaResultParserTest {
 				   + "-: . .:.:::::: :: ::.",
 				res.get(2).getConsensusLine());
 
-		assertEquals(15.1, res.get(3).getBitScore(), delta);
-		assertEquals("0.74", res.get(3).getExpectationValue());
+		assertEquals(15.1d, r = res.get(3).getBitScore(), r * delta);
+		assertEquals(0.74d, r = res.get(3).getExpectationValue(), r * delta);
 		assertEquals(33, res.get(3).getSmithWatermanScore());
-		assertEquals(0.417, res.get(3).getIdentity(), delta);
-		assertEquals(0.583, res.get(3).getSimilarity(), delta);
+		assertEquals(0.417d, r = res.get(3).getIdentity(), r * delta);
+		assertEquals(0.583d, r = res.get(3).getSimilarity(), r * delta);
 		assertEquals(24, res.get(3).getOverlap());
 		assertEquals("query1", res.get(3).getQuerySequenceName());
 		assertEquals("query sequence", res.get(3).getQuerySequenceDescription());

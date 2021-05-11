@@ -1,77 +1,134 @@
 package de.ipb_halle.fasta_playground.fastaresult;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class FastaResult {
-	// fa_bits
+	/*
+	 * fa_bits - bit score
+	 */
 	private double bitScore;
 
-	// fa_expect
-	// doubles will be problematic in tests, because the value range is quite large
-	// and a delta needs to be defined
-	private final String expectationValue;
+	/*
+	 * fa_expect - E()-value
+	 */
+	private final double expectationValue;
 
-	// sw_score
+	/*
+	 * sw_score - Smith-Waterman score
+	 */
 	private final int smithWatermanScore;
 
-	// sw_ident
+	/*
+	 * sw_ident - identity
+	 */
 	private final double identity;
 
-	// EBI FASTA calls this "positives"
-	// sw_sim
+	/*
+	 * sw_sim - similarity (EBI FASTA calls this "positives")
+	 */
 	private final double similarity;
 
-	// sw_overlap
+	/*
+	 * sw_overlap - overlap
+	 */
 	private final int overlap;
 
-	// first ">" in result
+	/*
+	 * Name of the query sequence
+	 */
+	@NotNull
 	private final String querySequenceName;
 
-	// same line
+	/*
+	 * Description of the query sequence
+	 */
+	@NotNull
 	private final String querySequenceDescription;
 
-	// first sq_len
+	/*
+	 * sq_len - sequence length of the query sequence
+	 */
+	@Min(1)
 	private final int querySequenceLength;
 
-	// first al_start
+	/*
+	 * al_start - alignment start position in the query sequence
+	 */
+	@Min(1)
 	private final int queryAlignmentStart;
 
-	// first al_stop
+	/*
+	 * al_stop - alignment stop position in the query sequence
+	 */
+	@Min(1)
 	private final int queryAlignmentStop;
 
-	// first al_display_start
+	/*
+	 * al_display_start - alignment display start position in the query sequence
+	 */
+	@Min(1)
 	private final int queryAlignmentDisplayStart;
 
-	// lines after line al_display_start until next ";" or ">"
+	/*
+	 * Query sequence alignment
+	 */
+	@NotNull
 	private final String queryAlignmentLine;
 
-	// second ">" in result
+	/*
+	 * Name of the subject sequence
+	 */
+	@NotNull
 	private final String subjectSequenceName;
 
-	// same line
+	/*
+	 * Description of the subject sequence
+	 */
+	@NotNull
 	private final String subjectSequenceDescription;
 
-	// second sq_len
+	/*
+	 * sq_len - sequence length of the subject sequence
+	 */
+	@Min(1)
 	private final int subjectSequenceLength;
 
-	// second al_start
+	/*
+	 * al_start - alignment start position in the subject sequence
+	 */
+	@Min(1)
 	private final int subjectAlignmentStart;
 
-	// second al_stop
+	/*
+	 * al_stop - alignment stop position in the subject sequence
+	 */
+	@Min(1)
 	private final int subjectAlignmentStop;
 
-	// second al_display_start
+	/*
+	 * al_display_start - alignment display start position in the subject sequence
+	 */
+	@Min(1)
 	private final int subjectAlignmentDisplayStart;
 
-	// lines after "line al_display_start" until next line starting with ";" or ">"
+	/*
+	 * Subject sequence alignment
+	 */
+	@NotNull
 	private final String subjectAlignmentLine;
 
-	// lines after "al_cons" until next line starting with ";" or ">"
+	/*
+	 * Consensus sequence
+	 */
+	@NotNull
 	private final String consensusLine;
 
 	public double getBitScore() {
 		return bitScore;
 	}
 
-	public String getExpectationValue() {
+	public double getExpectationValue() {
 		return expectationValue;
 	}
 
@@ -155,7 +212,7 @@ public class FastaResult {
 		return new FastaResultBuilder();
 	}
 
-	public FastaResult(FastaResultBuilder builder) {
+	protected FastaResult(FastaResultBuilder builder) {
 		this.bitScore = builder.getBitScore();
 		this.expectationValue = builder.getExpectationValue();
 		this.smithWatermanScore = builder.getSmithWatermanScore();

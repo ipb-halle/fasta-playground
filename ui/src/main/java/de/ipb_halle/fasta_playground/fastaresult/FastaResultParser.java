@@ -120,7 +120,7 @@ public class FastaResultParser {
 			 * E()-value: matches for example "; fa_expect: 5.2e-25".
 			 */
 			else if ((builder != null) && line.startsWith("; fa_expect:")) {
-				builder.expectationValue(line.split(":")[1].trim());
+				builder.expectationValue(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
