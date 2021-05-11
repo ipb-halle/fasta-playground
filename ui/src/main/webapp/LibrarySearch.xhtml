@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Library search with FASTA</title>
+</h:head>
+<h:body>
+	<b:container>
+		<h1>Sequence library search with the FASTA program</h1>
+		<h2>Input</h2>
+		<br />
+		<b:form>
+			<b:panelGrid col-spans="9,3">
+				<h:panelGroup>
+					<b:inputTextarea id="libraryId"
+						value="#{fastaLibrarySearchBean.library}" required="true"
+						label="Sequence library (DNA, RNA or AA)"
+						placeholder="Paste or drag and drop library sequences in FASTA format here ..." />
+					<b:message for="@previous" />
+				</h:panelGroup>
+				<h:panelGroup>
+					<br />
+					<b:commandButton value="Insert example protein library" ajax="true"
+						process="@this" update="libraryId"
+						action="#{fastaLibrarySearchBean.actionInsertProteinLibrary()}" />
+					<br />
+					<b:commandButton value="Insert example DNA library" ajax="true"
+						process="@this" update="libraryId"
+						action="#{fastaLibrarySearchBean.actionInsertDNALibrary()}" />
+				</h:panelGroup>
+				<h:panelGroup>
+					<b:inputTextarea value="#{fastaLibrarySearchBean.query}"
+						required="true" label="Query sequence"
+						placeholder="Paste or drag and drop a query sequence in FASTA format here ..." />
+					<b:message for="@previous" />
+				</h:panelGroup>
+				<b:commandButton value="Search"
+					action="#{fastaLibrarySearchBean.actionSearch()}" jax="true"
+					process="@form" update="@form resultsId" look="primary" />
+			</b:panelGrid>
+		</b:form>
+		<hr />
+		<h2>Results</h2>
+		<p:accordionPanel id="resultsId"
+			value="#{fastaLibrarySearchBean.results}" var="result"
+			multiple="true">
+			<p:tab
+				title="#{result.subjectSequenceName} - #{result.subjectSequenceDescription} ">
+				<b:container>
+					<b:panelGrid columns="6">
+						<h:outputText value="Bit Score" />
+						<h:outputText value="E()-Value" />
+						<h:outputText value="Smith-Waterman Score" />
+						<h:outputText value="Identity" />
+						<h:outputText value="Similarity (Positives)" />
+						<h:outputText value="Overlap" />
+						<h:outputText value="#{result.bitScore}" />
+						<h:outputText value="#{result.expectationValue}" />
+						<h:outputText value="#{result.smithWatermanScore}" />
+						<h:outputText value="#{result.identity}" />
+						<h:outputText value="#{result.similarity}" />
+						<h:outputText value="#{result.overlap}" />
+					</b:panelGrid>
+					<hr />
+					<pre>
+						<h:outputFormat value="Query   {0}   {1}   {2}">
+							<f:param value="#{result.queryAlignmentStart}" />
+							<f:param value="#{result.queryAlignmentLine}" />
+							<f:param value="#{result.queryAlignmentStop}" />
+						</h:outputFormat>
+						<br />
+						<h:outputFormat value="              {0}">
+							<f:param value="#{result.consensusLine}" />
+						</h:outputFormat>
+						<br />
+						<h:outputFormat value="Subject {0}   {1}   {2}">
+							<f:param value="#{result.subjectAlignmentStart}" />
+							<f:param value="#{result.subjectAlignmentLine}" />
+							<f:param value="#{result.subjectAlignmentStop}" />
+						</h:outputFormat>
+					</pre>
+				</b:container>
+			</p:tab>
+		</p:accordionPanel>
+	</b:container>
+</h:body>
+</html>
