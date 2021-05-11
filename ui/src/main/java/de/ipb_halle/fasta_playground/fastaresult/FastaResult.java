@@ -7,65 +7,65 @@ public class FastaResult {
 	// fa_expect
 	// doubles will be problematic in tests, because the value range is quite large
 	// and a delta needs to be defined
-	private String expectationValue;
+	private final String expectationValue;
 
 	// sw_score
-	private int smithWatermanScore;
+	private final int smithWatermanScore;
 
 	// sw_ident
-	private double identity;
+	private final double identity;
 
 	// EBI FASTA calls this "positives"
 	// sw_sim
-	private double similarity;
+	private final double similarity;
 
 	// sw_overlap
-	private int overlap;
+	private final int overlap;
 
 	// first ">" in result
-	private String querySequenceName;
+	private final String querySequenceName;
 
 	// same line
-	private String querySequenceDescription;
+	private final String querySequenceDescription;
 
 	// first sq_len
-	private int querySequenceLength;
+	private final int querySequenceLength;
 
 	// first al_start
-	private int queryAlignmentStart;
+	private final int queryAlignmentStart;
 
 	// first al_stop
-	private int queryAlignmentStop;
+	private final int queryAlignmentStop;
 
 	// first al_display_start
-	private int queryAlignmentDisplayStart;
+	private final int queryAlignmentDisplayStart;
 
 	// lines after line al_display_start until next ";" or ">"
-	private String queryAlignmentLine;
+	private final String queryAlignmentLine;
 
 	// second ">" in result
-	private String subjectSequenceName;
+	private final String subjectSequenceName;
 
 	// same line
-	private String subjectSequenceDescription;
+	private final String subjectSequenceDescription;
 
 	// second sq_len
-	private int subjectSequenceLength;
+	private final int subjectSequenceLength;
 
 	// second al_start
-	private int subjectAlignmentStart;
+	private final int subjectAlignmentStart;
 
 	// second al_stop
-	private int subjectAlignmentStop;
+	private final int subjectAlignmentStop;
 
 	// second al_display_start
-	private int subjectAlignmentDisplayStart;
+	private final int subjectAlignmentDisplayStart;
 
 	// lines after "line al_display_start" until next line starting with ";" or ">"
-	private String subjectAlignmentLine;
+	private final String subjectAlignmentLine;
 
 	// lines after "al_cons" until next line starting with ";" or ">"
-	private String consensusLine;
+	private final String consensusLine;
 
 	public double getBitScore() {
 		return bitScore;
@@ -149,5 +149,33 @@ public class FastaResult {
 
 	public String getConsensusLine() {
 		return consensusLine;
+	}
+
+	public static FastaResultBuilder builder() {
+		return new FastaResultBuilder();
+	}
+
+	public FastaResult(FastaResultBuilder builder) {
+		this.bitScore = builder.getBitScore();
+		this.expectationValue = builder.getExpectationValue();
+		this.smithWatermanScore = builder.getSmithWatermanScore();
+		this.identity = builder.getIdentity();
+		this.similarity = builder.getSimilarity();
+		this.overlap = builder.getOverlap();
+		this.querySequenceName = builder.getQuerySequenceName();
+		this.querySequenceDescription = builder.getQuerySequenceDescription();
+		this.querySequenceLength = builder.getQuerySequenceLength();
+		this.queryAlignmentStart = builder.getQueryAlignmentStart();
+		this.queryAlignmentStop = builder.getQueryAlignmentStop();
+		this.queryAlignmentDisplayStart = builder.getQueryAlignmentDisplayStart();
+		this.queryAlignmentLine = builder.getQueryAlignmentLine();
+		this.subjectSequenceName = builder.getSubjectSequenceName();
+		this.subjectSequenceDescription = builder.getSubjectSequenceDescription();
+		this.subjectSequenceLength = builder.getSubjectSequenceLength();
+		this.subjectAlignmentStart = builder.getSubjectAlignmentStart();
+		this.subjectAlignmentStop = builder.getSubjectAlignmentStop();
+		this.subjectAlignmentDisplayStart = builder.getSubjectAlignmentDisplayStart();
+		this.subjectAlignmentLine = builder.getSubjectAlignmentLine();
+		this.consensusLine = builder.getConsensusLine();
 	}
 }

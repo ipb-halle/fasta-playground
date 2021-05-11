@@ -2,6 +2,7 @@ package de.ipb_halle.fasta_playground.fastaresult;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
@@ -12,7 +13,7 @@ public class FastaResultParserTest {
 	private static double delta = 0.001;
 
 	@Test
-	public void testParse() {
+	public void testParse() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results1.txt"));
 		List<FastaResult> res = new FastaResultParser(reader).parse();
 		assertEquals(4, res.size());
