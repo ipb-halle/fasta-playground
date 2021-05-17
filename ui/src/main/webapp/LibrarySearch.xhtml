@@ -49,7 +49,7 @@
 			value="#{fastaLibrarySearchBean.results}" var="result"
 			multiple="true">
 			<p:tab
-				title="#{result.subjectSequenceName} - #{result.subjectSequenceDescription} ">
+				title="#{result.fastaResult.subjectSequenceName} - #{result.fastaResult.subjectSequenceDescription} ">
 				<b:container>
 					<b:panelGrid columns="6">
 						<h:outputText value="Bit Score" />
@@ -58,31 +58,15 @@
 						<h:outputText value="Identity" />
 						<h:outputText value="Similarity (Positives)" />
 						<h:outputText value="Overlap" />
-						<h:outputText value="#{result.bitScore}" />
-						<h:outputText value="#{result.expectationValue}" />
-						<h:outputText value="#{result.smithWatermanScore}" />
-						<h:outputText value="#{result.identity}" />
-						<h:outputText value="#{result.similarity}" />
-						<h:outputText value="#{result.overlap}" />
+						<h:outputText value="#{result.fastaResult.bitScore}" />
+						<h:outputText value="#{result.fastaResult.expectationValue}" />
+						<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
+						<h:outputText value="#{result.fastaResult.identity}" />
+						<h:outputText value="#{result.fastaResult.similarity}" />
+						<h:outputText value="#{result.fastaResult.overlap}" />
 					</b:panelGrid>
 					<hr />
-					<pre>
-						<h:outputFormat value="Query   {0}   {1}   {2}">
-							<f:param value="#{result.queryAlignmentStart}" />
-							<f:param value="#{result.queryAlignmentLine}" />
-							<f:param value="#{result.queryAlignmentStop}" />
-						</h:outputFormat>
-						<br />
-						<h:outputFormat value="              {0}">
-							<f:param value="#{result.consensusLine}" />
-						</h:outputFormat>
-						<br />
-						<h:outputFormat value="Subject {0}   {1}   {2}">
-							<f:param value="#{result.subjectAlignmentStart}" />
-							<f:param value="#{result.subjectAlignmentLine}" />
-							<f:param value="#{result.subjectAlignmentStop}" />
-						</h:outputFormat>
-					</pre>
+					<h:outputText value="#{result.alignments}" style="white-space:pre; font-family:monospace;"/>
 				</b:container>
 			</p:tab>
 		</p:accordionPanel>

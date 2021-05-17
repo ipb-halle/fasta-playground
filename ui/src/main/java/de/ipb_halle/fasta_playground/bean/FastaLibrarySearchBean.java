@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -14,7 +15,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import de.ipb_halle.fasta_playground.fastaresult.FastaResult;
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParserException;
 
@@ -29,7 +29,7 @@ public class FastaLibrarySearchBean {
 	@NotNull
 	private String query = ">query1 my query sequence\nSAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA";
 
-	private List<FastaResult> results;
+	private List<FastaResultDisplayWrapper> results;
 
 	private String fastaOutput;
 
@@ -40,14 +40,17 @@ public class FastaLibrarySearchBean {
 		File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
 		File queryFile = writeToTempFile("FastaQuery", ".fasta", query);
 
-		// execute fasta
+		// execute fasta program
 		fastaOutput = execFastaProgram(libraryFile, queryFile);
 
 		// clean up
 		libraryFile.delete();
 		queryFile.delete();
 
-		results = new FastaResultParser(new StringReader(fastaOutput)).parse();
+		// collect results from the program's output
+		results = new ArrayList<>();
+		new FastaResultParser(new StringReader(fastaOutput)).parse()
+				.forEach(r -> results.add(new FastaResultDisplayWrapper(r)));
 	}
 
 	private File writeToTempFile(String prefix, String suffix, String content) throws IOException {
@@ -122,11 +125,11 @@ public class FastaLibrarySearchBean {
 		this.query = query;
 	}
 
-	public List<FastaResult> getResults() {
+	public List<FastaResultDisplayWrapper> getResults() {
 		return results;
 	}
 
-	public void setResults(List<FastaResult> results) {
+	public void setResults(List<FastaResultDisplayWrapper> results) {
 		this.results = results;
 	}
 }
