@@ -46,8 +46,13 @@ public class FastaResultParser {
 				// gives "query1 first query sequence"
 				String queryString = line.split(">>>")[1].split("-")[0].trim();
 				int firstSpace = queryString.indexOf(" ");
-				querySequenceName = queryString.substring(0, firstSpace);
-				querySequenceDescription = queryString.substring(firstSpace + 1);
+				if (firstSpace < 0) {
+					querySequenceName = queryString;
+					querySequenceDescription = "";
+				} else {
+					querySequenceName = queryString.substring(0, firstSpace);
+					querySequenceDescription = queryString.substring(firstSpace + 1);
+				}
 				parsedHeader = true;
 			}
 
@@ -55,7 +60,7 @@ public class FastaResultParser {
 			 * Parameters header of this query: matches for example
 			 * ">>>query1, 50 aa vs data.fasta library".
 			 */
-			else if (parsedHeader && line.startsWith(">>>" + querySequenceName)) {
+			else if (parsedHeader && !parsedGlobalParameters && line.startsWith(">>>" + querySequenceName)) {
 				// nothing to parse here
 				parsedGlobalParameters = true;
 			}
@@ -85,7 +90,7 @@ public class FastaResultParser {
 			 * . This also terminates the alignment consensus string of the previous result
 			 * and the result itself.
 			 */
-			else if (parsedGlobalParameters && line.startsWith(">>")) {
+			else if (parsedGlobalParameters && !inQueryBlock && line.startsWith(">>")) {
 				if ((builder != null) && inSequence) {
 					builder.consensusLine(sequenceBuilder.toString());
 					inSequence = false;
@@ -104,9 +109,14 @@ public class FastaResultParser {
 
 				String subjectString = line.split(">>")[1];
 				int firstSpace = subjectString.indexOf(" ");
-				subjectSequenceName = subjectString.substring(0, firstSpace);
+				if (firstSpace < 0) {
+					subjectSequenceName = subjectString;
+					builder.subjectSequenceDescription("");
+				} else {
+					subjectSequenceName = subjectString.substring(0, firstSpace);
+					builder.subjectSequenceDescription(subjectString.substring(firstSpace + 1));
+				}
 				builder.subjectSequenceName(subjectSequenceName);
-				builder.subjectSequenceDescription(subjectString.substring(firstSpace + 1));
 			}
 
 			/*

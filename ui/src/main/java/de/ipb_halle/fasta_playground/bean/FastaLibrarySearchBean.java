@@ -37,7 +37,7 @@ public class FastaLibrarySearchBean {
 	 * Library search
 	 */
 	public void actionSearch() throws IOException, FastaResultParserException {
-		File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
+		try {File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
 		File queryFile = writeToTempFile("FastaQuery", ".fasta", query);
 
 		// execute fasta program
@@ -51,6 +51,9 @@ public class FastaLibrarySearchBean {
 		results = new ArrayList<>();
 		new FastaResultParser(new StringReader(fastaOutput)).parse()
 				.forEach(r -> results.add(new FastaResultDisplayWrapper(r)));
+		} catch (Exception e) {
+			// TODO: Log exception
+		}
 	}
 
 	private File writeToTempFile(String prefix, String suffix, String content) throws IOException {

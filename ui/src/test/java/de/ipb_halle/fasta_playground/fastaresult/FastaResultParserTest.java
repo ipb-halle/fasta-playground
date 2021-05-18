@@ -14,15 +14,15 @@ public class FastaResultParserTest {
 	private static double delta = 0.001d;
 
 	@Test
-	public void testParse() throws IOException, FastaResultParserException {
+	public void testParseResults1() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results1.txt"));
 		List<FastaResult> res = new FastaResultParser(reader).parse();
 		double r;
 
 		assertEquals(4, res.size());
 
-		assertEquals(96.5d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(5.2e-25d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(99.1d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(8.7e-26d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(313, res.get(0).getSmithWatermanScore());
 		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
 		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
@@ -50,8 +50,8 @@ public class FastaResultParserTest {
 				   + "::::::::::::::::::::::::::::::",
 				res.get(0).getConsensusLine());
 
-		assertEquals(36.1d, r = res.get(1).getBitScore(), r * delta);
-		assertEquals(8e-07d, r = res.get(1).getExpectationValue(), r * delta);
+		assertEquals(36.7d, r = res.get(1).getBitScore(), r * delta);
+		assertEquals(5e-07d, r = res.get(1).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(1).getSmithWatermanScore());
 		assertEquals(0.400d, r = res.get(1).getIdentity(), r * delta);
 		assertEquals(0.733d, r = res.get(1).getSimilarity(), r * delta);
@@ -80,8 +80,8 @@ public class FastaResultParserTest {
 				   + "-: . .:.:::::: :: ::.",
 				res.get(1).getConsensusLine());
 
-		assertEquals(36.1d, r = res.get(2).getBitScore(), r * delta);
-		assertEquals(8e-07d, r = res.get(2).getExpectationValue(), r * delta);
+		assertEquals(36.7d, r = res.get(2).getBitScore(), r * delta);
+		assertEquals(5e-07d, r = res.get(2).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(2).getSmithWatermanScore());
 		assertEquals(0.400d, r = res.get(2).getIdentity(), r * delta);
 		assertEquals(0.733d, r = res.get(2).getSimilarity(), r * delta);
@@ -111,7 +111,7 @@ public class FastaResultParserTest {
 				res.get(2).getConsensusLine());
 
 		assertEquals(15.1d, r = res.get(3).getBitScore(), r * delta);
-		assertEquals(0.74d, r = res.get(3).getExpectationValue(), r * delta);
+		assertEquals(0.73d, r = res.get(3).getExpectationValue(), r * delta);
 		assertEquals(33, res.get(3).getSmithWatermanScore());
 		assertEquals(0.417d, r = res.get(3).getIdentity(), r * delta);
 		assertEquals(0.583d, r = res.get(3).getSimilarity(), r * delta);
@@ -135,5 +135,114 @@ public class FastaResultParserTest {
 				   + "LYIGX", res.get(3).getSubjectAlignmentLine());
 		assertEquals("                              :.:  :::.---. :.   :"
 				   + ":: :", res.get(3).getConsensusLine());
+	}
+
+	@Test
+	public void testParseResults2() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results2.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+		double r;
+
+		assertEquals(1, res.size());
+
+		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(0.72d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(13, res.get(0).getSmithWatermanScore());
+		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
+		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
+		assertEquals(1, res.get(0).getOverlap());
+		assertEquals("query1", res.get(0).getQuerySequenceName());
+		assertEquals("", res.get(0).getQuerySequenceDescription());
+		assertEquals(3, res.get(0).getQuerySequenceLength());
+		assertEquals(3, res.get(0).getQueryAlignmentStart());
+		assertEquals(3, res.get(0).getQueryAlignmentStop());
+		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		assertEquals("----------------------------ABC",	res.get(0).getQueryAlignmentLine());
+		assertEquals("seq1", res.get(0).getSubjectSequenceName());
+		assertEquals("", res.get(0).getSubjectSequenceDescription());
+		assertEquals(39, res.get(0).getSubjectSequenceLength());
+		assertEquals(31, res.get(0).getSubjectAlignmentStart());
+		assertEquals(31, res.get(0).getSubjectAlignmentStop());
+		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getSubjectAlignmentLine());
+		assertEquals("                              :",	res.get(0).getConsensusLine());
+	}
+
+	@Test
+	public void testParseResults3() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results3.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+		double r;
+
+		assertEquals(1, res.size());
+
+		assertEquals(6.3d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(0.76d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(13, res.get(0).getSmithWatermanScore());
+		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
+		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
+		assertEquals(1, res.get(0).getOverlap());
+		assertEquals("query1", res.get(0).getQuerySequenceName());
+		assertEquals("", res.get(0).getQuerySequenceDescription());
+		assertEquals(39, res.get(0).getQuerySequenceLength());
+		assertEquals(31, res.get(0).getQueryAlignmentStart());
+		assertEquals(31, res.get(0).getQueryAlignmentStop());
+		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getQueryAlignmentLine());
+		assertEquals("seq1", res.get(0).getSubjectSequenceName());
+		assertEquals("", res.get(0).getSubjectSequenceDescription());
+		assertEquals(3, res.get(0).getSubjectSequenceLength());
+		assertEquals(3, res.get(0).getSubjectAlignmentStart());
+		assertEquals(3, res.get(0).getSubjectAlignmentStop());
+		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
+		assertEquals("----------------------------ABC", res.get(0).getSubjectAlignmentLine());
+		assertEquals("                              :",	res.get(0).getConsensusLine());
+	}
+
+	@Test
+	public void testParseResults4() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results4.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+		double r;
+
+		assertEquals(1, res.size());
+
+		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(0.73d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(13, res.get(0).getSmithWatermanScore());
+		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
+		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
+		assertEquals(1, res.get(0).getOverlap());
+		assertEquals("", res.get(0).getQuerySequenceName());
+		assertEquals("", res.get(0).getQuerySequenceDescription());
+		assertEquals(3, res.get(0).getQuerySequenceLength());
+		assertEquals(3, res.get(0).getQueryAlignmentStart());
+		assertEquals(3, res.get(0).getQueryAlignmentStop());
+		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		assertEquals("----------------------------ABC", res.get(0).getQueryAlignmentLine());
+		assertEquals(">data4.fasta", res.get(0).getSubjectSequenceName());
+		assertEquals("", res.get(0).getSubjectSequenceDescription());
+		assertEquals(39, res.get(0).getSubjectSequenceLength());
+		assertEquals(31, res.get(0).getSubjectAlignmentStart());
+		assertEquals(31, res.get(0).getSubjectAlignmentStop());
+		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getSubjectAlignmentLine());
+		assertEquals("                              :",	res.get(0).getConsensusLine());
+	}
+
+	@Test
+	public void testParseResults5() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results5.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+
+		assertEquals(0, res.size());
+	}
+
+	@Test
+	public void testParseResults6() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results6.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+
+		assertEquals(0, res.size());
 	}
 }

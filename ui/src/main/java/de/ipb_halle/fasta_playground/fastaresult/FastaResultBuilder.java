@@ -40,7 +40,8 @@ public class FastaResultBuilder {
 		if (constraintViolations.size() > 0) {
 			StringBuilder messages = new StringBuilder();
 			messages.append("Unable to build a valid FASTA result:");
-			constraintViolations.forEach(violation -> messages.append("\n").append(violation.getMessage()));
+			constraintViolations.forEach(violation -> messages.append("\n")
+					.append(violation.getPropertyPath() + ": " + violation.getMessage()));
 			throw new FastaResultParserException(messages.toString());
 		}
 
