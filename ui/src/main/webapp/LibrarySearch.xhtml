@@ -7,6 +7,7 @@
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Library search with FASTA</title>
+	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 <h:body>
 	<b:container>
@@ -25,11 +26,11 @@
 				<h:panelGroup>
 					<br />
 					<b:commandButton value="Insert example protein library" ajax="true"
-						process="@this" update="libraryId"
+						process="@this" update="libraryId" immediate="true"
 						action="#{fastaLibrarySearchBean.actionInsertProteinLibrary()}" />
 					<br />
 					<b:commandButton value="Insert example DNA library" ajax="true"
-						process="@this" update="libraryId"
+						process="@this" update="libraryId" immediate="true"
 						action="#{fastaLibrarySearchBean.actionInsertDNALibrary()}" />
 				</h:panelGroup>
 				<h:panelGroup>
@@ -39,25 +40,27 @@
 					<b:message for="@previous" />
 				</h:panelGroup>
 				<b:commandButton value="Search"
-					action="#{fastaLibrarySearchBean.actionSearch()}" jax="true"
-					process="@form" update="@form resultsId" look="primary" />
+					action="#{fastaLibrarySearchBean.actionSearch()}" ajax="true"
+					process="@form" update="@form resultsId fastaOutputId"
+					look="primary" />
 			</b:panelGrid>
-		</b:form>
-		<hr />
-		<h2>Results</h2>
-		<p:accordionPanel id="resultsId"
-			value="#{fastaLibrarySearchBean.results}" var="result"
-			multiple="true">
-			<p:tab
-				title="#{result.fastaResult.subjectSequenceName} - #{result.fastaResult.subjectSequenceDescription} ">
-				<b:container>
-					<b:panelGrid columns="6">
+			<hr />
+			<h2>Results</h2>
+			<p:accordionPanel id="resultsId"
+				value="#{fastaLibrarySearchBean.results}" var="result"
+				varStatus="status" multiple="true">
+				<p:tab
+					title="Result #{status.index + 1}/#{status.end}: #{result.fastaResult.subjectSequenceName} #{result.fastaResult.subjectSequenceDescription}">
+					<b:panelGrid col-spans="2,1,2,2,2,2,1">
+						<h:commandLink value="Download FASTA"
+							action="#{fastaLibrarySearchBean.actionDownloadFasta(result, status.index + 1)}" />
 						<h:outputText value="Bit Score" />
 						<h:outputText value="E()-Value" />
 						<h:outputText value="Smith-Waterman Score" />
 						<h:outputText value="Identity" />
 						<h:outputText value="Similarity (Positives)" />
 						<h:outputText value="Overlap" />
+						<h:outputText />
 						<h:outputText value="#{result.fastaResult.bitScore}" />
 						<h:outputText value="#{result.fastaResult.expectationValue}" />
 						<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
@@ -66,10 +69,20 @@
 						<h:outputText value="#{result.fastaResult.overlap}" />
 					</b:panelGrid>
 					<hr />
-					<h:outputText value="#{result.alignments}" style="white-space:pre; font-family:monospace;"/>
-				</b:container>
-			</p:tab>
-		</p:accordionPanel>
+					<b:row>
+						<b:column span="11" offset="1">
+							<h:outputText value="#{result.alignments}"
+								style="white-space:pre; font-family:monospace;" />
+						</b:column>
+					</b:row>
+				</p:tab>
+			</p:accordionPanel>
+			<hr />
+			<h2>FASTA program output</h2>
+			<h:outputText id="fastaOutputId"
+				value="#{fastaLibrarySearchBean.fastaOutput}"
+				style="white-space:pre; font-family:monospace;" />
+		</b:form>
 	</b:container>
 </h:body>
 </html>

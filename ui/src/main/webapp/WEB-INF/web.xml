@@ -32,4 +32,8 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>bootstrap</param-value>
 	</context-param>
+	<mime-mapping>
+        <extension>fasta</extension>
+        <mime-type>text/plain</mime-type>
+    </mime-mapping>
 </web-app>

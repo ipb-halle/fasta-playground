@@ -1,0 +1,4 @@
+/* overrides PrimeFaces style */
+.ui-accordion .ui-accordion-header .ui-icon {
+	display: inline;
+}

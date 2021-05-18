@@ -1,26 +1,37 @@
 package de.ipb_halle.fasta_playground.bean;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
+
+import org.biojava.nbio.data.sequence.FastaSequence;
+import org.biojava.nbio.data.sequence.SequenceUtil;
+import org.omnifaces.util.Faces;
 
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParserException;
 
 @Named
-@RequestScoped
-public class FastaLibrarySearchBean {
+//@RequestScoped
+@ViewScoped
+public class FastaLibrarySearchBean implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final String FASTA_PROGRAM = "/path/to/fasta36/bin/fasta36";
 
 	@NotNull
@@ -31,28 +42,47 @@ public class FastaLibrarySearchBean {
 
 	private List<FastaResultDisplayWrapper> results;
 
-	private String fastaOutput;
+	private String fastaOutput = "";
+
+	List<FastaSequence> sequences;
+
+	FastaResultDisplayConfig conf;
+
+	@PostConstruct
+	public void init() {
+		conf = new FastaResultDisplayConfig();
+		conf.setPrefixSpaces(2);
+		conf.setSuffixSpaces(2);
+		conf.setLineLength(60);
+	}
 
 	/*
 	 * Library search
 	 */
 	public void actionSearch() throws IOException, FastaResultParserException {
-		try {File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
-		File queryFile = writeToTempFile("FastaQuery", ".fasta", query);
+		try (InputStream in = new ByteArrayInputStream(library.getBytes())) {
+			sequences = SequenceUtil.readFasta(in);
+		}
 
-		// execute fasta program
-		fastaOutput = execFastaProgram(libraryFile, queryFile);
+		try {
+			File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
+			File queryFile = writeToTempFile("FastaQuery", ".fasta", query);
 
-		// clean up
-		libraryFile.delete();
-		queryFile.delete();
+			// execute fasta program
+			fastaOutput = execFastaProgram(libraryFile, queryFile);
 
-		// collect results from the program's output
-		results = new ArrayList<>();
-		new FastaResultParser(new StringReader(fastaOutput)).parse()
-				.forEach(r -> results.add(new FastaResultDisplayWrapper(r)));
+			// clean up
+			libraryFile.delete();
+			queryFile.delete();
+
+			// collect results from the program's output
+			results = new ArrayList<>();
+			new FastaResultParser(new StringReader(fastaOutput)).parse()
+					.forEach(r -> results.add(new FastaResultDisplayWrapper(r).config(conf)));
 		} catch (Exception e) {
-			// TODO: Log exception
+			// TODO: properly log exception
+			System.out.println(fastaOutput);
+			e.printStackTrace();
 		}
 	}
 
@@ -110,6 +140,35 @@ public class FastaLibrarySearchBean {
 	}
 
 	/*
+	 * FASTA file download
+	 */
+	public void actionDownloadFasta(FastaResultDisplayWrapper item, int index) throws IOException {
+		// find the right sequence in the sequences list
+		FastaSequence sequence = findFastaSequence(sequences, item.getFastaResult().getSubjectSequenceName() + " "
+				+ item.getFastaResult().getSubjectSequenceDescription());
+
+		// Sending out file to the client is pretty easy thanks to OmniFaces.
+		if (sequence != null) {
+			/*
+			 * Please not that the 'fasta' file extension should be registered as
+			 * mime-mapping to text/plain in web.xml.
+			 */
+			Faces.sendFile(generateFastaString(sequence).getBytes(), "result_" + index + ".fasta", true);
+		}
+	}
+
+	private static FastaSequence findFastaSequence(List<FastaSequence> list, String id) {
+		return list.stream().filter(seq -> seq.getId().equals(id)).findFirst().orElse(null);
+	}
+
+	// Why do I have to do this? BioJava is such a sh**ty library!
+	private static String generateFastaString(FastaSequence sequence) {
+		StringBuilder sb = new StringBuilder(sequence.getId().length() + sequence.getLength() + 3);
+		sb.append(">").append(sequence.getId()).append("\n").append(sequence.getFormatedSequence(80));
+		return sb.toString();
+	}
+
+	/*
 	 * Getters/Setters
 	 */
 	public String getLibrary() {
@@ -132,7 +191,7 @@ public class FastaLibrarySearchBean {
 		return results;
 	}
 
-	public void setResults(List<FastaResultDisplayWrapper> results) {
-		this.results = results;
+	public String getFastaOutput() {
+		return fastaOutput;
 	}
 }
