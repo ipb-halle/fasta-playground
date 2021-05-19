@@ -35,7 +35,7 @@ public class FastaLibrarySearchBean implements Serializable {
 	private static final String FASTA_PROGRAM = "/path/to/fasta36/bin/fasta36";
 
 	@NotNull
-	private String library;
+	private String library = "";
 
 	@NotNull
 	private String query = ">query1 my query sequence\nSAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA";

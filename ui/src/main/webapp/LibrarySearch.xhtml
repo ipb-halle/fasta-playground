@@ -26,12 +26,19 @@
 				<h:panelGroup>
 					<br />
 					<b:commandButton value="Insert example protein library" ajax="true"
-						process="@this" update="libraryId" immediate="true"
-						action="#{fastaLibrarySearchBean.actionInsertProteinLibrary()}" />
+						process="@this" update="libraryId libraryId:@next"
+						action="#{fastaLibrarySearchBean.actionInsertProteinLibrary()}">
+						<!-- This solves https://stackoverflow.com/q/21179403 -->
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</b:commandButton>
 					<br />
 					<b:commandButton value="Insert example DNA library" ajax="true"
-						process="@this" update="libraryId" immediate="true"
-						action="#{fastaLibrarySearchBean.actionInsertDNALibrary()}" />
+						process="@this" update="libraryId libraryId:@next"
+						action="#{fastaLibrarySearchBean.actionInsertDNALibrary()}">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</b:commandButton>
 				</h:panelGroup>
 				<h:panelGroup>
 					<b:inputTextarea value="#{fastaLibrarySearchBean.query}"
