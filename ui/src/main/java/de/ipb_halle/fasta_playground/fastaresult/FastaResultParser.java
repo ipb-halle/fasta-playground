@@ -20,6 +20,12 @@ public class FastaResultParser {
 	private static final Pattern QUERY_START_PATTERN = Pattern
 			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ][a]{2}");
 
+	/**
+	 * 
+	 * @return list of results, not necessarily sorted by score
+	 * @throws IOException
+	 * @throws FastaResultParserException
+	 */
 	public List<FastaResult> parse() throws IOException, FastaResultParserException {
 		List<FastaResult> results = new ArrayList<>();
 		String line;
@@ -88,7 +94,7 @@ public class FastaResultParser {
 			 * Start of a result with a result header: matches for example
 			 * ">>gb|AAF72530.1|AF252622_1 beta-lactamase CTX-M-14 (plasmid) [Escherichia coli]"
 			 * . This also terminates the alignment consensus string of the previous result
-			 * and the result itself.
+			 * and the previous result itself.
 			 */
 			else if (parsedGlobalParameters && !inQueryBlock && line.startsWith(">>")) {
 				if ((builder != null) && inSequence) {
@@ -117,6 +123,28 @@ public class FastaResultParser {
 					builder.subjectSequenceDescription(subjectString.substring(firstSpace + 1));
 				}
 				builder.subjectSequenceName(subjectSequenceName);
+			}
+
+			/*
+			 * Start of another hit result from the same subject sequence. The matching line
+			 * is ">--". This also terminates the alignment consensus string of the previous
+			 * result and the previous result itself.
+			 */
+			else if (parsedGlobalParameters && !inQueryBlock && inSequence && ">--".equals(line) && (builder != null)) {
+				builder.consensusLine(sequenceBuilder.toString());
+				inSequence = false;
+
+				// save the previous result
+				results.add(builder.build());
+				String subjectSequenceDescription = builder.getSubjectSequenceDescription();
+
+				// begin new result
+				builder = FastaResult.builder();
+				inQueryBlock = false;
+				inSubjectBlock = false;
+
+				builder.subjectSequenceName(subjectSequenceName);
+				builder.subjectSequenceDescription(subjectSequenceDescription);
 			}
 
 			/*

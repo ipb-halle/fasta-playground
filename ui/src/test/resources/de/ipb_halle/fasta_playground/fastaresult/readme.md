@@ -1,6 +1,6 @@
 ## Result files from FASTA runs ##
 
-Example sequence data was taken from [renzok/docker-ncbi-blast-demo](https://github.com/renzok/docker-ncbi-blast-demo/blob/master/bet_blaSHV.fasta).
+Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https://github.com/renzok/docker-ncbi-blast-demo/blob/master/bet_blaSHV.fasta).
 
 ### (1) results1.txt ###
 * normal fasta36 run
@@ -27,3 +27,9 @@ Example sequence data was taken from [renzok/docker-ncbi-blast-demo](https://git
 * empty header line in the query sequence
 * fasta36 logs an error
 * `$FASTA_PATH/bin/fasta36 -m 10 query6.fasta data6.fasta > results6.txt`
+
+### (7) results7.txt ###
+* normal fasta36 run, but with different library (7 sequences)
+* result set contains 9 results, i.e. two library sequences have two hits
+* Note: fasta36 prints the wrong scores for the subsequent hits, see [GitHub issue](https://github.com/wrpearson/fasta36/issues/30).
+* `$FASTA_PATH/bin/fasta36 -m 10 query7.fasta data7.fasta > results7.txt`
