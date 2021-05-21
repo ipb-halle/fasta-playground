@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.biojava.nbio.data.sequence.FastaSequence;
@@ -28,25 +30,76 @@ import de.ipb_halle.fasta_playground.fastaresult.FastaResultParserException;
 
 @Named
 //@RequestScoped
+// needs to be ViewScoped because of the fasta file download capabilities
 @ViewScoped
 public class FastaLibrarySearchBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final String FASTA_PROGRAM = "/path/to/fasta36/bin/fasta36";
 
+	private FastaResultDisplayConfig conf;
+
+	private int[] maxResultSelectItems = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 750, 1000 };
+
+	public enum SortItem {
+		SUBJECTNAME("Sequence Name (alph.)", Comparator.comparing(f -> f.getFastaResult().getSubjectSequenceName()),
+				false),
+		LENGTH("Hit Length (desc.)", Comparator.comparing(f -> f.getFastaResult().getSubjectSequenceLength()), true),
+		BITSCORE("Bit Score (desc.)", Comparator.comparing(f -> f.getFastaResult().getBitScore()), true),
+		EVALUE("E()-Value (asc.)", Comparator.comparing(f -> f.getFastaResult().getExpectationValue()), false),
+		SMITHWATERMANSCORE("Smith-Waterman Score (desc.)",
+				Comparator.comparing(f -> f.getFastaResult().getSmithWatermanScore()), true),
+		IDENTITY("Identity (desc.)", Comparator.comparing(f -> f.getFastaResult().getIdentity()), true),
+		SIMILARITY("Similarity/Positives (desc.)", Comparator.comparing(f -> f.getFastaResult().getSimilarity()), true);
+
+		private final String label;
+
+		private final Comparator<FastaResultDisplayWrapper> comp;
+
+		private SortItem(String label, Comparator<FastaResultDisplayWrapper> comp, boolean reverse) {
+			this.label = label;
+
+			// could not reverse the Comparator in the constructor calls :(
+			if (reverse) {
+				this.comp = comp.reversed();
+			} else {
+				this.comp = comp;
+			}
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
+		public Comparator<FastaResultDisplayWrapper> getComp() {
+			return comp;
+		}
+	}
+
+	private SortItem[] sortByItems = SortItem.values();
+
+	/*
+	 * data supplied by user
+	 */
 	@NotNull
 	private String library = "";
 
 	@NotNull
-	private String query = ">query1 my query sequence\nSAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA";
+	private String query = "";
 
+	// @Min(1)
+	private int maxResults = maxResultSelectItems[4];
+
+	private SortItem sortBy = SortItem.EVALUE;
+
+	/*
+	 * calculated data
+	 */
 	private List<FastaResultDisplayWrapper> results;
 
 	private String fastaOutput = "";
 
-	List<FastaSequence> sequences;
-
-	FastaResultDisplayConfig conf;
+	private List<FastaSequence> sequences;
 
 	@PostConstruct
 	public void init() {
@@ -79,6 +132,7 @@ public class FastaLibrarySearchBean implements Serializable {
 			results = new ArrayList<>();
 			new FastaResultParser(new StringReader(fastaOutput)).parse()
 					.forEach(r -> results.add(new FastaResultDisplayWrapper(r).config(conf)));
+			sortResults();
 		} catch (Exception e) {
 			// TODO: properly log exception
 			System.out.println(fastaOutput);
@@ -100,8 +154,8 @@ public class FastaLibrarySearchBean implements Serializable {
 	}
 
 	private String execFastaProgram(File libraryFile, File queryFile) throws IOException {
-		ProcessBuilder builder = new ProcessBuilder(FASTA_PROGRAM, "-q", "-m 10", queryFile.getAbsolutePath(),
-				libraryFile.getAbsolutePath());
+		ProcessBuilder builder = new ProcessBuilder(FASTA_PROGRAM, "-q", "-m", "10", "-d", Integer.toString(maxResults),
+				"-b", Integer.toString(maxResults), queryFile.getAbsolutePath(), libraryFile.getAbsolutePath());
 		Process process = builder.start();
 
 		StringJoiner sj = new StringJoiner("\n");
@@ -116,14 +170,18 @@ public class FastaLibrarySearchBean implements Serializable {
 	}
 
 	/*
-	 * Example libraries
+	 * Examples
 	 */
-	public void actionInsertProteinLibrary() throws IOException {
+	public void actionProteinExample() throws IOException {
 		library = readInputStreamToString(
 				FastaLibrarySearchBean.class.getResourceAsStream("example_protein_library.fasta"));
+		query = ">query1 my query sequence\nSAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA";
 	}
 
-	public void actionInsertDNALibrary() {
+	public void actionDNAExample() {
+	}
+
+	public void actionRNAExample() {
 	}
 
 	private String readInputStreamToString(InputStream in) throws IOException {
@@ -169,6 +227,19 @@ public class FastaLibrarySearchBean implements Serializable {
 	}
 
 	/*
+	 * Sorting the results
+	 */
+	public void actionOnChangeSortBy() {
+		if (results != null) {
+			sortResults();
+		}
+	}
+
+	private void sortResults() {
+		results.sort(sortBy.getComp());
+	}
+
+	/*
 	 * Getters/Setters
 	 */
 	public String getLibrary() {
@@ -185,6 +256,30 @@ public class FastaLibrarySearchBean implements Serializable {
 
 	public void setQuery(String query) {
 		this.query = query;
+	}
+
+	public int[] getMaxResultSelectItems() {
+		return maxResultSelectItems;
+	}
+
+	public int getMaxResults() {
+		return maxResults;
+	}
+
+	public void setMaxResults(int maxResults) {
+		this.maxResults = maxResults;
+	}
+
+	public SortItem[] getSortByItems() {
+		return sortByItems;
+	}
+
+	public SortItem getSortBy() {
+		return sortBy;
+	}
+
+	public void setSortBy(SortItem sortBy) {
+		this.sortBy = sortBy;
 	}
 
 	public List<FastaResultDisplayWrapper> getResults() {

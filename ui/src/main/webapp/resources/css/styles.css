@@ -1,4 +1,3 @@
-/* overrides PrimeFaces style */
-.ui-accordion .ui-accordion-header .ui-icon {
-	display: inline;
+.fastaResultPanel > .panel-group {
+	margin-bottom: 0px;
 }

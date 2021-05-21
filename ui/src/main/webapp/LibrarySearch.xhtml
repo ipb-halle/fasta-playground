@@ -4,91 +4,141 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Library search with FASTA</title>
-	<h:outputStylesheet library="css" name="styles.css" />
+	<h:outputStylesheet name="css/styles.css" />
 </h:head>
 <h:body>
 	<b:container>
 		<h1>Sequence library search with the FASTA program</h1>
 		<h2>Input</h2>
-		<br />
 		<b:form>
 			<b:panelGrid col-spans="9,3">
-				<h:panelGroup>
-					<b:inputTextarea id="libraryId"
-						value="#{fastaLibrarySearchBean.library}" required="true"
-						label="Sequence library (DNA, RNA or AA)"
-						placeholder="Paste or drag and drop library sequences in FASTA format here ..." />
+				<h:panelGroup id="libraryId">
+					<b:inputTextarea value="#{fastaLibrarySearchBean.library}"
+						required="true" label="Sequence library (DNA, RNA or AA)"
+						placeholder="Paste or drag and drop library sequences in FASTA format here ..."
+						styleClass="libraryTextAreaPseudoClass" />
 					<b:message for="@previous" />
 				</h:panelGroup>
 				<h:panelGroup>
 					<br />
-					<b:commandButton value="Insert example protein library" ajax="true"
-						process="@this" update="libraryId libraryId:@next"
-						action="#{fastaLibrarySearchBean.actionInsertProteinLibrary()}">
+					<b:commandButton value="Protein example" ajax="true"
+						process="@this" update="libraryId queryId"
+						action="#{fastaLibrarySearchBean.actionProteinExample()}">
 						<!-- This solves https://stackoverflow.com/q/21179403 -->
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</b:commandButton>
 					<br />
-					<b:commandButton value="Insert example DNA library" ajax="true"
-						process="@this" update="libraryId libraryId:@next"
-						action="#{fastaLibrarySearchBean.actionInsertDNALibrary()}">
+					<b:commandButton value="DNA example" ajax="true" process="@this"
+						update="libraryId queryId"
+						action="#{fastaLibrarySearchBean.actionDNAExample()}">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</b:commandButton>
+					<br />
+					<b:commandButton value="RNA example" ajax="true" process="@this"
+						update="libraryId queryId"
+						action="#{fastaLibrarySearchBean.actionRNAExample()}">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</b:commandButton>
 				</h:panelGroup>
-				<h:panelGroup>
+				<h:panelGroup id="queryId">
 					<b:inputTextarea value="#{fastaLibrarySearchBean.query}"
 						required="true" label="Query sequence"
-						placeholder="Paste or drag and drop a query sequence in FASTA format here ..." />
+						placeholder="Paste or drag and drop a query sequence in FASTA format here ..."
+						styleClass="queryTextAreaPseudoClass" />
 					<b:message for="@previous" />
 				</h:panelGroup>
-				<b:commandButton value="Search"
-					action="#{fastaLibrarySearchBean.actionSearch()}" ajax="true"
-					process="@form" update="@form resultsId fastaOutputId"
-					look="primary" />
+				<h:panelGroup>
+					<b:selectOneMenu value="#{fastaLibrarySearchBean.maxResults}"
+						required="true" label="Maximum number of results">
+						<f:selectItems
+							value="#{fastaLibrarySearchBean.maxResultSelectItems}" />
+					</b:selectOneMenu>
+					<b:message for="@previous" />
+					<br />
+					<b:button value="Clear" look="warning" style="margin-right:10px;"
+						onclick="$('.libraryTextAreaPseudoClass')[0].value='';$('.queryTextAreaPseudoClass')[0].value='';" />
+					<b:commandButton value="Search"
+						action="#{fastaLibrarySearchBean.actionSearch()}" ajax="true"
+						process="@form" update="@form resultsId fastaOutputId"
+						look="primary" />
+				</h:panelGroup>
 			</b:panelGrid>
 			<hr />
 			<h2>Results</h2>
-			<p:accordionPanel id="resultsId"
-				value="#{fastaLibrarySearchBean.results}" var="result"
-				varStatus="status" multiple="true">
-				<p:tab
-					title="Result #{status.index + 1}/#{status.end}: #{result.fastaResult.subjectSequenceName} #{result.fastaResult.subjectSequenceDescription}">
-					<b:panelGrid col-spans="2,1,2,2,2,2,1">
-						<h:commandLink value="Download FASTA"
-							action="#{fastaLibrarySearchBean.actionDownloadFasta(result, status.index + 1)}" />
-						<h:outputText value="Bit Score" />
-						<h:outputText value="E()-Value" />
-						<h:outputText value="Smith-Waterman Score" />
-						<h:outputText value="Identity" />
-						<h:outputText value="Similarity (Positives)" />
-						<h:outputText value="Overlap" />
-						<h:outputText />
-						<h:outputText value="#{result.fastaResult.bitScore}" />
-						<h:outputText value="#{result.fastaResult.expectationValue}" />
-						<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
-						<h:outputText value="#{result.fastaResult.identity}" />
-						<h:outputText value="#{result.fastaResult.similarity}" />
-						<h:outputText value="#{result.fastaResult.overlap}" />
-					</b:panelGrid>
-					<hr />
-					<b:row>
-						<b:column span="11" offset="1">
-							<h:outputText value="#{result.alignments}"
-								style="white-space:pre; font-family:monospace;" />
-						</b:column>
-					</b:row>
-				</p:tab>
-			</p:accordionPanel>
+			<b:panelGrid col-spans="12">
+				<b:selectOneMenu value="#{fastaLibrarySearchBean.sortBy}"
+					required="true" label="Sort by" span="3" ajax="true"
+					onchange="ajax:fastaLibrarySearchBean.actionOnChangeSortBy()"
+					process="@this" update="resultsId">
+					<f:selectItems value="#{fastaLibrarySearchBean.sortByItems}"
+						var="item" itemValue="#{item}" itemLabel="#{item.label}" />
+				</b:selectOneMenu>
+				<b:message for="@previous" />
+			</b:panelGrid>
+			<br />
+			<h:panelGroup id="resultsId" styleClass="fastaResultPanel">
+				<ui:repeat value="#{fastaLibrarySearchBean.results}" var="result"
+					varStatus="status">
+					<b:panel>
+						<f:facet name="heading">
+							<!-- <h:panelGroup styleClass="panel-title"> -->
+							<h:outputFormat value="Result {0}/{1}"
+								style="padding-right:20px;">
+								<f:param value="#{status.index + 1}" />
+								<f:param value="#{status.end}" />
+							</h:outputFormat>
+							<h:outputText value="#{result.fastaResult.subjectSequenceName}"
+								style="font-size:large;" />
+							<h:outputText
+								value="#{result.fastaResult.subjectSequenceDescription}"
+								style="padding-left:20px;" />
+							<!-- </h:panelGroup> -->
+						</f:facet>
+						<b:panelGrid col-spans="2,1,1,1,2,1,2,2">
+							<b:commandLink value="Download FASTA"
+								action="#{fastaLibrarySearchBean.actionDownloadFasta(result, status.index + 1)}"
+								iconAwesome="download" iconAlign="left" />
+							<h:outputText value="Hit length" />
+							<h:outputText value="Bit Score" />
+							<h:outputText value="E()-Value" />
+							<h:outputText value="Smith-Waterman Score" />
+							<h:outputText value="Identity" />
+							<h:outputText value="Similarity (Positives)" />
+							<h:outputText value="Overlap" />
+							<h:outputText />
+							<h:outputText value="#{result.fastaResult.subjectSequenceLength}" />
+							<h:outputText value="#{result.fastaResult.bitScore}" />
+							<h:outputText value="#{result.fastaResult.expectationValue}" />
+							<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
+							<h:outputText value="#{result.fastaResult.identity}" />
+							<h:outputText value="#{result.fastaResult.similarity}" />
+							<h:outputText value="#{result.fastaResult.overlap}" />
+						</b:panelGrid>
+						<hr />
+						<b:row>
+							<b:column span="10" offset="2">
+								<h:outputText value="#{result.alignments}"
+									style="white-space:pre; font-family:monospace;" />
+							</b:column>
+						</b:row>
+					</b:panel>
+				</ui:repeat>
+			</h:panelGroup>
 			<hr />
 			<h2>FASTA program output</h2>
-			<h:outputText id="fastaOutputId"
-				value="#{fastaLibrarySearchBean.fastaOutput}"
-				style="white-space:pre; font-family:monospace;" />
+			<b:panel title="Output" collapsed="true"
+				rendered="#{not fastaLibrarySearchBean.fastaOutput.isEmpty()}">
+				<h:outputText id="fastaOutputId"
+					value="#{fastaLibrarySearchBean.fastaOutput}"
+					style="white-space:pre; font-family:monospace;" />
+			</b:panel>
 		</b:form>
 	</b:container>
 </h:body>
