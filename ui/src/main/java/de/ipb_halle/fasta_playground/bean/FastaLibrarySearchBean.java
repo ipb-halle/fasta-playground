@@ -10,7 +10,9 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -200,18 +202,22 @@ public class FastaLibrarySearchBean implements Serializable {
 	/*
 	 * FASTA file download
 	 */
-	public void actionDownloadFasta(FastaResultDisplayWrapper item, int index) throws IOException {
+	public void actionDownloadResultAsFasta(FastaResultDisplayWrapper item, int index) throws IOException {
+		if (sequences == null) {
+			return;
+		}
+
 		// find the right sequence in the sequences list
-		FastaSequence sequence = findFastaSequence(sequences, item.getFastaResult().getSubjectSequenceName() + " "
+		FastaSequence fastaSequence = findFastaSequence(sequences, item.getFastaResult().getSubjectSequenceName() + " "
 				+ item.getFastaResult().getSubjectSequenceDescription());
 
 		// Sending out file to the client is pretty easy thanks to OmniFaces.
-		if (sequence != null) {
+		if (fastaSequence != null) {
 			/*
-			 * Please not that the 'fasta' file extension should be registered as
+			 * Please note that the 'fasta' file extension should be registered as
 			 * mime-mapping to text/plain in web.xml.
 			 */
-			Faces.sendFile(generateFastaString(sequence).getBytes(), "result_" + index + ".fasta", true);
+			Faces.sendFile(generateFastaString(fastaSequence).getBytes(), "result_" + index + ".fasta", true);
 		}
 	}
 
@@ -224,6 +230,32 @@ public class FastaLibrarySearchBean implements Serializable {
 		StringBuilder sb = new StringBuilder(sequence.getId().length() + sequence.getLength() + 3);
 		sb.append(">").append(sequence.getId()).append("\n").append(sequence.getFormatedSequence(80));
 		return sb.toString();
+	}
+
+	public void actionDownloadAllResultsAsFasta() throws IOException {
+		if ((sequences == null) || (results == null)) {
+			return;
+		}
+
+		/*
+		 * Find the right sequences in the sequences list. The LinkedHashSet guarantees
+		 * (1) ordering and (2) duplicate removal (FastaSequence has proper equals() and
+		 * hashCode()).
+		 */
+		Collection<FastaSequence> fastaSequences = new LinkedHashSet<>();
+		results.forEach(
+				res -> fastaSequences.add(findFastaSequence(sequences, res.getFastaResult().getSubjectSequenceName()
+						+ " " + res.getFastaResult().getSubjectSequenceDescription())));
+
+		if (!fastaSequences.isEmpty()) {
+			Faces.sendFile(generateFastaString(fastaSequences).getBytes(), "results.fasta", true);
+		}
+	}
+
+	private static String generateFastaString(Collection<FastaSequence> sequences) {
+		StringJoiner sj = new StringJoiner("\n");
+		sequences.forEach(seq -> sj.add(generateFastaString(seq)));
+		return sj.toString();
 	}
 
 	/*

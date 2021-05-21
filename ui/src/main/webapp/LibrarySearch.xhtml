@@ -5,6 +5,7 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Library search with FASTA</title>
@@ -72,64 +73,70 @@
 			</b:panelGrid>
 			<hr />
 			<h2>Results</h2>
-			<b:panelGrid col-spans="12">
-				<b:selectOneMenu value="#{fastaLibrarySearchBean.sortBy}"
-					required="true" label="Sort by" span="3" ajax="true"
-					onchange="ajax:fastaLibrarySearchBean.actionOnChangeSortBy()"
-					process="@this" update="resultsId">
-					<f:selectItems value="#{fastaLibrarySearchBean.sortByItems}"
-						var="item" itemValue="#{item}" itemLabel="#{item.label}" />
-				</b:selectOneMenu>
-				<b:message for="@previous" />
-			</b:panelGrid>
-			<br />
-			<h:panelGroup id="resultsId" styleClass="fastaResultPanel">
-				<ui:repeat value="#{fastaLibrarySearchBean.results}" var="result"
-					varStatus="status">
-					<b:panel>
-						<f:facet name="heading">
-							<!-- <h:panelGroup styleClass="panel-title"> -->
-							<h:outputFormat value="Result {0}/{1}"
-								style="padding-right:20px;">
-								<f:param value="#{status.index + 1}" />
-								<f:param value="#{status.end}" />
-							</h:outputFormat>
-							<h:outputText value="#{result.fastaResult.subjectSequenceName}"
-								style="font-size:large;" />
-							<h:outputText
-								value="#{result.fastaResult.subjectSequenceDescription}"
-								style="padding-left:20px;" />
-							<!-- </h:panelGroup> -->
-						</f:facet>
-						<b:panelGrid col-spans="2,1,1,1,2,1,2,2">
-							<b:commandLink value="Download FASTA"
-								action="#{fastaLibrarySearchBean.actionDownloadFasta(result, status.index + 1)}"
-								iconAwesome="download" iconAlign="left" />
-							<h:outputText value="Hit length" />
-							<h:outputText value="Bit Score" />
-							<h:outputText value="E()-Value" />
-							<h:outputText value="Smith-Waterman Score" />
-							<h:outputText value="Identity" />
-							<h:outputText value="Similarity (Positives)" />
-							<h:outputText value="Overlap" />
-							<h:outputText />
-							<h:outputText value="#{result.fastaResult.subjectSequenceLength}" />
-							<h:outputText value="#{result.fastaResult.bitScore}" />
-							<h:outputText value="#{result.fastaResult.expectationValue}" />
-							<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
-							<h:outputText value="#{result.fastaResult.identity}" />
-							<h:outputText value="#{result.fastaResult.similarity}" />
-							<h:outputText value="#{result.fastaResult.overlap}" />
-						</b:panelGrid>
-						<hr />
-						<b:row>
-							<b:column span="10" offset="2">
-								<h:outputText value="#{result.alignments}"
-									style="white-space:pre; font-family:monospace;" />
-							</b:column>
-						</b:row>
-					</b:panel>
-				</ui:repeat>
+			<h:panelGroup id="resultsId">
+				<b:panelGrid col-spans="3,9"
+					rendered="#{fn:length(fastaLibrarySearchBean.results) gt 0}">
+					<b:selectOneMenu value="#{fastaLibrarySearchBean.sortBy}"
+						required="true" label="Sort by" ajax="true"
+						onchange="ajax:fastaLibrarySearchBean.actionOnChangeSortBy()"
+						process="@this" update="resultsId">
+						<f:selectItems value="#{fastaLibrarySearchBean.sortByItems}"
+							var="item" itemValue="#{item}" itemLabel="#{item.label}" />
+					</b:selectOneMenu>
+					<b:commandLink value="Download FASTA for all hits"
+						action="#{fastaLibrarySearchBean.actionDownloadAllResultsAsFasta()}"
+						iconAwesome="download" iconAlign="left" />
+				</b:panelGrid>
+				<br />
+				<h:panelGroup styleClass="fastaResultPanel">
+					<ui:repeat value="#{fastaLibrarySearchBean.results}" var="result"
+						varStatus="status">
+						<b:panel>
+							<f:facet name="heading">
+								<!-- <h:panelGroup styleClass="panel-title"> -->
+								<h:outputFormat value="Result {0}/{1}"
+									style="padding-right:20px;">
+									<f:param value="#{status.index + 1}" />
+									<f:param value="#{status.end}" />
+								</h:outputFormat>
+								<h:outputText value="#{result.fastaResult.subjectSequenceName}"
+									style="font-size:large;" />
+								<h:outputText
+									value="#{result.fastaResult.subjectSequenceDescription}"
+									style="padding-left:20px;" />
+								<!-- </h:panelGroup> -->
+							</f:facet>
+							<b:panelGrid col-spans="2,1,1,1,2,1,2,2">
+								<b:commandLink value="Download FASTA"
+									action="#{fastaLibrarySearchBean.actionDownloadResultAsFasta(result, status.index + 1)}"
+									iconAwesome="download" iconAlign="left" />
+								<h:outputText value="Hit length" />
+								<h:outputText value="Bit Score" />
+								<h:outputText value="E()-Value" />
+								<h:outputText value="Smith-Waterman Score" />
+								<h:outputText value="Identity" />
+								<h:outputText value="Similarity (Positives)" />
+								<h:outputText value="Overlap" />
+								<h:outputText />
+								<h:outputText
+									value="#{result.fastaResult.subjectSequenceLength}" />
+								<h:outputText value="#{result.fastaResult.bitScore}" />
+								<h:outputText value="#{result.fastaResult.expectationValue}" />
+								<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
+								<h:outputText value="#{result.fastaResult.identity}" />
+								<h:outputText value="#{result.fastaResult.similarity}" />
+								<h:outputText value="#{result.fastaResult.overlap}" />
+							</b:panelGrid>
+							<hr />
+							<b:row>
+								<b:column span="10" offset="2">
+									<h:outputText value="#{result.alignments}"
+										style="white-space:pre; font-family:monospace;" />
+								</b:column>
+							</b:row>
+						</b:panel>
+					</ui:repeat>
+				</h:panelGroup>
 			</h:panelGroup>
 			<hr />
 			<h2>FASTA program output</h2>
