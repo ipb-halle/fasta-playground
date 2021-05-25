@@ -254,8 +254,8 @@ public class FastaResultParserTest {
 
 		assertEquals(9, res.size());
 
-		assertEquals(115.4d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(1.9e-30d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(106.5d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(8.6e-28d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(313, res.get(0).getSmithWatermanScore());
 		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
 		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
@@ -280,8 +280,8 @@ public class FastaResultParserTest {
 		assertEquals("                              ::::::::::::::::::::"
 				   + "::::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
 
-		assertEquals(95.7d, r = res.get(1).getBitScore(), r * delta);
-		assertEquals(1.6e-24d, r = res.get(1).getExpectationValue(), r * delta);
+		assertEquals(88.7d, r = res.get(1).getBitScore(), r * delta);
+		assertEquals(2e-22d, r = res.get(1).getExpectationValue(), r * delta);
 		assertEquals(256, res.get(1).getSmithWatermanScore());
 		assertEquals(0.800d, r = res.get(1).getIdentity(), r * delta);
 		assertEquals(0.940d, r = res.get(1).getSimilarity(), r * delta);
@@ -306,8 +306,8 @@ public class FastaResultParserTest {
 		assertEquals("                              ..:::.: ::::::::::::"
 				   + ":::.::::.:.:: .:::: ::::::::::", res.get(1).getConsensusLine());
 
-		assertEquals(51.6d, r = res.get(2).getBitScore(), r * delta);
-		assertEquals(3.2e-11d, r = res.get(2).getExpectationValue(), r * delta);
+		assertEquals(48.6d, r = res.get(2).getBitScore(), r * delta);
+		assertEquals(2.4e-10d, r = res.get(2).getExpectationValue(), r * delta);
 		assertEquals(128, res.get(2).getSmithWatermanScore());
 		assertEquals(0.449d, r = res.get(2).getIdentity(), r * delta);
 		assertEquals(0.735d, r = res.get(2).getSimilarity(), r * delta);
@@ -332,8 +332,8 @@ public class FastaResultParserTest {
 		assertEquals("                              :...... :::.  .:::: "
 				   + " :::. :  . :: .::: . :: :..::", res.get(2).getConsensusLine());
 
-		assertEquals(51.6d, r = res.get(3).getBitScore(), r * delta);
-		assertEquals(3.2e-11d, r = res.get(3).getExpectationValue(), r * delta);
+		assertEquals(19.5d, r = res.get(3).getBitScore(), r * delta);
+		assertEquals(0.14d, r = res.get(3).getExpectationValue(), r * delta);
 		assertEquals(35, res.get(3).getSmithWatermanScore());
 		assertEquals(0.357d, r = res.get(3).getIdentity(), r * delta);
 		assertEquals(0.786d, r = res.get(3).getSimilarity(), r * delta);
@@ -357,8 +357,8 @@ public class FastaResultParserTest {
 				   + "LKAFTVGNALPAEKRKILTE", res.get(3).getSubjectAlignmentLine());
 		assertEquals("                              :... : . ..:::", res.get(3).getConsensusLine());
 
-		assertEquals(45.4d, r = res.get(4).getBitScore(), r * delta);
-		assertEquals(2.5e-09d, r = res.get(4).getExpectationValue(), r * delta);
+		assertEquals(43.0d, r = res.get(4).getBitScore(), r * delta);
+		assertEquals(1.3e-08d, r = res.get(4).getExpectationValue(), r * delta);
 		assertEquals(110, res.get(4).getSmithWatermanScore());
 		assertEquals(0.408d, r = res.get(4).getIdentity(), r * delta);
 		assertEquals(0.714d, r = res.get(4).getSimilarity(), r * delta);
@@ -383,8 +383,8 @@ public class FastaResultParserTest {
 		assertEquals("                              : .... ::::.  .. :: "
 				   + " ::: :. .. .:.:::: . :: :.. :", res.get(4).getConsensusLine());
 
-		assertEquals(45.4d, r = res.get(5).getBitScore(), r * delta);
-		assertEquals(2.5e-09d, r = res.get(5).getExpectationValue(), r * delta);
+		assertEquals(20.5d, r = res.get(5).getBitScore(), r * delta);
+		assertEquals(0.078d, r = res.get(5).getExpectationValue(), r * delta);
 		assertEquals(38, res.get(5).getSmithWatermanScore());
 		assertEquals(0.700d, r = res.get(5).getIdentity(), r * delta);
 		assertEquals(0.800d, r = res.get(5).getSimilarity(), r * delta);
@@ -408,8 +408,8 @@ public class FastaResultParserTest {
 				   + "LVVADGLK", res.get(5).getSubjectAlignmentLine());
 		assertEquals("                              ::.: : :::", res.get(5).getConsensusLine());
 
-		assertEquals(40.9d, r = res.get(6).getBitScore(), r * delta);
-		assertEquals(4.8e-08d, r = res.get(6).getExpectationValue(), r * delta);
+		assertEquals(38.9d, r = res.get(6).getBitScore(), r * delta);
+		assertEquals(1.9e-07d, r = res.get(6).getExpectationValue(), r * delta);
 		assertEquals(97, res.get(6).getSmithWatermanScore());
 		assertEquals(0.354d, r = res.get(6).getIdentity(), r * delta);
 		assertEquals(0.729d, r = res.get(6).getSimilarity(), r * delta);
@@ -434,8 +434,8 @@ public class FastaResultParserTest {
 		assertEquals("                    :.  ..:  :::. ....::  .:: .. ."
 				   + ": . .:.:: . ::::..", res.get(6).getConsensusLine());
 
-		assertEquals(36.8d, r = res.get(7).getBitScore(), r * delta);
-		assertEquals(9.2e-07d, r = res.get(7).getExpectationValue(), r * delta);
+		assertEquals(35.2d, r = res.get(7).getBitScore(), r * delta);
+		assertEquals(2.8e-06d, r = res.get(7).getExpectationValue(), r * delta);
 		assertEquals(85, res.get(7).getSmithWatermanScore());
 		assertEquals(0.340d, r = res.get(7).getIdentity(), r * delta);
 		assertEquals(0.638d, r = res.get(7).getSimilarity(), r * delta);
@@ -460,8 +460,8 @@ public class FastaResultParserTest {
 		assertEquals("                       : . . :: :.. . ::.:.   .:. "
 				   + " .   .::.: . : :::.:", res.get(7).getConsensusLine());
 
-		assertEquals(35.7d, r = res.get(8).getBitScore(), r * delta);
-		assertEquals(3e-06d, r = res.get(8).getExpectationValue(), r * delta);
+		assertEquals(34.2d, r = res.get(8).getBitScore(), r * delta);
+		assertEquals(8.5e-06d, r = res.get(8).getExpectationValue(), r * delta);
 		assertEquals(82, res.get(8).getSmithWatermanScore());
 		assertEquals(0.394d, r = res.get(8).getIdentity(), r * delta);
 		assertEquals(0.758d, r = res.get(8).getSimilarity(), r * delta);

@@ -31,5 +31,5 @@ Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https:
 ### (7) results7.txt ###
 * normal fasta36 run, but with different library (7 sequences)
 * result set contains 9 results, i.e. two library sequences have two hits
-* Note: fasta36 prints the wrong scores for the subsequent hits, see [GitHub issue](https://github.com/wrpearson/fasta36/issues/30).
+* Note: fasta36 prints the correct scores for the subsequent hits after applying a patch, see [GitHub issue #30](https://github.com/wrpearson/fasta36/issues/30#issuecomment-844255758).
 * `$FASTA_PATH/bin/fasta36 -m 10 query7.fasta data7.fasta > results7.txt`

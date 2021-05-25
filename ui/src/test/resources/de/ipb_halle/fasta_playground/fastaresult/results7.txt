@@ -9,21 +9,21 @@ Query: query7.fasta
 Library: data7.fasta
      2292 residues in     7 sequences
 
-Statistics: (shuffled [447]) MLE statistics: Lambda= 0.2390;  K=0.02786
- statistics sampled from 7 (7) to 447 sequences
+Statistics: (shuffled [412]) MLE statistics: Lambda= 0.2169;  K=0.01452
+ statistics sampled from 7 (7) to 412 sequences
 Algorithm: FASTA (3.8 Nov 2011) [optimized]
 Parameters: BL50 matrix (15:-5), open/ext: -10/-2
  ktup: 2, E-join: 1 (1), E-opt: 0.2 (1), width:  16
- Scan time:  0.000
+ Scan time:  0.010
 
 The best scores are:                                      opt bits E(7)
-sp|O69395|BLT2_ECOLX Beta-lactamase Toho-2 OS=Esch ( 289)  313 115.4 1.9e-30
-sp|O65976|BLC6_SALTM Beta-lactamase CTX-M-6 OS=Sal ( 291)  256 95.7 1.6e-24
-sp|P00809|BLAC_BACCE Beta-lactamase 1 OS=Bacillus  ( 306)  128 51.6 3.2e-11
-sp|Q03680|BLA1_STRCI Beta-lactamase 1 OS=Streptomy ( 325)  110 45.4 2.5e-09
-sp|P00807|BLAC_STAAU Beta-lactamase OS=Staphylococ ( 281)   97 40.9 4.8e-08
-sp|Q9K9L8|GLSA1_BACHD Glutaminase 1 OS=Bacillus ha ( 308)   85 36.8 9.2e-07
-sp|Q8CDJ3|BAKOR_MOUSE Beclin 1-associated autophag ( 492)   82 35.7   3e-06
+sp|O69395|BLT2_ECOLX Beta-lactamase Toho-2 OS=Esch ( 289)  313 106.5 8.6e-28
+sp|O65976|BLC6_SALTM Beta-lactamase CTX-M-6 OS=Sal ( 291)  256 88.7   2e-22
+sp|P00809|BLAC_BACCE Beta-lactamase 1 OS=Bacillus  ( 306)  128 48.6 2.4e-10
+sp|Q03680|BLA1_STRCI Beta-lactamase 1 OS=Streptomy ( 325)  110 43.0 1.3e-08
+sp|P00807|BLAC_STAAU Beta-lactamase OS=Staphylococ ( 281)   97 38.9 1.9e-07
+sp|Q9K9L8|GLSA1_BACHD Glutaminase 1 OS=Bacillus ha ( 308)   85 35.2 2.8e-06
+sp|Q8CDJ3|BAKOR_MOUSE Beclin 1-associated autophag ( 492)   82 34.2 8.5e-06
 
 >>>query, 50 aa vs data7.fasta library
 ; pg_name: fasta36
@@ -35,8 +35,8 @@ sp|Q8CDJ3|BAKOR_MOUSE Beclin 1-associated autophag ( 492)   82 35.7   3e-06
 ; pg_ktup: 2
 ; pg_join_E(): 1 (1)
 ; pg_optcut_E(): 0.2 (1)
-; mp_extrap: 60000 447
-; mp_stats: (shuffled [447]) MLE statistics: Lambda= 0.2390;  K=0.02786
+; mp_extrap: 60000 412
+; mp_stats: (shuffled [412]) MLE statistics: Lambda= 0.2169;  K=0.01452
 ; mp_KS: -0.0000 (N=0) at   0
 ; mp_Algorithm: FASTA (3.8 Nov 2011) [optimized]
 ; mp_Parameters: BL50 matrix (15:-5), open/ext: -10/-2  ktup: 2, E-join: 1 (1), E-opt: 0.2 (1), width:  16
@@ -45,9 +45,9 @@ sp|Q8CDJ3|BAKOR_MOUSE Beclin 1-associated autophag ( 492)   82 35.7   3e-06
 ; fa_initn: 313
 ; fa_init1: 313
 ; fa_opt: 313
-; fa_z-score: 594.3
-; fa_bits: 115.4
-; fa_expect: 1.9e-30
+; fa_z-score: 546.6
+; fa_bits: 106.5
+; fa_expect: 8.6e-28
 ; sw_score: 313
 ; sw_ident: 1.000
 ; sw_sim: 1.000
@@ -79,9 +79,9 @@ KPADLVNYNPIAEKHVNGTM
 ; fa_initn: 256
 ; fa_init1: 256
 ; fa_opt: 256
-; fa_z-score: 488.1
-; fa_bits: 95.7
-; fa_expect: 1.6e-24
+; fa_z-score: 450.1
+; fa_bits: 88.7
+; fa_expect:  2e-22
 ; sw_score: 256
 ; sw_ident: 0.800
 ; sw_sim: 0.940
@@ -113,9 +113,9 @@ RASDLVNYNPIAEKHVNGTM
 ; fa_initn: 128
 ; fa_init1: 128
 ; fa_opt: 128
-; fa_z-score: 249.2
-; fa_bits: 51.6
-; fa_expect: 3.2e-11
+; fa_z-score: 233.2
+; fa_bits: 48.6
+; fa_expect: 2.4e-10
 ; sw_score: 128
 ; sw_ident: 0.449
 ; sw_sim: 0.735
@@ -147,9 +147,9 @@ DLVDYSPVTEKHVDTGMKLG
 ; fa_initn:  52
 ; fa_init1:  35
 ; fa_opt:  35
-; fa_z-score: 249.2
-; fa_bits: 51.6
-; fa_expect: 3.2e-11
+; fa_z-score: 76.0
+; fa_bits: 19.5
+; fa_expect:   0.14
 ; sw_score: 35
 ; sw_ident: 0.357
 ; sw_sim: 0.786
@@ -180,9 +180,9 @@ LKAFTVGNALPAEKRKILTE
 ; fa_initn: 107
 ; fa_init1: 105
 ; fa_opt: 110
-; fa_z-score: 215.2
-; fa_bits: 45.4
-; fa_expect: 2.5e-09
+; fa_z-score: 202.3
+; fa_bits: 43.0
+; fa_expect: 1.3e-08
 ; sw_score: 110
 ; sw_ident: 0.408
 ; sw_sim: 0.714
@@ -214,9 +214,9 @@ GMDKVVHYGQDAILPNSPVT
 ; fa_initn:  48
 ; fa_init1:  38
 ; fa_opt:  38
-; fa_z-score: 215.2
-; fa_bits: 45.4
-; fa_expect: 2.5e-09
+; fa_z-score: 80.6
+; fa_bits: 20.5
+; fa_expect:  0.078
 ; sw_score: 38
 ; sw_ident: 0.700
 ; sw_sim: 0.800
@@ -247,9 +247,9 @@ LVVADGLK
 ; fa_initn: 101
 ; fa_init1:  91
 ; fa_opt:  97
-; fa_z-score: 192.1
-; fa_bits: 40.9
-; fa_expect: 4.8e-08
+; fa_z-score: 181.5
+; fa_bits: 38.9
+; fa_expect: 1.9e-07
 ; sw_score: 97
 ; sw_ident: 0.354
 ; sw_sim: 0.729
@@ -281,9 +281,9 @@ EKYVGKDITLKALIEASMTY
 ; fa_initn: 101
 ; fa_init1:  82
 ; fa_opt:  85
-; fa_z-score: 169.0
-; fa_bits: 36.8
-; fa_expect: 9.2e-07
+; fa_z-score: 160.5
+; fa_bits: 35.2
+; fa_expect: 2.8e-06
 ; sw_score: 85
 ; sw_ident: 0.340
 ; sw_sim: 0.638
@@ -315,9 +315,9 @@ KLETSVPSKPLNPMINAGAL
 ; fa_initn:  71
 ; fa_init1:  54
 ; fa_opt:  82
-; fa_z-score: 159.8
-; fa_bits: 35.7
-; fa_expect:  3e-06
+; fa_z-score: 151.7
+; fa_bits: 34.2
+; fa_expect: 8.5e-06
 ; sw_score: 82
 ; sw_ident: 0.394
 ; sw_sim: 0.758
@@ -350,7 +350,7 @@ EGKRLTDQLRWKIMSCKMRI
 50 residues in 1 query   sequences
 2292 residues in 7 library sequences
  Tcomplib [36.3.8h May, 2020] (8 proc in memory [0G])
- start: Wed May 19 11:10:04 2021 done: Wed May 19 11:10:04 2021
- Total Scan time:  0.000 Total Display time:  0.010
+ start: Tue May 25 09:52:05 2021 done: Tue May 25 09:52:05 2021
+ Total Scan time:  0.010 Total Display time:  0.000
 
 Function used was FASTA [36.3.8h May, 2020]
