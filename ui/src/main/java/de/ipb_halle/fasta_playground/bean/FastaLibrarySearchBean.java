@@ -15,14 +15,17 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.biojava.nbio.data.sequence.FastaSequence;
 import org.biojava.nbio.data.sequence.SequenceUtil;
 import org.omnifaces.util.Faces;
@@ -127,6 +130,12 @@ public class FastaLibrarySearchBean implements Serializable {
 
 	private List<FastaSequence> sequences;
 
+	/*
+	 * Injects
+	 */
+	@Inject
+	private transient Logger logger;
+
 	@PostConstruct
 	public void init() {
 		conf = new FastaResultDisplayConfig();
@@ -138,7 +147,7 @@ public class FastaLibrarySearchBean implements Serializable {
 	/*
 	 * Library search
 	 */
-	public void actionSearch() throws IOException, FastaResultParserException {
+	public void actionSearch() throws IOException {
 		try (InputStream in = new ByteArrayInputStream(library.getBytes())) {
 			sequences = SequenceUtil.readFasta(in);
 		}
@@ -160,9 +169,8 @@ public class FastaLibrarySearchBean implements Serializable {
 					.forEach(r -> results.add(new FastaResultDisplayWrapper(r).config(conf)));
 			sortResults();
 		} catch (Exception e) {
-			// TODO: properly log exception
-			System.out.println(fastaOutput);
-			e.printStackTrace();
+			logger.info(fastaOutput);
+			logger.severe(ExceptionUtils.getStackTrace(e));
 		}
 	}
 
