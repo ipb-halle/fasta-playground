@@ -256,7 +256,10 @@ public class FastaLibrarySearchBean implements Serializable {
 		return list.stream().filter(seq -> seq.getId().equals(id)).findFirst().orElse(null);
 	}
 
-	// Why do I have to do this? BioJava is such a sh**ty library!
+	/*
+	 * Why do I have to do this? SequenceUtil.writeFasta() fails to write correct
+	 * FASTA files ... BioJava is such a sh**ty library!
+	 */
 	private static String generateFastaString(FastaSequence sequence) {
 		StringBuilder sb = new StringBuilder(sequence.getId().length() + sequence.getLength() + 3);
 		sb.append(">").append(sequence.getId()).append("\n").append(sequence.getFormatedSequence(80));

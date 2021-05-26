@@ -82,7 +82,7 @@
 			<hr />
 			<h2>Results</h2>
 			<h:panelGroup id="resultsId">
-				<b:panelGrid col-spans="3,9"
+				<b:panelGrid col-spans="3,2,2,5"
 					rendered="#{fn:length(fastaLibrarySearchBean.results) gt 0}">
 					<b:selectOneMenu value="#{fastaLibrarySearchBean.sortBy}"
 						required="true" label="Sort by" ajax="true"
@@ -91,15 +91,19 @@
 						<f:selectItems value="#{fastaLibrarySearchBean.sortByItems}"
 							var="item" itemValue="#{item}" itemLabel="#{item.label}" />
 					</b:selectOneMenu>
+					<b:button value="Collapse all results"
+						onclick="$('.fastaResultPanel > .panel-heading > .panel-title-link:not(.collapsed)').click();" />
+					<b:button value="Expand all results"
+						onclick="$('.fastaResultPanel > .panel-heading > .panel-title-link.collapsed').click();" />
 					<b:commandLink value="Download FASTA for all hits"
 						action="#{fastaLibrarySearchBean.actionDownloadAllResultsAsFasta()}"
 						iconAwesome="download" iconAlign="left" />
 				</b:panelGrid>
 				<br />
-				<h:panelGroup styleClass="fastaResultPanel">
+				<h:panelGroup styleClass="fastaResultPanelGroup">
 					<ui:repeat value="#{fastaLibrarySearchBean.results}" var="result"
 						varStatus="status">
-						<b:panel>
+						<b:panel styleClass="fastaResultPanel">
 							<f:facet name="heading">
 								<!-- <h:panelGroup styleClass="panel-title"> -->
 								<h:outputFormat value="Result {0}/{1}"
