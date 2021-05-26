@@ -15,10 +15,11 @@ public class FastaResultParser {
 	}
 
 	/*
-	 * Examples: "  1>>>query1 first query sequence - 50 aa" or "  1>>> - 50 aa"
+	 * Examples: "  1>>>query1 first query sequence - 50 aa", "  1>>> - 50 aa",
+	 * "  1>>>query query sequence - 99 nt"
 	 */
 	private static final Pattern QUERY_START_PATTERN = Pattern
-			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ][a]{2}");
+			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ](aa|nt)");
 
 	/**
 	 * 
@@ -171,21 +172,21 @@ public class FastaResultParser {
 			/*
 			 * Identity: matches for example "; sw_ident: 1.000".
 			 */
-			else if ((builder != null) && line.startsWith("; sw_ident:")) {
+			else if ((builder != null) && (line.startsWith("; sw_ident:") || line.startsWith("; bs_ident:"))) {
 				builder.identity(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
 			 * Similarity: matches for example "; sw_sim: 1.000".
 			 */
-			else if ((builder != null) && line.startsWith("; sw_sim:")) {
+			else if ((builder != null) && (line.startsWith("; sw_sim:") || line.startsWith("; bs_sim:"))) {
 				builder.similarity(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
 			 * Overlap: matches for example "; sw_overlap: 50".
 			 */
-			else if ((builder != null) && line.startsWith("; sw_overlap:")) {
+			else if ((builder != null) && (line.startsWith("; sw_overlap:") || line.startsWith("; bs_overlap:"))) {
 				builder.overlap(Integer.parseInt(line.split(":")[1].trim()));
 			}
 

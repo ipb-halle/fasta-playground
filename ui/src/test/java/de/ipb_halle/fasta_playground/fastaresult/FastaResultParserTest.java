@@ -485,4 +485,45 @@ public class FastaResultParserTest {
 				   + "EGKRLTDQLRWKIMSCKMRI", res.get(8).getSubjectAlignmentLine());
 		assertEquals("                 : :-:.  :.:..:... :: . :: :.:.:..", res.get(8).getConsensusLine());
 	}
+
+	@Test
+	public void testParseResults8() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results8.txt"));
+		List<FastaResult> res = new FastaResultParser(reader).parse();
+		double r;
+
+		assertEquals(11, res.size());
+
+		assertEquals(132.7d, r = res.get(0).getBitScore(), r * delta);
+		assertEquals(7.6e-35d, r = res.get(0).getExpectationValue(), r * delta);
+		assertEquals(0, res.get(0).getSmithWatermanScore());
+		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
+		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
+		assertEquals(99, res.get(0).getOverlap());
+		assertEquals("query", res.get(0).getQuerySequenceName());
+		assertEquals("query sequence", res.get(0).getQuerySequenceDescription());
+		assertEquals(99, res.get(0).getQuerySequenceLength());
+		assertEquals(1, res.get(0).getQueryAlignmentStart());
+		assertEquals(99, res.get(0).getQueryAlignmentStop());
+		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		assertEquals("------------------------------CCTGCCGATCTGGTTAACTA"
+				   + "CAATCCGATTGCCGAAAAACACGTCAACGGCACAATGACGCTGGCAGAAC"
+				   + "TGAGCGCGGCCGCTTTGCAGTACAGCGAC", res.get(0).getQueryAlignmentLine());
+		assertEquals("ENA|BAA28282|BAA28282.1", res.get(0).getSubjectSequenceName());
+		assertEquals("Escherichia coli beta-lactamase",
+				res.get(0).getSubjectSequenceDescription());
+		assertEquals(870, res.get(0).getSubjectSequenceLength());
+		assertEquals(304, res.get(0).getSubjectAlignmentStart());
+		assertEquals(402, res.get(0).getSubjectAlignmentStop());
+		assertEquals(274, res.get(0).getSubjectAlignmentDisplayStart());
+		assertEquals("CAGCTGCTTAATCAGCCTGTCGAGATCAAGCCTGCCGATCTGGTTAACTA"
+				   + "CAATCCGATTGCCGAAAAACACGTCAACGGCACAATGACGCTGGCAGAAC"
+				   + "TGAGCGCGGCCGCTTTGCAGTACAGCGACAATACCGCCATGAACAAATTG"
+				   + "ATTGCCCAGCTCGGTGGCCCGGGAGGCGTG", res.get(0).getSubjectAlignmentLine());
+		assertEquals("                              ::::::::::::::::::::"
+				   + "::::::::::::::::::::::::::::::::::::::::::::::::::"
+				   + ":::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
+
+		// TODO: other 10 results
+	}
 }

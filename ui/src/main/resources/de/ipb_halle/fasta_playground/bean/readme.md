@@ -1,0 +1,7 @@
+* [Glutaminase 1 OS=Bacillus halodurans (strain ATCC BAA-125 / DSM 18197 / FERM 7344 / JCM 9153 / C-125](https://www.uniprot.org/uniprot/Q9K9L8)
+* [Beta-lactamase CTX-M-6 OS=Salmonella typhimurium](https://www.uniprot.org/uniprot/O65976)
+* [Beta-lactamase Toho-2 OS=Escherichia coli](https://www.uniprot.org/uniprot/O69395)
+* [Beclin 1-associated autophagy-related key regulator OS=Mus musculus](https://www.uniprot.org/uniprot/Q8CDJ3)
+* [Beta-lactamase 1 OS=Streptomyces cacaoi](https://www.uniprot.org/uniprot/Q03680)
+* [Beta-lactamase 1 OS=Bacillus cereus](https://www.uniprot.org/uniprot/P00809)
+* [Beta-lactamase OS=Staphylococcus aureus](https://www.uniprot.org/uniprot/P00807)

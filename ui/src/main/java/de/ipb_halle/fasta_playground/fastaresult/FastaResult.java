@@ -15,22 +15,22 @@ public class FastaResult {
 	private final double expectationValue;
 
 	/*
-	 * sw_score - Smith-Waterman score
+	 * sw_score (only in protein sequence comparisons) - Smith-Waterman score
 	 */
 	private final int smithWatermanScore;
 
 	/*
-	 * sw_ident - identity
+	 * sw_ident / bs_ident - identity
 	 */
 	private final double identity;
 
 	/*
-	 * sw_sim - similarity (EBI FASTA calls this "positives")
+	 * sw_sim / bs_sim - similarity (EBI FASTA calls this "positives")
 	 */
 	private final double similarity;
 
 	/*
-	 * sw_overlap - overlap
+	 * sw_overlap / bs_overlap - overlap
 	 */
 	private final int overlap;
 

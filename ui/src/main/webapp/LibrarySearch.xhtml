@@ -6,6 +6,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:of="http://omnifaces.org/functions"
 	xmlns:b="http://bootsfaces.net/ui">
 <h:head>
 	<title>Library search with FASTA</title>
@@ -19,7 +20,7 @@
 			<b:panelGrid col-spans="9,3">
 				<h:panelGroup id="libraryId">
 					<b:inputTextarea value="#{fastaLibrarySearchBean.library}"
-						required="true" label="Sequence library (DNA, RNA or AA)"
+						required="true" label="Sequence library (DNA or AA)"
 						placeholder="Paste or drag and drop library sequences in FASTA format here ..."
 						styleClass="libraryTextAreaPseudoClass" />
 					<b:message for="@previous" />
@@ -27,7 +28,7 @@
 				<h:panelGroup>
 					<br />
 					<b:commandButton value="Protein example" ajax="true"
-						process="@this" update="libraryId queryId"
+						process="@this" update="libraryId queryId searchModeId"
 						action="#{fastaLibrarySearchBean.actionProteinExample()}">
 						<!-- This solves https://stackoverflow.com/q/21179403 -->
 						<f:actionListener
@@ -35,18 +36,18 @@
 					</b:commandButton>
 					<br />
 					<b:commandButton value="DNA example" ajax="true" process="@this"
-						update="libraryId queryId"
+						update="libraryId queryId searchModeId"
 						action="#{fastaLibrarySearchBean.actionDNAExample()}">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</b:commandButton>
 					<br />
-					<b:commandButton value="RNA example" ajax="true" process="@this"
-						update="libraryId queryId"
+					<!--<b:commandButton value="RNA example" ajax="true" process="@this"
+						update="libraryId queryId searchModeId"
 						action="#{fastaLibrarySearchBean.actionRNAExample()}">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
-					</b:commandButton>
+					</b:commandButton>-->
 				</h:panelGroup>
 				<h:panelGroup id="queryId">
 					<b:inputTextarea value="#{fastaLibrarySearchBean.query}"
@@ -56,6 +57,13 @@
 					<b:message for="@previous" />
 				</h:panelGroup>
 				<h:panelGroup>
+					<b:selectOneMenu id="searchModeId"
+						value="#{fastaLibrarySearchBean.searchMode}" required="true"
+						label="Search mode">
+						<f:selectItems value="#{fastaLibrarySearchBean.searchModeItems}"
+							var="item" itemValue="#{item}" itemLabel="#{item.label}" />
+					</b:selectOneMenu>
+					<br />
 					<b:selectOneMenu value="#{fastaLibrarySearchBean.maxResults}"
 						required="true" label="Maximum number of results">
 						<f:selectItems
@@ -123,8 +131,10 @@
 								<h:outputText value="#{result.fastaResult.bitScore}" />
 								<h:outputText value="#{result.fastaResult.expectationValue}" />
 								<h:outputText value="#{result.fastaResult.smithWatermanScore}" />
-								<h:outputText value="#{result.fastaResult.identity}" />
-								<h:outputText value="#{result.fastaResult.similarity}" />
+								<h:outputText
+									value="#{of:formatPercent(result.fastaResult.identity)}" />
+								<h:outputText
+									value="#{of:formatPercent(result.fastaResult.similarity)}" />
 								<h:outputText value="#{result.fastaResult.overlap}" />
 							</b:panelGrid>
 							<hr />
@@ -140,10 +150,9 @@
 			</h:panelGroup>
 			<hr />
 			<h2>FASTA program output</h2>
-			<b:panel title="Output" collapsed="true"
+			<b:panel id="fastaOutputId" title="Output" collapsed="true"
 				rendered="#{not fastaLibrarySearchBean.fastaOutput.isEmpty()}">
-				<h:outputText id="fastaOutputId"
-					value="#{fastaLibrarySearchBean.fastaOutput}"
+				<h:outputText value="#{fastaLibrarySearchBean.fastaOutput}"
 					style="white-space:pre; font-family:monospace;" />
 			</b:panel>
 		</b:form>
