@@ -37,7 +37,7 @@ import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
 public class FastaLibrarySearchBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String FASTA_PROGRAM = "/path/to/fasta36/bin/fasta36";
+	private static final String FASTA_PROGRAM = "/usr/local/fasta36/bin/fasta36";
 
 	private FastaResultDisplayConfig conf;
 
