@@ -21,6 +21,62 @@ public class FastaResultParser {
 	private static final Pattern QUERY_START_PATTERN = Pattern
 			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ](aa|nt)");
 
+	/*
+	 * Examples: "; fa_expect: 5.2e-25", "; sw_expect:    1.7"
+	 */
+	private static final Pattern EVALUE_PATTERN = Pattern
+			.compile("(;)[ ](fa_expect|sw_expect|fx_expect|tx_expect)(:).*");
+
+	/*
+	 * Examples: "; fa_bits: 96.5", "; sw_bits: 18.4"
+	 */
+	private static final Pattern BITSCORE_PATTERN = Pattern.compile("(;)[ ](fa_bits|sw_bits|fx_bits|tx_bits)(:).*");
+
+	/*
+	 * Example: "; sw_score: 313"
+	 */
+	private static final Pattern SWSCORE_PATTERN = Pattern.compile("(;)[ ](sw_score)(:).*");
+
+	/*
+	 * Examples: "; sw_ident: 1.000", "; bs_ident: 0.632"
+	 */
+	private static final Pattern IDENTITY_PATTERN = Pattern.compile("(;)[ ](sw_ident|bs_ident)(:).*");
+
+	/*
+	 * Examples: "; sw_sim: 1.000", "; bs_sim: 0.846"
+	 */
+	private static final Pattern SIMILARITY_PATTERN = Pattern.compile("(;)[ ](sw_sim|bs_sim)(:).*");
+
+	/*
+	 * Examples: "; sw_overlap: 50", "; bs_overlap: 13"
+	 */
+	private static final Pattern OVERLAP_PATTERN = Pattern.compile("(;)[ ](sw_overlap|bs_overlap)(:).*");
+
+	/*
+	 * Example: "; sq_len: 50"
+	 */
+	private static final Pattern SEQUENCE_LENGTH_PATTERN = Pattern.compile("(;)[ ](sq_len)(:).*");
+
+	/*
+	 * Example: "; al_start: 1"
+	 */
+	private static final Pattern ALIGNMENT_START_PATTERN = Pattern.compile("(;)[ ](al_start)(:).*");
+
+	/*
+	 * Example: "; al_stop: 50"
+	 */
+	private static final Pattern ALIGNMENT_STOP_PATTERN = Pattern.compile("(;)[ ](al_stop)(:).*");
+
+	/*
+	 * Example: "; al_display_start: 1"
+	 */
+	private static final Pattern ALIGNMENT_DISPLAY_START_PATTERN = Pattern.compile("(;)[ ](al_display_start)(:).*");
+
+	/*
+	 * matches "; al_cons:"
+	 */
+	private static final Pattern ALIGNMENT_CONSENSUS_PATTERN = Pattern.compile("(;)[ ](al_cons)(:)");
+
 	/**
 	 * 
 	 * @return list of results, not necessarily sorted by score
@@ -149,44 +205,44 @@ public class FastaResultParser {
 			}
 
 			/*
-			 * BitScore: matches for example "; fa_bits: 96.5".
+			 * BitScore
 			 */
-			else if ((builder != null) && line.startsWith("; fa_bits:")) {
+			else if ((builder != null) && BITSCORE_PATTERN.matcher(line).matches()) {
 				builder.bitScore(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
-			 * E()-value: matches for example "; fa_expect: 5.2e-25".
+			 * E()-value
 			 */
-			else if ((builder != null) && line.startsWith("; fa_expect:")) {
+			else if ((builder != null) && EVALUE_PATTERN.matcher(line).matches()) {
 				builder.expectationValue(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
-			 * Smith-Waterman score: matches for example "; sw_score: 313".
+			 * Smith-Waterman score
 			 */
-			else if ((builder != null) && line.startsWith("; sw_score:")) {
+			else if ((builder != null) && SWSCORE_PATTERN.matcher(line).matches()) {
 				builder.smithWatermanScore(Integer.parseInt(line.split(":")[1].trim()));
 			}
 
 			/*
-			 * Identity: matches for example "; sw_ident: 1.000".
+			 * Identity
 			 */
-			else if ((builder != null) && (line.startsWith("; sw_ident:") || line.startsWith("; bs_ident:"))) {
+			else if ((builder != null) && IDENTITY_PATTERN.matcher(line).matches()) {
 				builder.identity(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
-			 * Similarity: matches for example "; sw_sim: 1.000".
+			 * Similarity
 			 */
-			else if ((builder != null) && (line.startsWith("; sw_sim:") || line.startsWith("; bs_sim:"))) {
+			else if ((builder != null) && SIMILARITY_PATTERN.matcher(line).matches()) {
 				builder.similarity(Double.parseDouble(line.split(":")[1].trim()));
 			}
 
 			/*
-			 * Overlap: matches for example "; sw_overlap: 50".
+			 * Overlap
 			 */
-			else if ((builder != null) && (line.startsWith("; sw_overlap:") || line.startsWith("; bs_overlap:"))) {
+			else if ((builder != null) && OVERLAP_PATTERN.matcher(line).matches()) {
 				builder.overlap(Integer.parseInt(line.split(":")[1].trim()));
 			}
 
@@ -217,9 +273,9 @@ public class FastaResultParser {
 			}
 
 			/*
-			 * Sequence length: matches for example "; sq_len: 50".
+			 * Sequence length
 			 */
-			else if ((builder != null) && line.startsWith("; sq_len:")) {
+			else if ((builder != null) && SEQUENCE_LENGTH_PATTERN.matcher(line).matches()) {
 				int value = Integer.parseInt(line.split(":")[1].trim());
 
 				if (inQueryBlock && !inSubjectBlock) {
@@ -233,9 +289,9 @@ public class FastaResultParser {
 			}
 
 			/*
-			 * Alignment start: matches for example "; al_start: 1".
+			 * Alignment start
 			 */
-			else if ((builder != null) && line.startsWith("; al_start:")) {
+			else if ((builder != null) && ALIGNMENT_START_PATTERN.matcher(line).matches()) {
 				int value = Integer.parseInt(line.split(":")[1].trim());
 
 				if (inQueryBlock && !inSubjectBlock) {
@@ -249,9 +305,9 @@ public class FastaResultParser {
 			}
 
 			/*
-			 * Alignment stop: matches for example "; al_stop: 50".
+			 * Alignment stop
 			 */
-			else if ((builder != null) && line.startsWith("; al_stop:")) {
+			else if ((builder != null) && ALIGNMENT_STOP_PATTERN.matcher(line).matches()) {
 				int value = Integer.parseInt(line.split(":")[1].trim());
 
 				if (inQueryBlock && !inSubjectBlock) {
@@ -265,10 +321,10 @@ public class FastaResultParser {
 			}
 
 			/*
-			 * Alignment display start: matches for example "; al_display_start: 1". The
-			 * lines following this line make the alignment string.
+			 * Alignment display start: The lines following this line make the alignment
+			 * string.
 			 */
-			else if ((builder != null) && line.startsWith("; al_display_start:")) {
+			else if ((builder != null) && ALIGNMENT_DISPLAY_START_PATTERN.matcher(line).matches()) {
 				int value = Integer.parseInt(line.split(":")[1].trim());
 
 				if (inQueryBlock && !inSubjectBlock) {
@@ -295,7 +351,7 @@ public class FastaResultParser {
 			 * line make the consensus string. This also terminates the subject alignment
 			 * string and the subject block.
 			 */
-			else if ((builder != null) && "; al_cons:".equals(line)) {
+			else if ((builder != null) && ALIGNMENT_CONSENSUS_PATTERN.matcher(line).matches()) {
 				if (inSequence) {
 					builder.subjectAlignmentLine(sequenceBuilder.toString());
 					inSequence = false;

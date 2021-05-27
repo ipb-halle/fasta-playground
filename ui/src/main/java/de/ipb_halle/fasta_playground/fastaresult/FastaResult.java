@@ -5,17 +5,17 @@ import javax.validation.constraints.NotNull;
 
 public class FastaResult {
 	/*
-	 * fa_bits - bit score
+	 * fa_bits / sw_bits / fx_bits / tx_bits - bit score
 	 */
 	private double bitScore;
 
 	/*
-	 * fa_expect - E()-value
+	 * fa_expect / sw_expect / fx_expect / tx_expect - E()-value
 	 */
 	private final double expectationValue;
 
 	/*
-	 * sw_score (only in protein sequence comparisons) - Smith-Waterman score
+	 * sw_score - Smith-Waterman score (only in protein sequence comparisons)
 	 */
 	private final int smithWatermanScore;
 
