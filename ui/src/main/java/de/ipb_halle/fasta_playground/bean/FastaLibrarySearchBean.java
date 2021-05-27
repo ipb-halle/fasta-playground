@@ -18,11 +18,9 @@ import java.util.StringJoiner;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -31,7 +29,6 @@ import org.biojava.nbio.data.sequence.SequenceUtil;
 import org.omnifaces.util.Faces;
 
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
-import de.ipb_halle.fasta_playground.fastaresult.FastaResultParserException;
 
 @Named
 //@RequestScoped

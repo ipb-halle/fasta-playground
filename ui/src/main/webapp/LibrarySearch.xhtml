@@ -118,7 +118,7 @@
 									style="padding-left:20px;" />
 								<!-- </h:panelGroup> -->
 							</f:facet>
-							<b:panelGrid col-spans="2,1,1,1,2,1,2,2">
+							<b:panelGrid col-spans="2,1,1,1,2,1,2,1,1">
 								<b:commandLink value="Download FASTA"
 									action="#{fastaLibrarySearchBean.actionDownloadResultAsFasta(result, status.index + 1)}"
 									iconAwesome="download" iconAlign="left" />
@@ -129,6 +129,8 @@
 								<h:outputText value="Identity" />
 								<h:outputText value="Similarity (Positives)" />
 								<h:outputText value="Overlap" />
+								<h:outputText value="Frame"
+									rendered="#{fastaLibrarySearchBean.searchMode == 'DNA_DNA'}" />
 								<h:outputText />
 								<h:outputText
 									value="#{result.fastaResult.subjectSequenceLength}" />
@@ -140,6 +142,8 @@
 								<h:outputText
 									value="#{of:formatPercent(result.fastaResult.similarity)}" />
 								<h:outputText value="#{result.fastaResult.overlap}" />
+								<h:outputText value="#{result.fastaResult.frame.name}"
+									rendered="#{fastaLibrarySearchBean.searchMode == 'DNA_DNA'}" />
 							</b:panelGrid>
 							<hr />
 							<b:row>
