@@ -1,5 +1,5 @@
 --- mshowalign2.c	2021-05-27 16:22:21.496057292 +0200
-+++ mshowalign2_patched.c	2021-05-27 16:25:01.181257520 +0200
++++ mshowalign2_patched.c	2021-05-27 17:39:44.330982319 +0200
 @@ -745,9 +745,9 @@
  	if (info_str[0]) fprintf(fp,"; %s_info: %s\n",m_msp->f_id0,info_str);
  	if (ppst->zsflag>=0) 
@@ -9,7 +9,7 @@
 -		   m_msp->f_id0,bbp->rst.escore);
 +		   m_msp->f_id0,lzscore,
 +		   m_msp->f_id0,zs_to_bit(lzscore, m_msp->n0, bbp->seq->n1),
-+		   m_msp->f_id0,lzscore);
++		   m_msp->f_id0,zs_to_E(lzscore, bbp->seq->n1, ppst->dnaseq, ppst->zdb_size, m_msp->db));
  #else
  	if ((m_msp->markx & MX_M11OUT) == 0) {
  	  fprintf (fp,"; %s_%s: %d\n", m_msp->f_id0, m_msp->alab[0], lsw_score);
