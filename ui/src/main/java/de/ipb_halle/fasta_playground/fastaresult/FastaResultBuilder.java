@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 
 public class FastaResultBuilder {
+	private Frame frame;
 	private double bitScore;
 	private double expectationValue;
 	private int smithWatermanScore;
@@ -46,6 +47,10 @@ public class FastaResultBuilder {
 		}
 
 		return result;
+	}
+
+	public Frame getFrame() {
+		return frame;
 	}
 
 	public double getBitScore() {
@@ -130,6 +135,11 @@ public class FastaResultBuilder {
 
 	public String getConsensusLine() {
 		return consensusLine;
+	}
+
+	public FastaResultBuilder frame(Frame frame) {
+		this.frame = frame;
+		return this;
 	}
 
 	public FastaResultBuilder bitScore(double bitScore) {

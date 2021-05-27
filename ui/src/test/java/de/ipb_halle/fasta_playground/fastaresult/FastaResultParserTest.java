@@ -21,6 +21,7 @@ public class FastaResultParserTest {
 
 		assertEquals(4, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(99.1d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(8.7e-26d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(313, res.get(0).getSmithWatermanScore());
@@ -50,6 +51,7 @@ public class FastaResultParserTest {
 				   + "::::::::::::::::::::::::::::::",
 				res.get(0).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(1).getFrame());
 		assertEquals(36.7d, r = res.get(1).getBitScore(), r * delta);
 		assertEquals(5e-07d, r = res.get(1).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(1).getSmithWatermanScore());
@@ -80,6 +82,7 @@ public class FastaResultParserTest {
 				   + "-: . .:.:::::: :: ::.",
 				res.get(1).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(2).getFrame());
 		assertEquals(36.7d, r = res.get(2).getBitScore(), r * delta);
 		assertEquals(5e-07d, r = res.get(2).getExpectationValue(), r * delta);
 		assertEquals(100, res.get(2).getSmithWatermanScore());
@@ -110,6 +113,7 @@ public class FastaResultParserTest {
 				   + "-: . .:.:::::: :: ::.",
 				res.get(2).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(3).getFrame());
 		assertEquals(15.1d, r = res.get(3).getBitScore(), r * delta);
 		assertEquals(0.73d, r = res.get(3).getExpectationValue(), r * delta);
 		assertEquals(33, res.get(3).getSmithWatermanScore());
@@ -145,6 +149,7 @@ public class FastaResultParserTest {
 
 		assertEquals(1, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(0.72d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(13, res.get(0).getSmithWatermanScore());
@@ -176,6 +181,7 @@ public class FastaResultParserTest {
 
 		assertEquals(1, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(6.3d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(0.76d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(13, res.get(0).getSmithWatermanScore());
@@ -207,6 +213,7 @@ public class FastaResultParserTest {
 
 		assertEquals(1, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(0.73d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(13, res.get(0).getSmithWatermanScore());
@@ -254,6 +261,7 @@ public class FastaResultParserTest {
 
 		assertEquals(9, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(106.5d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(8.6e-28d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(313, res.get(0).getSmithWatermanScore());
@@ -280,6 +288,7 @@ public class FastaResultParserTest {
 		assertEquals("                              ::::::::::::::::::::"
 				   + "::::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(1).getFrame());
 		assertEquals(88.7d, r = res.get(1).getBitScore(), r * delta);
 		assertEquals(2e-22d, r = res.get(1).getExpectationValue(), r * delta);
 		assertEquals(256, res.get(1).getSmithWatermanScore());
@@ -306,6 +315,7 @@ public class FastaResultParserTest {
 		assertEquals("                              ..:::.: ::::::::::::"
 				   + ":::.::::.:.:: .:::: ::::::::::", res.get(1).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(2).getFrame());
 		assertEquals(48.6d, r = res.get(2).getBitScore(), r * delta);
 		assertEquals(2.4e-10d, r = res.get(2).getExpectationValue(), r * delta);
 		assertEquals(128, res.get(2).getSmithWatermanScore());
@@ -332,6 +342,7 @@ public class FastaResultParserTest {
 		assertEquals("                              :...... :::.  .:::: "
 				   + " :::. :  . :: .::: . :: :..::", res.get(2).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(3).getFrame());
 		assertEquals(19.5d, r = res.get(3).getBitScore(), r * delta);
 		assertEquals(0.14d, r = res.get(3).getExpectationValue(), r * delta);
 		assertEquals(35, res.get(3).getSmithWatermanScore());
@@ -357,6 +368,7 @@ public class FastaResultParserTest {
 				   + "LKAFTVGNALPAEKRKILTE", res.get(3).getSubjectAlignmentLine());
 		assertEquals("                              :... : . ..:::", res.get(3).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(4).getFrame());
 		assertEquals(43.0d, r = res.get(4).getBitScore(), r * delta);
 		assertEquals(1.3e-08d, r = res.get(4).getExpectationValue(), r * delta);
 		assertEquals(110, res.get(4).getSmithWatermanScore());
@@ -383,6 +395,7 @@ public class FastaResultParserTest {
 		assertEquals("                              : .... ::::.  .. :: "
 				   + " ::: :. .. .:.:::: . :: :.. :", res.get(4).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(5).getFrame());
 		assertEquals(20.5d, r = res.get(5).getBitScore(), r * delta);
 		assertEquals(0.078d, r = res.get(5).getExpectationValue(), r * delta);
 		assertEquals(38, res.get(5).getSmithWatermanScore());
@@ -408,6 +421,7 @@ public class FastaResultParserTest {
 				   + "LVVADGLK", res.get(5).getSubjectAlignmentLine());
 		assertEquals("                              ::.: : :::", res.get(5).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(6).getFrame());
 		assertEquals(38.9d, r = res.get(6).getBitScore(), r * delta);
 		assertEquals(1.9e-07d, r = res.get(6).getExpectationValue(), r * delta);
 		assertEquals(97, res.get(6).getSmithWatermanScore());
@@ -434,6 +448,7 @@ public class FastaResultParserTest {
 		assertEquals("                    :.  ..:  :::. ....::  .:: .. ."
 				   + ": . .:.:: . ::::..", res.get(6).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(7).getFrame());
 		assertEquals(35.2d, r = res.get(7).getBitScore(), r * delta);
 		assertEquals(2.8e-06d, r = res.get(7).getExpectationValue(), r * delta);
 		assertEquals(85, res.get(7).getSmithWatermanScore());
@@ -460,6 +475,7 @@ public class FastaResultParserTest {
 		assertEquals("                       : . . :: :.. . ::.:.   .:. "
 				   + " .   .::.: . : :::.:", res.get(7).getConsensusLine());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(8).getFrame());
 		assertEquals(34.2d, r = res.get(8).getBitScore(), r * delta);
 		assertEquals(8.5e-06d, r = res.get(8).getExpectationValue(), r * delta);
 		assertEquals(82, res.get(8).getSmithWatermanScore());
@@ -494,6 +510,7 @@ public class FastaResultParserTest {
 
 		assertEquals(11, res.size());
 
+		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
 		assertEquals(132.7d, r = res.get(0).getBitScore(), r * delta);
 		assertEquals(7.6e-35d, r = res.get(0).getExpectationValue(), r * delta);
 		assertEquals(0, res.get(0).getSmithWatermanScore());
@@ -525,5 +542,7 @@ public class FastaResultParserTest {
 				   + ":::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
 
 		// TODO: other 10 results
+
+		assertEquals(Frame.REVERSE_ZERO, res.get(5).getFrame());
 	}
 }

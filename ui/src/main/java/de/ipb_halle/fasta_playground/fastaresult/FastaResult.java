@@ -5,9 +5,15 @@ import javax.validation.constraints.NotNull;
 
 public class FastaResult {
 	/*
+	 * fa_frame / sw_frame / fx_frame / tx_frame - frame direction
+	 */
+	@NotNull
+	private final Frame frame;
+
+	/*
 	 * fa_bits / sw_bits / fx_bits / tx_bits - bit score
 	 */
-	private double bitScore;
+	private final double bitScore;
 
 	/*
 	 * fa_expect / sw_expect / fx_expect / tx_expect - E()-value
@@ -124,6 +130,10 @@ public class FastaResult {
 	@NotNull
 	private final String consensusLine;
 
+	public Frame getFrame() {
+		return frame;
+	}
+
 	public double getBitScore() {
 		return bitScore;
 	}
@@ -213,6 +223,7 @@ public class FastaResult {
 	}
 
 	protected FastaResult(FastaResultBuilder builder) {
+		this.frame = builder.getFrame();
 		this.bitScore = builder.getBitScore();
 		this.expectationValue = builder.getExpectationValue();
 		this.smithWatermanScore = builder.getSmithWatermanScore();

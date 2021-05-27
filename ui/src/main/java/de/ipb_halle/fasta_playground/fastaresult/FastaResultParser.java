@@ -22,6 +22,11 @@ public class FastaResultParser {
 			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ](aa|nt)");
 
 	/*
+	 * Examples: "; fa_frame: f", "; sw_frame: r"
+	 */
+	private static final Pattern FRAME_PATTERN = Pattern.compile("(;)[ ](fa_frame|sw_frame|fx_frame|tx_frame)(:).*");
+
+	/*
 	 * Examples: "; fa_expect: 5.2e-25", "; sw_expect:    1.7"
 	 */
 	private static final Pattern EVALUE_PATTERN = Pattern
@@ -202,6 +207,13 @@ public class FastaResultParser {
 
 				builder.subjectSequenceName(subjectSequenceName);
 				builder.subjectSequenceDescription(subjectSequenceDescription);
+			}
+
+			/*
+			 * Frame
+			 */
+			else if ((builder != null) && FRAME_PATTERN.matcher(line).matches()) {
+				builder.frame(Frame.fromPattern((line.split(":")[1].trim())));
 			}
 
 			/*
