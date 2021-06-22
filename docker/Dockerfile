@@ -4,6 +4,7 @@
 
 # Dockerfile: https://github.com/carlossg/docker-maven/blob/master/adoptopenjdk-8/Dockerfile
 FROM maven:3.8.1-adoptopenjdk-8 AS mavenBuild
+LABEL stage=fasta-playground-builder
 
 WORKDIR /usr/src/app
 
@@ -16,6 +17,7 @@ RUN mvn -B -e -C package
 #
 
 FROM debian:buster-slim AS fasta36Build
+LABEL stage=fasta-playground-builder
 
 COPY ./docker/fasta36_issue30.patch /
 

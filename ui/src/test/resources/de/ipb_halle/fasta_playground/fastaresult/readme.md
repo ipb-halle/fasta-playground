@@ -38,6 +38,6 @@ Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https:
 
 ### DNA queries to DNA databases ###
 
-#### (1) results8.txt ####
+#### (8) results8.txt ####
 * normal fasta36 run
 * `$FASTA_PATH/bin/fasta36 -m 10 -n query8.fasta data8.fasta > results8.txt`
