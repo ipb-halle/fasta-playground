@@ -1,6 +1,8 @@
 # fasta-playground
 
-fasta-playground demonstrates sequence library searching via the [FASTA package](https://fasta.bioch.virginia.edu/fasta_www2/fasta_intro.shtml), result processing and visualization using Java Server Faces (JSF). This is a spin-off project of [CRIMSy (Cloud Resource & Information Managment System)](https://github.com/ipb-halle/CRIMSy).
+fasta-playground demonstrates sequence library searching via the [FASTA package](https://fasta.bioch.virginia.edu/fasta_www2/fasta_intro.shtml), result processing and visualization using Java Server Faces (JSF). This is a spin-off project of the [CRIMSy (Cloud Resource & Information Managment System)](https://github.com/ipb-halle/CRIMSy).
+
+UI design was inspired by [SequenceServer](https://sequenceserver.com) and [EBI's Sequence Similarity Searching Tools](https://www.ebi.ac.uk/Tools/sss/).
 
 ## Docker setup
 
@@ -22,6 +24,6 @@ Download and compile the [fasta36 package](https://github.com/wrpearson/fasta36)
 
 `cd ui`, run either `mvn clean package tomee-embedded:run` (embedded TomEE with MyFaces as JSF implementation) or `mvn clean package embedded-glassfish:run` (embedded GlassFish with Mojarra as JSF implementation) and browse to [http://localhost:8080/Fasta-Playground/LibrarySearch.xhtml](http://localhost:8080/Fasta-Playground/LibrarySearch.xhtml).
 
-### Deployment on an Java EE application server
+### Deployment on a Java EE application server
 
 `cd ui`, run `mvn clean package` and deploy `target/Fasta-Playground.war` on a Java EE application server (requires at least Java EE 7 Web Profile with JSF 2.2).
