@@ -33,533 +33,704 @@ public class FastaResultParserTest {
 	@Test
 	public void testParseResults1() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results1.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(4, res.size());
+		assertEquals(4, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(99.1d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(8.7e-26d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(313, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(50, res.get(0).getOverlap());
-		assertEquals("query1", res.get(0).getQuerySequenceName());
-		assertEquals("query sequence", res.get(0).getQuerySequenceDescription());
-		assertEquals(50, res.get(0).getQuerySequenceLength());
-		assertEquals(1, res.get(0).getQueryAlignmentStart());
-		assertEquals(50, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(99.1d, r = result.getBitScore(), r * delta);
+		assertEquals(8.7e-26d, r = result.getExpectationValue(), r * delta);
+		assertEquals(313, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(50, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(50, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("------------------------------SAVQQKLAALEKSSGGRLGV"
 		           + "ALIDTADNTQVLYRGDERFPMCSTSKVMAA",
-				res.get(0).getQueryAlignmentLine());
-		assertEquals("gb|AAF72530.1|AF252622_1", res.get(0).getSubjectSequenceName());
+				result.getQueryAlignmentLine());
+		assertEquals("gb|AAF72530.1|AF252622_1", result.getSubjectSequenceName());
 		assertEquals("beta-lactamase CTX-M-14 (plasmid) [Escherichia coli]",
-				res.get(0).getSubjectSequenceDescription());
-		assertEquals(291, res.get(0).getSubjectSequenceLength());
-		assertEquals(31, res.get(0).getSubjectAlignmentStart());
-		assertEquals(80, res.get(0).getSubjectAlignmentStop());
-		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
+				result.getSubjectSequenceDescription());
+		assertEquals(291, result.getSubjectSequenceLength());
+		assertEquals(31, result.getSubjectAlignmentStart());
+		assertEquals(80, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MVTKRVQRMMFAAAACIPLLLGSAPLYAQTSAVQQKLAALEKSSGGRLGV"
 				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAAAAVLKQSETQKQLLNQPVEI"
-				   + "KPADLVNYNPIAEKHVNGTM", res.get(0).getSubjectAlignmentLine());
+				   + "KPADLVNYNPIAEKHVNGTM", result.getSubjectAlignmentLine());
 		assertEquals("                              ::::::::::::::::::::"
 				   + "::::::::::::::::::::::::::::::",
-				res.get(0).getConsensusLine());
+				result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(1).getFrame());
-		assertEquals(36.7d, r = res.get(1).getBitScore(), r * delta);
-		assertEquals(5e-07d, r = res.get(1).getExpectationValue(), r * delta);
-		assertEquals(100, res.get(1).getSmithWatermanScore());
-		assertEquals(0.400d, r = res.get(1).getIdentity(), r * delta);
-		assertEquals(0.733d, r = res.get(1).getSimilarity(), r * delta);
-		assertEquals(45, res.get(1).getOverlap());
-		assertEquals("query1", res.get(1).getQuerySequenceName());
-		assertEquals("query sequence", res.get(1).getQuerySequenceDescription());
-		assertEquals(50, res.get(1).getQuerySequenceLength());
-		assertEquals(5, res.get(1).getQueryAlignmentStart());
-		assertEquals(48, res.get(1).getQueryAlignmentStop());
-		assertEquals(1, res.get(1).getQueryAlignmentDisplayStart());
+		result = results.get(1);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(36.7d, r = result.getBitScore(), r * delta);
+		assertEquals(5e-07d, r = result.getExpectationValue(), r * delta);
+		assertEquals(100, result.getSmithWatermanScore());
+		assertEquals(0.400d, r = result.getIdentity(), r * delta);
+		assertEquals(0.733d, r = result.getSimilarity(), r * delta);
+		assertEquals(45, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(5, result.getQueryAlignmentStart());
+		assertEquals(48, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("----------------------SAVQQKLAALEKSSGGRLGVALIDTADN"
 				   + "-TQVLYRGDERFPMCSTSKVMAA",
-				res.get(1).getQueryAlignmentLine());
-		assertEquals("gb|AAP20890.1|", res.get(1).getSubjectSequenceName());
+				result.getQueryAlignmentLine());
+		assertEquals("gb|AAP20890.1|", result.getSubjectSequenceName());
 		assertEquals("extended-spectrum beta-lactamase SHV-48 [Acinetobacter baumannii]",
-				res.get(1).getSubjectSequenceDescription());
-		assertEquals(286, res.get(1).getSubjectSequenceLength());
-		assertEquals(27, res.get(1).getSubjectAlignmentStart());
-		assertEquals(71, res.get(1).getSubjectAlignmentStop());
-		assertEquals(1, res.get(1).getSubjectAlignmentDisplayStart());
+				result.getSubjectSequenceDescription());
+		assertEquals(286, result.getSubjectSequenceLength());
+		assertEquals(27, result.getSubjectAlignmentStart());
+		assertEquals(71, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MRYIRLCIISLLATLPLAVHASPQPLEQIKQSESQLSGRVGMIEMDLASG"
 				   + "RTLTAWRADERFPMMSTFKVVLCGAVLARVDAGDEQLERKIHYRQQDLVD"
 				   + "YSPVSEKHLADGMTVGELCA",
-				res.get(1).getSubjectAlignmentLine());
+				result.getSubjectAlignmentLine());
 		assertEquals("                          ...   :.. .::.:.  .: :.."
 				   + "-: . .:.:::::: :: ::.",
-				res.get(1).getConsensusLine());
+				result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(2).getFrame());
-		assertEquals(36.7d, r = res.get(2).getBitScore(), r * delta);
-		assertEquals(5e-07d, r = res.get(2).getExpectationValue(), r * delta);
-		assertEquals(100, res.get(2).getSmithWatermanScore());
-		assertEquals(0.400d, r = res.get(2).getIdentity(), r * delta);
-		assertEquals(0.733d, r = res.get(2).getSimilarity(), r * delta);
-		assertEquals(45, res.get(2).getOverlap());
-		assertEquals("query1", res.get(2).getQuerySequenceName());
-		assertEquals("query sequence", res.get(2).getQuerySequenceDescription());
-		assertEquals(50, res.get(2).getQuerySequenceLength());
-		assertEquals(5, res.get(2).getQueryAlignmentStart());
-		assertEquals(48, res.get(2).getQueryAlignmentStop());
-		assertEquals(1, res.get(2).getQueryAlignmentDisplayStart());
+		result = results.get(2);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(36.7d, r = result.getBitScore(), r * delta);
+		assertEquals(5e-07d, r = result.getExpectationValue(), r * delta);
+		assertEquals(100, result.getSmithWatermanScore());
+		assertEquals(0.400d, r = result.getIdentity(), r * delta);
+		assertEquals(0.733d, r = result.getSimilarity(), r * delta);
+		assertEquals(45, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(5, result.getQueryAlignmentStart());
+		assertEquals(48, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("----------------------SAVQQKLAALEKSSGGRLGVALIDTADN"
 				   + "-TQVLYRGDERFPMCSTSKVMAA",
-				res.get(2).getQueryAlignmentLine());
-		assertEquals("gb|AAP20889.1|", res.get(2).getSubjectSequenceName());
+				result.getQueryAlignmentLine());
+		assertEquals("gb|AAP20889.1|", result.getSubjectSequenceName());
 		assertEquals("extended-spectrum beta-lactamase SHV-12 [Acinetobacter baumannii]",
-				res.get(2).getSubjectSequenceDescription());
-		assertEquals(286, res.get(2).getSubjectSequenceLength());
-		assertEquals(27, res.get(2).getSubjectAlignmentStart());
-		assertEquals(71, res.get(2).getSubjectAlignmentStop());
-		assertEquals(1, res.get(2).getSubjectAlignmentDisplayStart());
+				result.getSubjectSequenceDescription());
+		assertEquals(286, result.getSubjectSequenceLength());
+		assertEquals(27, result.getSubjectAlignmentStart());
+		assertEquals(71, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MRYIRLCIISLLATLPLAVHASPQPLEQIKQSESQLSGRVGMIEMDLASG"
 				   + "RTLTAWRADERFPMMSTFKVVLCGAVLARVDAGDEQLERKIHYRQQDLVD"
 				   + "YSPVSEKHLADGMTVGELCA",
-				res.get(2).getSubjectAlignmentLine());
+				result.getSubjectAlignmentLine());
 		assertEquals("                          ...   :.. .::.:.  .: :.."
 				   + "-: . .:.:::::: :: ::.",
-				res.get(2).getConsensusLine());
+				result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(3).getFrame());
-		assertEquals(15.1d, r = res.get(3).getBitScore(), r * delta);
-		assertEquals(0.73d, r = res.get(3).getExpectationValue(), r * delta);
-		assertEquals(33, res.get(3).getSmithWatermanScore());
-		assertEquals(0.417d, r = res.get(3).getIdentity(), r * delta);
-		assertEquals(0.583d, r = res.get(3).getSimilarity(), r * delta);
-		assertEquals(24, res.get(3).getOverlap());
-		assertEquals("query1", res.get(3).getQuerySequenceName());
-		assertEquals("query sequence", res.get(3).getQuerySequenceDescription());
-		assertEquals(50, res.get(3).getQuerySequenceLength());
-		assertEquals(15, res.get(3).getQueryAlignmentStart());
-		assertEquals(35, res.get(3).getQueryAlignmentStop());
-		assertEquals(1, res.get(3).getQueryAlignmentDisplayStart());
+		result = results.get(3);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(15.1d, r = result.getBitScore(), r * delta);
+		assertEquals(0.73d, r = result.getExpectationValue(), r * delta);
+		assertEquals(33, result.getSmithWatermanScore());
+		assertEquals(0.417d, r = result.getIdentity(), r * delta);
+		assertEquals(0.583d, r = result.getSimilarity(), r * delta);
+		assertEquals(24, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(15, result.getQueryAlignmentStart());
+		assertEquals(35, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("----------------SAVQQKLAALEKSSGGRLGVALI---DTADNTQV"
 				   + "LYRGDERFPMCSTSKVMAA",
-				res.get(3).getQueryAlignmentLine());
-		assertEquals("gb|AAK07468.1|", res.get(3).getSubjectSequenceName());
-		assertEquals("SHV beta-lactamase, partial [Escherichia coli]", res.get(3).getSubjectSequenceDescription());
-		assertEquals(139, res.get(3).getSubjectSequenceLength());
-		assertEquals(115, res.get(3).getSubjectAlignmentStart());
-		assertEquals(138, res.get(3).getSubjectAlignmentStop());
-		assertEquals(85, res.get(3).getSubjectAlignmentDisplayStart());
+				result.getQueryAlignmentLine());
+		assertEquals("gb|AAK07468.1|", result.getSubjectSequenceName());
+		assertEquals("SHV beta-lactamase, partial [Escherichia coli]", result.getSubjectSequenceDescription());
+		assertEquals(139, result.getSubjectSequenceLength());
+		assertEquals(115, result.getSubjectAlignmentStart());
+		assertEquals(138, result.getSubjectAlignmentStop());
+		assertEquals(85, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MVDDRVAGPLIRSVLPAGWFIADKTGASKRGARGIVALLGPNNKAERIVV"
-				   + "LYIGX", res.get(3).getSubjectAlignmentLine());
+				   + "LYIGX", result.getSubjectAlignmentLine());
 		assertEquals("                              :.:  :::.---. :.   :"
-				   + ":: :", res.get(3).getConsensusLine());
+				   + ":: :", result.getConsensusLine());
 	}
 
 	@Test
 	public void testParseResults2() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results2.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(1, res.size());
+		assertEquals(1, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(0.72d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(13, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(1, res.get(0).getOverlap());
-		assertEquals("query1", res.get(0).getQuerySequenceName());
-		assertEquals("", res.get(0).getQuerySequenceDescription());
-		assertEquals(3, res.get(0).getQuerySequenceLength());
-		assertEquals(3, res.get(0).getQueryAlignmentStart());
-		assertEquals(3, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
-		assertEquals("----------------------------ABC",	res.get(0).getQueryAlignmentLine());
-		assertEquals("seq1", res.get(0).getSubjectSequenceName());
-		assertEquals("", res.get(0).getSubjectSequenceDescription());
-		assertEquals(39, res.get(0).getSubjectSequenceLength());
-		assertEquals(31, res.get(0).getSubjectAlignmentStart());
-		assertEquals(31, res.get(0).getSubjectAlignmentStop());
-		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
-		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getSubjectAlignmentLine());
-		assertEquals("                              :",	res.get(0).getConsensusLine());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(6.5d, r = result.getBitScore(), r * delta);
+		assertEquals(0.72d, r = result.getExpectationValue(), r * delta);
+		assertEquals(13, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(1, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("", result.getQuerySequenceDescription());
+		assertEquals(3, result.getQuerySequenceLength());
+		assertEquals(3, result.getQueryAlignmentStart());
+		assertEquals(3, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
+		assertEquals("----------------------------ABC",	result.getQueryAlignmentLine());
+		assertEquals("seq1", result.getSubjectSequenceName());
+		assertEquals("", result.getSubjectSequenceDescription());
+		assertEquals(39, result.getSubjectSequenceLength());
+		assertEquals(31, result.getSubjectAlignmentStart());
+		assertEquals(31, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getSubjectAlignmentLine());
+		assertEquals("                              :",	result.getConsensusLine());
 	}
 
 	@Test
 	public void testParseResults3() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results3.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(1, res.size());
+		assertEquals(1, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(6.3d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(0.76d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(13, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(1, res.get(0).getOverlap());
-		assertEquals("query1", res.get(0).getQuerySequenceName());
-		assertEquals("", res.get(0).getQuerySequenceDescription());
-		assertEquals(39, res.get(0).getQuerySequenceLength());
-		assertEquals(31, res.get(0).getQueryAlignmentStart());
-		assertEquals(31, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
-		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getQueryAlignmentLine());
-		assertEquals("seq1", res.get(0).getSubjectSequenceName());
-		assertEquals("", res.get(0).getSubjectSequenceDescription());
-		assertEquals(3, res.get(0).getSubjectSequenceLength());
-		assertEquals(3, res.get(0).getSubjectAlignmentStart());
-		assertEquals(3, res.get(0).getSubjectAlignmentStop());
-		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
-		assertEquals("----------------------------ABC", res.get(0).getSubjectAlignmentLine());
-		assertEquals("                              :",	res.get(0).getConsensusLine());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(6.3d, r = result.getBitScore(), r * delta);
+		assertEquals(0.76d, r = result.getExpectationValue(), r * delta);
+		assertEquals(13, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(1, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("", result.getQuerySequenceDescription());
+		assertEquals(39, result.getQuerySequenceLength());
+		assertEquals(31, result.getQueryAlignmentStart());
+		assertEquals(31, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("seq1", result.getSubjectSequenceName());
+		assertEquals("", result.getSubjectSequenceDescription());
+		assertEquals(3, result.getSubjectSequenceLength());
+		assertEquals(3, result.getSubjectAlignmentStart());
+		assertEquals(3, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
+		assertEquals("----------------------------ABC", result.getSubjectAlignmentLine());
+		assertEquals("                              :",	result.getConsensusLine());
 	}
 
 	@Test
 	public void testParseResults4() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results4.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(1, res.size());
+		assertEquals(1, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(6.5d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(0.73d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(13, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(1, res.get(0).getOverlap());
-		assertEquals("", res.get(0).getQuerySequenceName());
-		assertEquals("", res.get(0).getQuerySequenceDescription());
-		assertEquals(3, res.get(0).getQuerySequenceLength());
-		assertEquals(3, res.get(0).getQueryAlignmentStart());
-		assertEquals(3, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
-		assertEquals("----------------------------ABC", res.get(0).getQueryAlignmentLine());
-		assertEquals(">data4.fasta", res.get(0).getSubjectSequenceName());
-		assertEquals("", res.get(0).getSubjectSequenceDescription());
-		assertEquals(39, res.get(0).getSubjectSequenceLength());
-		assertEquals(31, res.get(0).getSubjectAlignmentStart());
-		assertEquals(31, res.get(0).getSubjectAlignmentStop());
-		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
-		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getSubjectAlignmentLine());
-		assertEquals("                              :",	res.get(0).getConsensusLine());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(6.5d, r = result.getBitScore(), r * delta);
+		assertEquals(0.73d, r = result.getExpectationValue(), r * delta);
+		assertEquals(13, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(1, result.getOverlap());
+		assertEquals("", result.getQuerySequenceName());
+		assertEquals("", result.getQuerySequenceDescription());
+		assertEquals(3, result.getQuerySequenceLength());
+		assertEquals(3, result.getQueryAlignmentStart());
+		assertEquals(3, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
+		assertEquals("----------------------------ABC", result.getQueryAlignmentLine());
+		assertEquals(">data4.fasta", result.getSubjectSequenceName());
+		assertEquals("", result.getSubjectSequenceDescription());
+		assertEquals(39, result.getSubjectSequenceLength());
+		assertEquals(31, result.getSubjectAlignmentStart());
+		assertEquals(31, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
+		assertEquals("KSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getSubjectAlignmentLine());
+		assertEquals("                              :",	result.getConsensusLine());
 	}
 
 	@Test
 	public void testParseResults5() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results5.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
 
-		assertEquals(0, res.size());
+		assertEquals(0, results.size());
 	}
 
 	@Test
 	public void testParseResults6() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results6.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
 
-		assertEquals(0, res.size());
+		assertEquals(0, results.size());
 	}
 
 	@Test
 	public void testParseResults7() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results7.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(9, res.size());
+		assertEquals(9, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(106.5d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(8.6e-28d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(313, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(50, res.get(0).getOverlap());
-		assertEquals("query", res.get(0).getQuerySequenceName());
-		assertEquals("query sequence", res.get(0).getQuerySequenceDescription());
-		assertEquals(50, res.get(0).getQuerySequenceLength());
-		assertEquals(1, res.get(0).getQueryAlignmentStart());
-		assertEquals(50, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(109.3d, r = result.getBitScore(), r * delta);
+		assertEquals(1.2e-28d, r = result.getExpectationValue(), r * delta);
+		assertEquals(313, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(50, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(50, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("------------------------------SAVQQKLAALEKSSGGRLGV"
-				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(0).getQueryAlignmentLine());
-		assertEquals("sp|O69395|BLT2_ECOLX", res.get(0).getSubjectSequenceName());
-		assertEquals("Beta-lactamase Toho-2 OS=Escherichia coli OX=562 GN=bla PE=3 SV=1", res.get(0).getSubjectSequenceDescription());
-		assertEquals(289, res.get(0).getSubjectSequenceLength());
-		assertEquals(31, res.get(0).getSubjectAlignmentStart());
-		assertEquals(80, res.get(0).getSubjectAlignmentStop());
-		assertEquals(1, res.get(0).getSubjectAlignmentDisplayStart());
+				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|O69395|BLT2_ECOLX", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase Toho-2 OS=Escherichia coli OX=562 GN=bla PE=3 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(289, result.getSubjectSequenceLength());
+		assertEquals(31, result.getSubjectAlignmentStart());
+		assertEquals(80, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MVTKRVQRMMSAAAACIPLLLGSPTLYAQTSAVQQKLAALEKSSGGRLGV"
 				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAAAAVLKQSETQKQLLNQPVEI"
-				   + "KPADLVNYNPIAEKHVNGTM", res.get(0).getSubjectAlignmentLine());
+				   + "KPADLVNYNPIAEKHVNGTM", result.getSubjectAlignmentLine());
 		assertEquals("                              ::::::::::::::::::::"
-				   + "::::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
+				   + "::::::::::::::::::::::::::::::", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(1).getFrame());
-		assertEquals(88.7d, r = res.get(1).getBitScore(), r * delta);
-		assertEquals(2e-22d, r = res.get(1).getExpectationValue(), r * delta);
-		assertEquals(256, res.get(1).getSmithWatermanScore());
-		assertEquals(0.800d, r = res.get(1).getIdentity(), r * delta);
-		assertEquals(0.940d, r = res.get(1).getSimilarity(), r * delta);
-		assertEquals(50, res.get(1).getOverlap());
-		assertEquals("query", res.get(1).getQuerySequenceName());
-		assertEquals("query sequence", res.get(1).getQuerySequenceDescription());
-		assertEquals(50, res.get(1).getQuerySequenceLength());
-		assertEquals(1, res.get(1).getQueryAlignmentStart());
-		assertEquals(50, res.get(1).getQueryAlignmentStop());
-		assertEquals(1, res.get(1).getQueryAlignmentDisplayStart());
+		result = results.get(1);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(90.9d, r = result.getBitScore(), r * delta);
+		assertEquals(4.4e-23d, r = result.getExpectationValue(), r * delta);
+		assertEquals(256, result.getSmithWatermanScore());
+		assertEquals(0.800d, r = result.getIdentity(), r * delta);
+		assertEquals(0.940d, r = result.getSimilarity(), r * delta);
+		assertEquals(50, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(50, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("------------------------------SAVQQKLAALEKSSGGRLGV"
-				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(1).getQueryAlignmentLine());
-		assertEquals("sp|O65976|BLC6_SALTM", res.get(1).getSubjectSequenceName());
-		assertEquals("Beta-lactamase CTX-M-6 OS=Salmonella typhimurium OX=90371 GN=bla PE=3 SV=1", res.get(1).getSubjectSequenceDescription());
-		assertEquals(291, res.get(1).getSubjectSequenceLength());
-		assertEquals(31, res.get(1).getSubjectAlignmentStart());
-		assertEquals(80, res.get(1).getSubjectAlignmentStop());
-		assertEquals(1, res.get(1).getSubjectAlignmentDisplayStart());
+				   + "ALIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|O65976|BLC6_SALTM", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase CTX-M-6 OS=Salmonella typhimurium OX=90371 GN=bla PE=3 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(291, result.getSubjectSequenceLength());
+		assertEquals(31, result.getSubjectAlignmentStart());
+		assertEquals(80, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MMTQSIRRSMLTVMATLPLLFSSATLHAQANSVQQQLEALEKSSGGRLGV"
 				   + "ALINTADNSQILYVADERFAMCSTSKVMAAAAVLKQSESDKHLLNQRVEI"
-				   + "RASDLVNYNPIAEKHVNGTM", res.get(1).getSubjectAlignmentLine());
+				   + "RASDLVNYNPIAEKHVNGTM", result.getSubjectAlignmentLine());
 		assertEquals("                              ..:::.: ::::::::::::"
-				   + ":::.::::.:.:: .:::: ::::::::::", res.get(1).getConsensusLine());
+				   + ":::.::::.:.:: .:::: ::::::::::", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(2).getFrame());
-		assertEquals(48.6d, r = res.get(2).getBitScore(), r * delta);
-		assertEquals(2.4e-10d, r = res.get(2).getExpectationValue(), r * delta);
-		assertEquals(128, res.get(2).getSmithWatermanScore());
-		assertEquals(0.449d, r = res.get(2).getIdentity(), r * delta);
-		assertEquals(0.735d, r = res.get(2).getSimilarity(), r * delta);
-		assertEquals(49, res.get(2).getOverlap());
-		assertEquals("query", res.get(2).getQuerySequenceName());
-		assertEquals("query sequence", res.get(2).getQuerySequenceDescription());
-		assertEquals(50, res.get(2).getQuerySequenceLength());
-		assertEquals(2, res.get(2).getQueryAlignmentStart());
-		assertEquals(50, res.get(2).getQueryAlignmentStop());
-		assertEquals(1, res.get(2).getQueryAlignmentDisplayStart());
+		result = results.get(2);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(49.5d, r = result.getBitScore(), r * delta);
+		assertEquals(1.4e-10d, r = result.getExpectationValue(), r * delta);
+		assertEquals(128, result.getSmithWatermanScore());
+		assertEquals(0.449d, r = result.getIdentity(), r * delta);
+		assertEquals(0.735d, r = result.getSimilarity(), r * delta);
+		assertEquals(49, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(2, result.getQueryAlignmentStart());
+		assertEquals(50, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("-----------------------------SAVQQKLAALEKSSGGRLGVA"
-				   + "LIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(2).getQueryAlignmentLine());
-		assertEquals("sp|P00809|BLAC_BACCE", res.get(2).getSubjectSequenceName());
-		assertEquals("Beta-lactamase 1 OS=Bacillus cereus OX=1396 GN=blaY PE=3 SV=1", res.get(2).getSubjectSequenceDescription());
-		assertEquals(306, res.get(2).getSubjectSequenceLength());
-		assertEquals(50, res.get(2).getSubjectAlignmentStart());
-		assertEquals(98, res.get(2).getSubjectAlignmentStop());
-		assertEquals(20, res.get(2).getSubjectAlignmentDisplayStart());
+				   + "LIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|P00809|BLAC_BACCE", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase 1 OS=Bacillus cereus OX=1396 GN=blaY PE=3 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(306, result.getSubjectSequenceLength());
+		assertEquals(50, result.getSubjectAlignmentStart());
+		assertEquals(98, result.getSubjectAlignmentStop());
+		assertEquals(20, result.getSubjectAlignmentDisplayStart());
 		assertEquals("LSITSLEAFTGESLQVEAKEKTGQVKHKNQATHKEFSQLEKKFDARLGVY"
 				   + "AIDTGTNQTISYRPNERFAFASTYKALAAGVLLQQNSIDSLNEVITYTKE"
-				   + "DLVDYSPVTEKHVDTGMKLG", res.get(2).getSubjectAlignmentLine());
+				   + "DLVDYSPVTEKHVDTGMKLG", result.getSubjectAlignmentLine());
 		assertEquals("                              :...... :::.  .:::: "
-				   + " :::. :  . :: .::: . :: :..::", res.get(2).getConsensusLine());
+				   + " :::. :  . :: .::: . :: :..::", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(3).getFrame());
-		assertEquals(19.5d, r = res.get(3).getBitScore(), r * delta);
-		assertEquals(0.14d, r = res.get(3).getExpectationValue(), r * delta);
-		assertEquals(35, res.get(3).getSmithWatermanScore());
-		assertEquals(0.357d, r = res.get(3).getIdentity(), r * delta);
-		assertEquals(0.786d, r = res.get(3).getSimilarity(), r * delta);
-		assertEquals(14, res.get(3).getOverlap());
-		assertEquals("query", res.get(3).getQuerySequenceName());
-		assertEquals("query sequence", res.get(3).getQuerySequenceDescription());
-		assertEquals(50, res.get(3).getQuerySequenceLength());
-		assertEquals(16, res.get(3).getQueryAlignmentStart());
-		assertEquals(29, res.get(3).getQueryAlignmentStop());
-		assertEquals(1, res.get(3).getQueryAlignmentDisplayStart());
+		result = results.get(3);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(19.4d, r = result.getBitScore(), r * delta);
+		assertEquals(0.16d, r = result.getExpectationValue(), r * delta);
+		assertEquals(35, result.getSmithWatermanScore());
+		assertEquals(0.357d, r = result.getIdentity(), r * delta);
+		assertEquals(0.786d, r = result.getSimilarity(), r * delta);
+		assertEquals(14, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(16, result.getQueryAlignmentStart());
+		assertEquals(29, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("---------------SAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRG"
-				   + "DERFPMCSTSKVMAA", res.get(3).getQueryAlignmentLine());
-		assertEquals("sp|P00809|BLAC_BACCE", res.get(3).getSubjectSequenceName());
-		assertEquals("Beta-lactamase 1 OS=Bacillus cereus OX=1396 GN=blaY PE=3 SV=1", res.get(3).getSubjectSequenceDescription());
-		assertEquals(306, res.get(3).getSubjectSequenceLength());
-		assertEquals(139, res.get(3).getSubjectAlignmentStart());
-		assertEquals(152, res.get(3).getSubjectAlignmentStop());
-		assertEquals(109, res.get(3).getSubjectAlignmentDisplayStart());
+				   + "DERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|P00809|BLAC_BACCE", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase 1 OS=Bacillus cereus OX=1396 GN=blaY PE=3 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(306, result.getSubjectSequenceLength());
+		assertEquals(139, result.getSubjectAlignmentStart());
+		assertEquals(152, result.getSubjectAlignmentStop());
+		assertEquals(109, result.getSubjectAlignmentDisplayStart());
 		assertEquals("SLNEVITYTKEDLVDYSPVTEKHVDTGMKLGEIAEAAVRSSDNTAGNILF"
 				   + "NKIGGPKGYEKALRHMGDRITMSNRFETELNEAIPGDIRDTSTAKAIATN"
-				   + "LKAFTVGNALPAEKRKILTE", res.get(3).getSubjectAlignmentLine());
-		assertEquals("                              :... : . ..:::", res.get(3).getConsensusLine());
+				   + "LKAFTVGNALPAEKRKILTE", result.getSubjectAlignmentLine());
+		assertEquals("                              :... : . ..:::", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(4).getFrame());
-		assertEquals(43.0d, r = res.get(4).getBitScore(), r * delta);
-		assertEquals(1.3e-08d, r = res.get(4).getExpectationValue(), r * delta);
-		assertEquals(110, res.get(4).getSmithWatermanScore());
-		assertEquals(0.408d, r = res.get(4).getIdentity(), r * delta);
-		assertEquals(0.714d, r = res.get(4).getSimilarity(), r * delta);
-		assertEquals(49, res.get(4).getOverlap());
-		assertEquals("query", res.get(4).getQuerySequenceName());
-		assertEquals("query sequence", res.get(4).getQuerySequenceDescription());
-		assertEquals(50, res.get(4).getQuerySequenceLength());
-		assertEquals(2, res.get(4).getQueryAlignmentStart());
-		assertEquals(50, res.get(4).getQueryAlignmentStop());
-		assertEquals(1, res.get(4).getQueryAlignmentDisplayStart());
+		result = results.get(4);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(43.6d, r = result.getBitScore(), r * delta);
+		assertEquals(8.3e-09d, r = result.getExpectationValue(), r * delta);
+		assertEquals(110, result.getSmithWatermanScore());
+		assertEquals(0.408d, r = result.getIdentity(), r * delta);
+		assertEquals(0.714d, r = result.getSimilarity(), r * delta);
+		assertEquals(49, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(2, result.getQueryAlignmentStart());
+		assertEquals(50, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("-----------------------------SAVQQKLAALEKSSGGRLGVA"
-				   + "LIDTADNTQVLYRGDERFPMCSTSKVMAA", res.get(4).getQueryAlignmentLine());
-		assertEquals("sp|Q03680|BLA1_STRCI", res.get(4).getSubjectSequenceName());
-		assertEquals("Beta-lactamase 1 OS=Streptomyces cacaoi OX=1898 GN=blaL PE=1 SV=1", res.get(4).getSubjectSequenceDescription());
-		assertEquals(325, res.get(4).getSubjectSequenceLength());
-		assertEquals(52, res.get(4).getSubjectAlignmentStart());
-		assertEquals(100, res.get(4).getSubjectAlignmentStop());
-		assertEquals(22, res.get(4).getSubjectAlignmentDisplayStart());
+				   + "LIDTADNTQVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|Q03680|BLA1_STRCI", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase 1 OS=Streptomyces cacaoi OX=1898 GN=blaL PE=1 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(325, result.getSubjectSequenceLength());
+		assertEquals(52, result.getSubjectAlignmentStart());
+		assertEquals(100, result.getSubjectAlignmentStop());
+		assertEquals(22, result.getSubjectAlignmentDisplayStart());
 		assertEquals("LVACGQASGSESGQQPGLGGCGTSAHGSADAHEKEFRALEKKFDAHPGVY"
 				   + "AIDTRDGQEITHRADERFAYGSTFKALQAGAILAQVLRDGREVRRGAEAD"
-				   + "GMDKVVHYGQDAILPNSPVT", res.get(4).getSubjectAlignmentLine());
+				   + "GMDKVVHYGQDAILPNSPVT", result.getSubjectAlignmentLine());
 		assertEquals("                              : .... ::::.  .. :: "
-				   + " ::: :. .. .:.:::: . :: :.. :", res.get(4).getConsensusLine());
+				   + " ::: :. .. .:.:::: . :: :.. :", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(5).getFrame());
-		assertEquals(20.5d, r = res.get(5).getBitScore(), r * delta);
-		assertEquals(0.078d, r = res.get(5).getExpectationValue(), r * delta);
-		assertEquals(38, res.get(5).getSmithWatermanScore());
-		assertEquals(0.700d, r = res.get(5).getIdentity(), r * delta);
-		assertEquals(0.800d, r = res.get(5).getSimilarity(), r * delta);
-		assertEquals(10, res.get(5).getOverlap());
-		assertEquals("query", res.get(5).getQuerySequenceName());
-		assertEquals("query sequence", res.get(5).getQuerySequenceDescription());
-		assertEquals(50, res.get(5).getQuerySequenceLength());
-		assertEquals(14, res.get(5).getQueryAlignmentStart());
-		assertEquals(23, res.get(5).getQueryAlignmentStop());
-		assertEquals(1, res.get(5).getQueryAlignmentDisplayStart());
+		result = results.get(5);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(20.3d, r = result.getBitScore(), r * delta);
+		assertEquals(0.085d, r = result.getExpectationValue(), r * delta);
+		assertEquals(38, result.getSmithWatermanScore());
+		assertEquals(0.700d, r = result.getIdentity(), r * delta);
+		assertEquals(0.800d, r = result.getSimilarity(), r * delta);
+		assertEquals(10, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(14, result.getQueryAlignmentStart());
+		assertEquals(23, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("-----------------SAVQQKLAALEKSSGGRLGVALIDTADNTQVLY"
-				   + "RGDERFPMCSTSKVMAA", res.get(5).getQueryAlignmentLine());
-		assertEquals("sp|Q03680|BLA1_STRCI", res.get(5).getSubjectSequenceName());
-		assertEquals("Beta-lactamase 1 OS=Streptomyces cacaoi OX=1898 GN=blaL PE=1 SV=1", res.get(5).getSubjectSequenceDescription());
-		assertEquals(325, res.get(5).getSubjectSequenceLength());
-		assertEquals(248, res.get(5).getSubjectAlignmentStart());
-		assertEquals(257, res.get(5).getSubjectAlignmentStop());
-		assertEquals(218, res.get(5).getSubjectAlignmentDisplayStart());
+				   + "RGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|Q03680|BLA1_STRCI", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase 1 OS=Streptomyces cacaoi OX=1898 GN=blaL PE=1 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(325, result.getSubjectSequenceLength());
+		assertEquals(248, result.getSubjectAlignmentStart());
+		assertEquals(257, result.getSubjectAlignmentStop());
+		assertEquals(218, result.getSubjectAlignmentDisplayStart());
 		assertEquals("FAEDLRAFAVEDGEKAALAPNDREQLNDWMSGSRTGDALIRAGVPKDWKV"
 				   + "EDKSGQVKYGTRNDIAVVRPPGRAPIVVSVMSHGDTQDAEPHDELVAEAG"
-				   + "LVVADGLK", res.get(5).getSubjectAlignmentLine());
-		assertEquals("                              ::.: : :::", res.get(5).getConsensusLine());
+				   + "LVVADGLK", result.getSubjectAlignmentLine());
+		assertEquals("                              ::.: : :::", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(6).getFrame());
-		assertEquals(38.9d, r = res.get(6).getBitScore(), r * delta);
-		assertEquals(1.9e-07d, r = res.get(6).getExpectationValue(), r * delta);
-		assertEquals(97, res.get(6).getSmithWatermanScore());
-		assertEquals(0.354d, r = res.get(6).getIdentity(), r * delta);
-		assertEquals(0.729d, r = res.get(6).getSimilarity(), r * delta);
-		assertEquals(48, res.get(6).getOverlap());
-		assertEquals("query", res.get(6).getQuerySequenceName());
-		assertEquals("query sequence", res.get(6).getQuerySequenceDescription());
-		assertEquals(50, res.get(6).getQuerySequenceLength());
-		assertEquals(1, res.get(6).getQueryAlignmentStart());
-		assertEquals(48, res.get(6).getQueryAlignmentStop());
-		assertEquals(1, res.get(6).getQueryAlignmentDisplayStart());
+		result = results.get(6);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(39.4d, r = result.getBitScore(), r * delta);
+		assertEquals(1.3e-07d, r = result.getExpectationValue(), r * delta);
+		assertEquals(97, result.getSmithWatermanScore());
+		assertEquals(0.354d, r = result.getIdentity(), r * delta);
+		assertEquals(0.729d, r = result.getSimilarity(), r * delta);
+		assertEquals(48, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(48, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("--------------------SAVQQKLAALEKSSGGRLGVALIDTADNTQ"
-				   + "VLYRGDERFPMCSTSKVMAA", res.get(6).getQueryAlignmentLine());
-		assertEquals("sp|P00807|BLAC_STAAU", res.get(6).getSubjectSequenceName());
-		assertEquals("Beta-lactamase OS=Staphylococcus aureus OX=1280 GN=blaZ PE=1 SV=1", res.get(6).getSubjectSequenceDescription());
-		assertEquals(281, res.get(6).getSubjectSequenceLength());
-		assertEquals(21, res.get(6).getSubjectAlignmentStart());
-		assertEquals(68, res.get(6).getSubjectAlignmentStop());
-		assertEquals(1, res.get(6).getSubjectAlignmentDisplayStart());
+				   + "VLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|P00807|BLAC_STAAU", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase OS=Staphylococcus aureus OX=1280 GN=blaZ PE=1 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(281, result.getSubjectSequenceLength());
+		assertEquals(21, result.getSubjectAlignmentStart());
+		assertEquals(68, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MKKLIFLIVIALVLSACNSNSSHAKELNDLEKKYNAHIGVYALDTKSGKE"
 				   + "VKFNSDKRFAYASTSKAINSAILLEQVPYNKLNKKVHINKDDIVAYSPIL"
-				   + "EKYVGKDITLKALIEASMTY", res.get(6).getSubjectAlignmentLine());
+				   + "EKYVGKDITLKALIEASMTY", result.getSubjectAlignmentLine());
 		assertEquals("                    :.  ..:  :::. ....::  .:: .. ."
-				   + ": . .:.:: . ::::..", res.get(6).getConsensusLine());
+				   + ": . .:.:: . ::::..", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(7).getFrame());
-		assertEquals(35.2d, r = res.get(7).getBitScore(), r * delta);
-		assertEquals(2.8e-06d, r = res.get(7).getExpectationValue(), r * delta);
-		assertEquals(85, res.get(7).getSmithWatermanScore());
-		assertEquals(0.340d, r = res.get(7).getIdentity(), r * delta);
-		assertEquals(0.638d, r = res.get(7).getSimilarity(), r * delta);
-		assertEquals(47, res.get(7).getOverlap());
-		assertEquals("query", res.get(7).getQuerySequenceName());
-		assertEquals("query sequence", res.get(7).getQuerySequenceDescription());
-		assertEquals(50, res.get(7).getQuerySequenceLength());
-		assertEquals(3, res.get(7).getQueryAlignmentStart());
-		assertEquals(49, res.get(7).getQueryAlignmentStop());
-		assertEquals(1, res.get(7).getQueryAlignmentDisplayStart());
+		result = results.get(7);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(35.6d, r = result.getBitScore(), r * delta);
+		assertEquals(2.1e-06d, r = result.getExpectationValue(), r * delta);
+		assertEquals(85, result.getSmithWatermanScore());
+		assertEquals(0.340d, r = result.getIdentity(), r * delta);
+		assertEquals(0.638d, r = result.getSimilarity(), r * delta);
+		assertEquals(47, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(3, result.getQueryAlignmentStart());
+		assertEquals(49, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("---------------------SAVQQKLAALEKSSGGRLGVALIDTADNT"
-				   + "QVLYRGDERFPMCSTSKVMAA", res.get(7).getQueryAlignmentLine());
-		assertEquals("sp|Q9K9L8|GLSA1_BACHD", res.get(7).getSubjectSequenceName());
-		assertEquals("Glutaminase 1 OS=Bacillus halodurans (strain ATCC BAA-125 / DSM 18197 / FERM 7344 / JCM 9153 / C-125) OX=272558 GN=glsA1 PE=3 SV=1", res.get(7).getSubjectSequenceDescription());
-		assertEquals(308, res.get(7).getSubjectSequenceLength());
-		assertEquals(24, res.get(7).getSubjectAlignmentStart());
-		assertEquals(70, res.get(7).getSubjectAlignmentStop());
-		assertEquals(1, res.get(7).getSubjectAlignmentDisplayStart());
+				   + "QVLYRGDERFPMCSTSKVMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|Q9K9L8|GLSA1_BACHD", result.getSubjectSequenceName());
+		assertEquals("Glutaminase 1 OS=Bacillus halodurans (strain ATCC BAA-125 / DSM 18197 / FERM 7344 / JCM 9153 / C-125) OX=272558 GN=glsA1 PE=3 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(308, result.getSubjectSequenceLength());
+		assertEquals(24, result.getSubjectAlignmentStart());
+		assertEquals(70, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MWKQDETLEQIVLECKKYTEEGTVASYIPALAKADVSTLGIAIYRGGDEQ"
 				   + "VIAGDADEKFTLQSISKVIALALALLDVGEEAVFSKVGMEPTGDPFNSIS"
-				   + "KLETSVPSKPLNPMINAGAL", res.get(7).getSubjectAlignmentLine());
+				   + "KLETSVPSKPLNPMINAGAL", result.getSubjectAlignmentLine());
 		assertEquals("                       : . . :: :.. . ::.:.   .:. "
-				   + " .   .::.: . : :::.:", res.get(7).getConsensusLine());
+				   + " .   .::.: . : :::.:", result.getConsensusLine());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(8).getFrame());
-		assertEquals(34.2d, r = res.get(8).getBitScore(), r * delta);
-		assertEquals(8.5e-06d, r = res.get(8).getExpectationValue(), r * delta);
-		assertEquals(82, res.get(8).getSmithWatermanScore());
-		assertEquals(0.394d, r = res.get(8).getIdentity(), r * delta);
-		assertEquals(0.758d, r = res.get(8).getSimilarity(), r * delta);
-		assertEquals(33, res.get(8).getOverlap());
-		assertEquals("query", res.get(8).getQuerySequenceName());
-		assertEquals("query sequence", res.get(8).getQuerySequenceDescription());
-		assertEquals(50, res.get(8).getQuerySequenceLength());
-		assertEquals(15, res.get(8).getQueryAlignmentStart());
-		assertEquals(46, res.get(8).getQueryAlignmentStop());
-		assertEquals(1, res.get(8).getQueryAlignmentDisplayStart());
+		result = results.get(8);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(34.6d, r = result.getBitScore(), r * delta);
+		assertEquals(6.7e-06d, r = result.getExpectationValue(), r * delta);
+		assertEquals(82, result.getSmithWatermanScore());
+		assertEquals(0.394d, r = result.getIdentity(), r * delta);
+		assertEquals(0.758d, r = result.getSimilarity(), r * delta);
+		assertEquals(33, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(15, result.getQueryAlignmentStart());
+		assertEquals(46, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("---SAVQQKLAALEKSSGGR-LGVALIDTADNTQVLYRGDERFPMCSTSK"
-				   + "VMAA", res.get(8).getQueryAlignmentLine());
-		assertEquals("sp|Q8CDJ3|BAKOR_MOUSE", res.get(8).getSubjectSequenceName());
-		assertEquals("Beclin 1-associated autophagy-related key regulator OS=Mus musculus OX=10090 GN=Atg14 PE=1 SV=1", res.get(8).getSubjectSequenceDescription());
-		assertEquals(492, res.get(8).getSubjectSequenceLength());
-		assertEquals(18, res.get(8).getSubjectAlignmentStart());
-		assertEquals(50, res.get(8).getSubjectAlignmentStop());
-		assertEquals(1, res.get(8).getSubjectAlignmentDisplayStart());
+				   + "VMAA", result.getQueryAlignmentLine());
+		assertEquals("sp|Q8CDJ3|BAKOR_MOUSE", result.getSubjectSequenceName());
+		assertEquals("Beclin 1-associated autophagy-related key regulator OS=Mus musculus OX=10090 GN=Atg14 PE=1 SV=1", result.getSubjectSequenceDescription());
+		assertEquals(492, result.getSubjectSequenceLength());
+		assertEquals(18, result.getSubjectAlignmentStart());
+		assertEquals(50, result.getSubjectAlignmentStop());
+		assertEquals(1, result.getSubjectAlignmentDisplayStart());
 		assertEquals("MASPSGKGSWTPEAPGFGPRALARDLVDSVDDAEGLYVAVERCPLCNTTR"
 				   + "RRLTCAKCVQSGDFVYFDGRDRERFIDKKERLSQLKNKQEEFQKEVLKAM"
-				   + "EGKRLTDQLRWKIMSCKMRI", res.get(8).getSubjectAlignmentLine());
-		assertEquals("                 : :-:.  :.:..:... :: . :: :.:.:..", res.get(8).getConsensusLine());
+				   + "EGKRLTDQLRWKIMSCKMRI", result.getSubjectAlignmentLine());
+		assertEquals("                 : :-:.  :.:..:... :: . :: :.:.:..", result.getConsensusLine());
 	}
 
 	@Test
 	public void testParseResults8() throws IOException, FastaResultParserException {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results8.txt"));
-		List<FastaResult> res = new FastaResultParser(reader).parse();
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
 		double r;
 
-		assertEquals(11, res.size());
+		assertEquals(11, results.size());
 
-		assertEquals(Frame.FORWARD_ZERO, res.get(0).getFrame());
-		assertEquals(132.7d, r = res.get(0).getBitScore(), r * delta);
-		assertEquals(7.6e-35d, r = res.get(0).getExpectationValue(), r * delta);
-		assertEquals(0, res.get(0).getSmithWatermanScore());
-		assertEquals(1.000d, r = res.get(0).getIdentity(), r * delta);
-		assertEquals(1.000d, r = res.get(0).getSimilarity(), r * delta);
-		assertEquals(99, res.get(0).getOverlap());
-		assertEquals("query", res.get(0).getQuerySequenceName());
-		assertEquals("query sequence", res.get(0).getQuerySequenceDescription());
-		assertEquals(99, res.get(0).getQuerySequenceLength());
-		assertEquals(1, res.get(0).getQueryAlignmentStart());
-		assertEquals(99, res.get(0).getQueryAlignmentStop());
-		assertEquals(1, res.get(0).getQueryAlignmentDisplayStart());
+		result = results.get(0);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(132.7d, r = result.getBitScore(), r * delta);
+		assertEquals(7.6e-35d, r = result.getExpectationValue(), r * delta);
+		assertEquals(0, result.getSmithWatermanScore());
+		assertEquals(1.000d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(99, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(99, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(99, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
 		assertEquals("------------------------------CCTGCCGATCTGGTTAACTA"
 				   + "CAATCCGATTGCCGAAAAACACGTCAACGGCACAATGACGCTGGCAGAAC"
-				   + "TGAGCGCGGCCGCTTTGCAGTACAGCGAC", res.get(0).getQueryAlignmentLine());
-		assertEquals("ENA|BAA28282|BAA28282.1", res.get(0).getSubjectSequenceName());
+				   + "TGAGCGCGGCCGCTTTGCAGTACAGCGAC", result.getQueryAlignmentLine());
+		assertEquals("ENA|BAA28282|BAA28282.1", result.getSubjectSequenceName());
 		assertEquals("Escherichia coli beta-lactamase",
-				res.get(0).getSubjectSequenceDescription());
-		assertEquals(870, res.get(0).getSubjectSequenceLength());
-		assertEquals(304, res.get(0).getSubjectAlignmentStart());
-		assertEquals(402, res.get(0).getSubjectAlignmentStop());
-		assertEquals(274, res.get(0).getSubjectAlignmentDisplayStart());
+				result.getSubjectSequenceDescription());
+		assertEquals(870, result.getSubjectSequenceLength());
+		assertEquals(304, result.getSubjectAlignmentStart());
+		assertEquals(402, result.getSubjectAlignmentStop());
+		assertEquals(274, result.getSubjectAlignmentDisplayStart());
 		assertEquals("CAGCTGCTTAATCAGCCTGTCGAGATCAAGCCTGCCGATCTGGTTAACTA"
 				   + "CAATCCGATTGCCGAAAAACACGTCAACGGCACAATGACGCTGGCAGAAC"
 				   + "TGAGCGCGGCCGCTTTGCAGTACAGCGACAATACCGCCATGAACAAATTG"
-				   + "ATTGCCCAGCTCGGTGGCCCGGGAGGCGTG", res.get(0).getSubjectAlignmentLine());
+				   + "ATTGCCCAGCTCGGTGGCCCGGGAGGCGTG", result.getSubjectAlignmentLine());
 		assertEquals("                              ::::::::::::::::::::"
 				   + "::::::::::::::::::::::::::::::::::::::::::::::::::"
-				   + ":::::::::::::::::::::::::::::", res.get(0).getConsensusLine());
+				   + ":::::::::::::::::::::::::::::", result.getConsensusLine());
 
 		// TODO: other 10 results
 
-		assertEquals(Frame.REVERSE_ZERO, res.get(5).getFrame());
+		assertEquals(Frame.REVERSE_ZERO, results.get(5).getFrame());
+	}
+
+	@Test
+	public void testParseResults9() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results9.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(14, results.size());
+
+		result = results.get(4);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(38.1d, r = result.getBitScore(), r * delta);
+		assertEquals(7.8e-07d, r = result.getExpectationValue(), r * delta);
+		assertEquals(84, result.getSmithWatermanScore());
+		assertEquals(0.500d, r = result.getIdentity(), r * delta);
+		assertEquals(0.731d, r = result.getSimilarity(), r * delta);
+		assertEquals(26, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(99, result.getQuerySequenceLength());
+		assertEquals(22, result.getQueryAlignmentStart());
+		assertEquals(99, result.getQueryAlignmentStop());
+		assertEquals(22, result.getQueryAlignmentDisplayStart());
+		assertEquals("NPIAEKHVNGTMTLAELSAAALQYSD", result.getQueryAlignmentLine());
+		assertEquals("sp|Q03680|BLA1_STRCI", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase 1 OS=Streptomyces cacaoi OX=1898 GN=blaL PE=1 SV=1",
+				result.getSubjectSequenceDescription());
+		assertEquals(325, result.getSubjectSequenceLength());
+		assertEquals(138, result.getSubjectAlignmentStart());
+		assertEquals(163, result.getSubjectAlignmentStop());
+		assertEquals(138, result.getSubjectAlignmentDisplayStart());
+		assertEquals("SPVTEKHVADGMSLRELCDAVVAYSD", result.getSubjectAlignmentLine());
+		assertEquals(".:..::::   :.: ::  :.. :::", result.getConsensusLine());
+
+		// TODO: other results
+	}
+
+	@Test
+	public void testParseResults10() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results10.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(15, results.size());
+
+		result = results.get(1);
+		assertEquals(Frame.FORWARD_ZERO, result.getFrame());
+		assertEquals(23.8d, r = result.getBitScore(), r * delta);
+		assertEquals(0.014d, r = result.getExpectationValue(), r * delta);
+		assertEquals(37, result.getSmithWatermanScore());
+		assertEquals(0.667d, r = result.getIdentity(), r * delta);
+		assertEquals(1.000d, r = result.getSimilarity(), r * delta);
+		assertEquals(6, result.getOverlap());
+		assertEquals("query", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(99, result.getQuerySequenceLength());
+		assertEquals(80, result.getQueryAlignmentStart());
+		assertEquals(94, result.getQueryAlignmentStop());
+		assertEquals(80, result.getQueryAlignmentDisplayStart());
+		assertEquals("PLCSTA", result.getQueryAlignmentLine());
+		assertEquals("sp|O69395|BLT2_ECOLX", result.getSubjectSequenceName());
+		assertEquals("Beta-lactamase Toho-2 OS=Escherichia coli OX=562 GN=bla PE=3 SV=1",
+				result.getSubjectSequenceDescription());
+		assertEquals(289, result.getSubjectSequenceLength());
+		assertEquals(70, result.getSubjectAlignmentStart());
+		assertEquals(75, result.getSubjectAlignmentStop());
+		assertEquals(70, result.getSubjectAlignmentDisplayStart());
+		assertEquals("PMCSTS", result.getSubjectAlignmentLine());
+		assertEquals(":.:::.", result.getConsensusLine());
+
+		// TODO: other results
+	}
+
+	@Test
+	public void testParseResults11() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results11.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(31, results.size());
+
+		result = results.get(30);
+		assertEquals(Frame.REVERSE_ZERO, result.getFrame());
+		assertEquals(22.0d, r = result.getBitScore(), r * delta);
+		assertEquals(0.076d, r = result.getExpectationValue(), r * delta);
+		assertEquals(21, result.getSmithWatermanScore());
+		assertEquals(0.273d, r = result.getIdentity(), r * delta);
+		assertEquals(0.636d, r = result.getSimilarity(), r * delta);
+		assertEquals(11, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(39, result.getQueryAlignmentStart());
+		assertEquals(49, result.getQueryAlignmentStop());
+		assertEquals(39, result.getQueryAlignmentDisplayStart());
+		assertEquals("FPMCSTSKVMA", result.getQueryAlignmentLine());
+		assertEquals("ENA|CAA25753|CAA25753.1", result.getSubjectSequenceName());
+		assertEquals("Bacillus cereus type 1 penicillinase",
+				result.getSubjectSequenceDescription());
+		assertEquals(921, result.getSubjectSequenceLength());
+		assertEquals(647, result.getSubjectAlignmentStart());
+		assertEquals(615, result.getSubjectAlignmentStop());
+		assertEquals(647, result.getSubjectAlignmentDisplayStart());
+		assertEquals("FPTVKALRFVA", result.getSubjectAlignmentLine());
+		assertEquals("::  .. . .:", result.getConsensusLine());
+
+		// TODO: other results
+	}
+
+	@Test
+	public void testParseResults12() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results12.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(22, results.size());
+
+		result = results.get(8);
+		assertEquals(Frame.REVERSE_ZERO, result.getFrame());
+		assertEquals(22.8d, r = result.getBitScore(), r * delta);
+		assertEquals(0.045d, r = result.getExpectationValue(), r * delta);
+		assertEquals(37, result.getSmithWatermanScore());
+		assertEquals(0.300d, r = result.getIdentity(), r * delta);
+		assertEquals(0.500d, r = result.getSimilarity(), r * delta);
+		assertEquals(20, result.getOverlap());
+		assertEquals("query1", result.getQuerySequenceName());
+		assertEquals("query sequence", result.getQuerySequenceDescription());
+		assertEquals(50, result.getQuerySequenceLength());
+		assertEquals(27, result.getQueryAlignmentStart());
+		assertEquals(46, result.getQueryAlignmentStop());
+		assertEquals(27, result.getQueryAlignmentDisplayStart());
+		assertEquals("DNTQVLYRGDERFPMCSTSK", result.getQueryAlignmentLine());
+		assertEquals("ENA|BAB06346|BAB06346.1", result.getSubjectSequenceName());
+		assertEquals("Bacillus halodurans C-125 glutaminase",
+				result.getSubjectSequenceDescription());
+		assertEquals(927, result.getSubjectSequenceLength());
+		assertEquals(345, result.getSubjectAlignmentStart());
+		assertEquals(289, result.getSubjectAlignmentStop());
+		assertEquals(345, result.getSubjectAlignmentDisplayStart());
+		assertEquals("DHRV*RF*GDARFQL*NRIK", result.getSubjectAlignmentLine());
+		assertEquals(":.    . :: :: . .  :", result.getConsensusLine());
+
+		// TODO: other results
 	}
 }

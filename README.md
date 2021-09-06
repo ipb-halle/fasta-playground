@@ -1,6 +1,6 @@
 # fasta-playground
 
-fasta-playground demonstrates sequence library searching via the [FASTA package](https://fasta.bioch.virginia.edu/fasta_www2/fasta_intro.shtml), result processing and visualization using Java Server Faces (JSF). This is a spin-off project of the [CRIMSy (Cloud Resource & Information Managment System)](https://github.com/ipb-halle/CRIMSy).
+fasta-playground demonstrates sequence library searching via the [FASTA package](https://fasta.bioch.virginia.edu/fasta_www2/fasta_intro.shtml), result processing and visualization using Java Server Faces (JSF). This is a spin-off project of the [CRIMSy (Cloud Resource & Information Management System)](https://github.com/ipb-halle/CRIMSy).
 
 UI design was inspired by [SequenceServer](https://sequenceserver.com) and [EBI's Sequence Similarity Searching Tools](https://www.ebi.ac.uk/Tools/sss/).
 

@@ -1,6 +1,6 @@
 ## Result files from FASTA runs for testing the FastaResultParser class ##
 
-### Protein queries to protein databases ###
+### Protein queries to protein databases (fasta) ###
 
 Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https://github.com/renzok/docker-ncbi-blast-demo/blob/master/bet_blaSHV.fasta).
 
@@ -33,11 +33,30 @@ Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https:
 #### (7) results7.txt ####
 * normal fasta36 run, but with different library (7 sequences)
 * result set contains 9 results, i.e. two library sequences have two hits
-* Note: fasta36 prints the correct scores for the subsequent hits after applying a patch, see [GitHub issue #30](https://github.com/wrpearson/fasta36/issues/30#issuecomment-844255758).
 * `$FASTA_PATH/bin/fasta36 -m 10 query7.fasta data7.fasta > results7.txt`
 
-### DNA queries to DNA databases ###
+### DNA queries to DNA databases (fasta) ###
 
 #### (8) results8.txt ####
 * normal fasta36 run
 * `$FASTA_PATH/bin/fasta36 -m 10 -n query8.fasta data8.fasta > results8.txt`
+
+### DNA queries to protein databases (fastx/fasty) ###
+
+#### (9) results9.txt ####
+* normal fastx36 run
+* `$FASTA_PATH/bin/fastx36 -m 10 -n query9.fasta data9.fasta > results9.txt`
+
+#### (10) results10.txt ####
+* normal fasty36 run
+* `$FASTA_PATH/bin/fasty36 -m 10 -n query10.fasta data10.fasta > results10.txt`
+
+### Protein queries to DNA databases (tfastx/tfasty) ###
+
+#### (11) results11.txt ####
+* normal tfastx36 run
+* `$FASTA_PATH/bin/tfastx36 -m 10 query11.fasta data11.fasta > results11.txt`
+
+#### (12) results12.txt ####
+* normal tfasty36 run
+* `$FASTA_PATH/bin/tfasty36 -m 10 query12.fasta data12.fasta > results12.txt`

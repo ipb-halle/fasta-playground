@@ -35,24 +35,22 @@ public class FastaResultParser {
 	 * Examples: "  1>>>query1 first query sequence - 50 aa", "  1>>> - 50 aa",
 	 * "  1>>>query query sequence - 99 nt"
 	 */
-	private static final Pattern QUERY_START_PATTERN = Pattern
-			.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ](aa|nt)");
+	private static final Pattern QUERY_START_PATTERN = Pattern.compile("[ \\d]+[>]{3}[\\w\\W]*[ ][-][ ][\\d]*[ ](aa|nt)");
 
 	/*
 	 * Examples: "; fa_frame: f", "; sw_frame: r"
 	 */
-	private static final Pattern FRAME_PATTERN = Pattern.compile("(;)[ ](fa_frame|sw_frame|fx_frame|tx_frame)(:).*");
+	private static final Pattern FRAME_PATTERN = Pattern.compile("(;)[ ](fa_frame|sw_frame|fx_frame|fy_frame|tfx_frame|tfy_frame)(:).*");
 
 	/*
 	 * Examples: "; fa_expect: 5.2e-25", "; sw_expect:    1.7"
 	 */
-	private static final Pattern EVALUE_PATTERN = Pattern
-			.compile("(;)[ ](fa_expect|sw_expect|fx_expect|tx_expect)(:).*");
+	private static final Pattern EVALUE_PATTERN = Pattern.compile("(;)[ ](fa_expect|sw_expect|fx_expect|fy_expect|tfx_expect|tfy_expect)(:).*");
 
 	/*
 	 * Examples: "; fa_bits: 96.5", "; sw_bits: 18.4"
 	 */
-	private static final Pattern BITSCORE_PATTERN = Pattern.compile("(;)[ ](fa_bits|sw_bits|fx_bits|tx_bits)(:).*");
+	private static final Pattern BITSCORE_PATTERN = Pattern.compile("(;)[ ](fa_bits|sw_bits|fx_bits|fy_bits|tfx_bits|tfy_bits)(:).*");
 
 	/*
 	 * Example: "; sw_score: 313"
