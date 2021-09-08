@@ -23,6 +23,12 @@ import javax.validation.constraints.NotNull;
 public class FastaResult {
 	/*
 	 * fa_frame / sw_frame / fx_frame / tx_frame - frame direction
+	 * 
+	 * What happens in the alignments in case frame is REVERSE?
+	 * - Protein query -> Protein DB    (fasta): no reverse permitted
+	 * -     DNA query ->     DNA DB    (fasta): query alignment is reverse complement, subject alignment is forward
+	 * -     DNA query -> Protein DB  (fastx/y): query alignment is reverse complement, subject alignment is forward
+	 * - Protein query ->     DNA DB (tfastx/y): query alignment is forward, subject alignment is reverse complement
 	 */
 	@NotNull
 	private final Frame frame;

@@ -21,12 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Frame {
-	FORWARD_ZERO("f", "forward"),
-	//FORWARD_ONE("N/A"),
-	//FORWARD_TWO("N/A"),
-	REVERSE_ZERO("r", "reverse");
-	//REVERSE_ONE("N/A"),
-	//REVERSE_TWO("N/A");
+	FORWARD("f", "forward"),
+	REVERSE("r", "reverse");
 
 	private final String pattern;
 	private final String name;
@@ -43,8 +39,12 @@ public enum Frame {
 		this.name = name;
 	}
 
-	public static Frame fromPattern(String pattern) {
-		return lookupMap.get(pattern);
+	public static Frame fromPattern(String pattern) throws FastaResultParserException {
+		Frame result = lookupMap.get(pattern);
+		if (result == null) {
+			throw new FastaResultParserException("Unknown pattern '" + pattern + "'.");
+		}
+		return result;
 	}
 
 	public String getName() {

@@ -15,7 +15,7 @@
  * limitations under the License.
  * 
  */
-package de.ipb_halle.fasta_playground.bean;
+package de.ipb_halle.fasta_playground.display;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,11 @@ import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 
 import de.ipb_halle.fasta_playground.fastaresult.FastaResult;
+import de.ipb_halle.fasta_playground.fastaresult.Frame;
 
 public class FastaResultDisplayWrapper {
 	private final FastaResult result;
-	private FastaResultDisplayConfig config = new FastaResultDisplayConfig();
+	private ResultDisplayConfig config = new ResultDisplayConfig();
 
 	public FastaResultDisplayWrapper(FastaResult result) {
 		this.result = result;
@@ -37,11 +38,11 @@ public class FastaResultDisplayWrapper {
 		return result;
 	}
 
-	public FastaResultDisplayConfig getConfig() {
+	public ResultDisplayConfig getConfig() {
 		return config;
 	}
 
-	public FastaResultDisplayWrapper config(FastaResultDisplayConfig config) {
+	public FastaResultDisplayWrapper config(ResultDisplayConfig config) {
 		this.config = config;
 		return this;
 	}
@@ -74,10 +75,14 @@ public class FastaResultDisplayWrapper {
 		String queryAlignmentLine = replaceLeadingChars(result.getQueryAlignmentLine(), '-', ' ');
 		String subjectAlignmentLine = replaceLeadingChars(result.getSubjectAlignmentLine(), '-', ' ');
 
+		boolean isQueryLineReversed = isReversed(result.getFrame(), config.isQueryAlignmentCanReverse());
+		boolean isSubjectLineReversed = isReversed(result.getFrame(), config.isSubjectAlignmentCanReverse());
+
 		List<AlignmentLine> queryLines = createAlignmentLines(queryAlignmentLine,
-				result.getQueryAlignmentDisplayStart(), config.getLineLength());
+				result.getQueryAlignmentDisplayStart(), config.getLineLength(), config.getQueryLineIndexMultiplier(), isQueryLineReversed);
 		List<AlignmentLine> subjectLines = createAlignmentLines(subjectAlignmentLine,
-				result.getSubjectAlignmentDisplayStart(), config.getLineLength());
+				result.getSubjectAlignmentDisplayStart(), config.getLineLength(),
+				config.getSubjectLineIndexMultiplier(), isSubjectLineReversed);
 		List<String> consenusLines = segmentString(result.getConsensusLine(), config.getLineLength());
 
 		int maxPrefixLength = Integer.toString(maxIndex(l -> l.getStartIndex(), queryLines, subjectLines)).length();
@@ -172,6 +177,10 @@ public class FastaResultDisplayWrapper {
 		return new String(chars);
 	}
 
+	private boolean isReversed(Frame frame, boolean canReverse) {
+		return (Frame.REVERSE.equals(frame) && canReverse);
+	}
+
 	static List<String> segmentString(String input, int length) {
 		if (length < 1) {
 			throw new IllegalArgumentException("length cannot be less than 1");
@@ -187,16 +196,28 @@ public class FastaResultDisplayWrapper {
 		return results;
 	}
 
-	static List<AlignmentLine> createAlignmentLines(String sequence, int start, int lineLength) {
+	static List<AlignmentLine> createAlignmentLines(String sequence, int start, int lineLength, int indexMultiplier, boolean reverse) {
 		List<AlignmentLine> results = new ArrayList<>();
 		int startIndex = start;
-		int endIndex;
+		int stopIndex;
+		int signMultiplier = (reverse ? -1 : 1);
 
 		for (String segment : segmentString(sequence, lineLength)) {
-			endIndex = startIndex - 1 + segment.length() - StringUtils.countMatches(segment, ' ')
-					- StringUtils.countMatches(segment, '-');
-			results.add(new AlignmentLine(segment, startIndex, endIndex));
-			startIndex = endIndex + 1;
+			stopIndex = startIndex - signMultiplier
+					+ (segment.length() - StringUtils.countMatches(segment, ' ')
+							- StringUtils.countMatches(segment, '-') - StringUtils.countMatches(segment, '/')
+							- StringUtils.countMatches(segment, '\\')) * indexMultiplier * signMultiplier;
+
+			/*
+			 * An explanation for the following calculation is given in the test method
+			 * testGetAlignmentsDNAQueryProteinDatabaseWithFrameShifts() in
+			 * FastaResultDisplayWrapperTest.
+			 */
+			int frameShifts = StringUtils.countMatches(segment, '/') - StringUtils.countMatches(segment, '\\');
+			stopIndex = stopIndex - frameShifts;
+
+			results.add(new AlignmentLine(segment, startIndex, stopIndex));
+			startIndex = stopIndex + signMultiplier;
 		}
 
 		return results;

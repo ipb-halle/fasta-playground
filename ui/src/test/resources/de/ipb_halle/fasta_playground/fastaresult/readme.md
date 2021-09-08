@@ -60,3 +60,9 @@ Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https:
 #### (12) results12.txt ####
 * normal tfasty36 run
 * `$FASTA_PATH/bin/tfasty36 -m 10 query12.fasta data12.fasta > results12.txt`
+
+### Frame shifts ###
+This example tries to reproduce Fig. 5 in *W. R. Pearson, T. C. Wood, Z. Zhang, and W. Miller*: Comparison of DNA sequences with protein sequences. Genomics, 46:24-36, 1997 ([doi:10.1006/geno.1997.4995](https://doi.org/10.1006/geno.1997.4995)). The underlying sequences were taken from the [fasta36 repository](https://github.com/wrpearson/fasta36/tree/v36.3.8/seq).
+
+#### results_fastx_mgstm1.txt ####
+* `$FASTA_PATH/bin/fastx36 -m 10 -n seq/mgstm1.e05 seq/mgstm1.aa > results_fastx_mgstm1.txt`

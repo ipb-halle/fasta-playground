@@ -15,38 +15,58 @@
  * limitations under the License.
  * 
  */
-package de.ipb_halle.fasta_playground.bean;
+package de.ipb_halle.fasta_playground.display;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class FastaResultDisplayConfigTest {
+public class ResultDisplayConfigTest {
 	@Test
 	public void testDefaults() {
-		FastaResultDisplayConfig config = new FastaResultDisplayConfig();
+		ResultDisplayConfig config = new ResultDisplayConfig();
+
 		assertTrue(config.getLineLength() > 0);
 		assertTrue(config.getPrefixSpaces() > 0);
 		assertTrue(config.getSuffixSpaces() > 0);
+		assertTrue(config.getQueryLineIndexMultiplier() > 0);
+		assertFalse(config.isQueryAlignmentCanReverse());
+		assertTrue(config.getSubjectLineIndexMultiplier() > 0);
+		assertFalse(config.isSubjectAlignmentCanReverse());
 	}
 
 	@Test
 	public void testSettersAndGetters() {
-		FastaResultDisplayConfig config = new FastaResultDisplayConfig();
+		ResultDisplayConfig config = new ResultDisplayConfig();
 
 		config.setLineLength(3489775);
 		assertEquals(3489775, config.getLineLength());
+
 		config.setPrefixSpaces(3489775);
 		assertEquals(3489775, config.getPrefixSpaces());
+
 		config.setSuffixSpaces(3489775);
 		assertEquals(3489775, config.getSuffixSpaces());
+
+		config.setQueryLineIndexMultiplier(3489775);
+		assertEquals(3489775, config.getQueryLineIndexMultiplier());
+
+		config.setQueryAlignmentCanReverse(true);
+		assertTrue(config.isQueryAlignmentCanReverse());
+
+		config.setSubjectLineIndexMultiplier(3489775);
+		assertEquals(3489775, config.getSubjectLineIndexMultiplier());
+
+		config.setSubjectAlignmentCanReverse(true);
+		assertTrue(config.isSubjectAlignmentCanReverse());
 	}
 
 	@Test
 	public void testExceptions() {
-		FastaResultDisplayConfig config = new FastaResultDisplayConfig();
+		ResultDisplayConfig config = new ResultDisplayConfig();
 
 		config.setLineLength(1);
 		assertThrows(IllegalArgumentException.class, () -> config.setLineLength(0));
@@ -59,5 +79,13 @@ public class FastaResultDisplayConfigTest {
 		config.setSuffixSpaces(1);
 		assertThrows(IllegalArgumentException.class, () -> config.setSuffixSpaces(0));
 		assertThrows(IllegalArgumentException.class, () -> config.setSuffixSpaces(-1));
+
+		config.setQueryLineIndexMultiplier(1);
+		assertThrows(IllegalArgumentException.class, () -> config.setQueryLineIndexMultiplier(0));
+		assertThrows(IllegalArgumentException.class, () -> config.setQueryLineIndexMultiplier(-1));
+
+		config.setSubjectLineIndexMultiplier(1);
+		assertThrows(IllegalArgumentException.class, () -> config.setSubjectLineIndexMultiplier(0));
+		assertThrows(IllegalArgumentException.class, () -> config.setSubjectLineIndexMultiplier(-1));
 	}
 }
