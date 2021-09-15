@@ -46,7 +46,7 @@ public class FastaResultBuilder {
 	private String subjectAlignmentLine;
 	private String consensusLine;
 
-	protected FastaResultBuilder() {
+	FastaResultBuilder() {
 	}
 
 	public FastaResult build() throws FastaResultParserException {
