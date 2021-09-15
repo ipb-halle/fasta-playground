@@ -1,0 +1,42 @@
+/*
+ * fasta-playground
+ * Copyright 2021 Leibniz-Institut für Pflanzenbiochemie
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ */
+package de.ipb_halle.fasta_playground.search.factories;
+
+import de.ipb_halle.fasta_playground.display.FastxyResultDisplayConfig;
+import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
+import de.ipb_halle.fasta_playground.search.SearchFactory;
+
+public class DNAProteinSearchFactory extends SearchFactory {
+	private static String PROGRAM_NAME = "fastx36";
+	private static String[] PARAMS = { "-n" };
+
+	@Override
+	public String getProgramName() {
+		return PROGRAM_NAME;
+	}
+
+	@Override
+	public String[] getParams() {
+		return PARAMS;
+	}
+
+	@Override
+	public ResultDisplayConfig getDisplayConfig() {
+		return new FastxyResultDisplayConfig();
+	}
+}

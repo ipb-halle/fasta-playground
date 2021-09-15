@@ -145,8 +145,7 @@
 								<h:outputText value="Identity" />
 								<h:outputText value="Similarity (Positives)" />
 								<h:outputText value="Overlap" />
-								<h:outputText value="Frame"
-									rendered="#{fastaLibrarySearchBean.searchMode == 'DNA_DNA'}" />
+								<h:outputText value="Frame" />
 								<h:outputText />
 								<h:outputText
 									value="#{result.fastaResult.subjectSequenceLength}" />
@@ -158,8 +157,7 @@
 								<h:outputText
 									value="#{of:formatPercent(result.fastaResult.similarity)}" />
 								<h:outputText value="#{result.fastaResult.overlap}" />
-								<h:outputText value="#{result.fastaResult.frame.name}"
-									rendered="#{fastaLibrarySearchBean.searchMode == 'DNA_DNA'}" />
+								<h:outputText value="#{result.fastaResult.frame.name}" />
 							</b:panelGrid>
 							<hr />
 							<b:row>

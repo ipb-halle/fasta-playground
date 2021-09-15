@@ -531,7 +531,7 @@ public class FastaResultDisplayWrapperTest {
 		 *   Alignment line 1: FKLGLEF -> TTCAAGCTGGGCCTGGAATTT, which ends at base 208 (fastx reports 207)
 		 *   Alignment line 2: GNPLQXXM -> GGAAACCCGCTGCAGCNNNNCATG, end at base 376 (fastx reports 375)
 		 *   Alignment line 3: DQYRM -> GACCAGTACCGTATG, end at base 548 (fastx reports 546)
-		 *   Alignment line 4: HWSNK -> CACTGGAGTAACAAG, end at base 697 (fastx -m B reports 693)
+		 *   Alignment line 4: HWSNK -> CACTGGAGTAACAAG, end at base 697 (fastx reports 693)
 		 * 
 		 * Proposal from this back-engineering:
 		 * - '/' shifts the index by 1

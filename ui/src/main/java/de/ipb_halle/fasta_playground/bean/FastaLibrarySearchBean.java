@@ -28,13 +28,11 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -45,7 +43,10 @@ import org.biojava.nbio.data.sequence.FastaSequence;
 import org.biojava.nbio.data.sequence.SequenceUtil;
 import org.omnifaces.util.Faces;
 
+import de.ipb_halle.fasta_playground.display.FastaResultDisplayWrapper;
+import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
+import de.ipb_halle.fasta_playground.search.SearchMode;
 
 @Named
 //@RequestScoped
@@ -54,68 +55,9 @@ import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
 public class FastaLibrarySearchBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private static final String FASTA_PROGRAM = "/usr/local/fasta36/bin/fasta36";
-
-	private FastaResultDisplayConfig conf;
-
 	private int[] maxResultSelectItems = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 750, 1000 };
 
-	public enum SortItem {
-		SUBJECTNAME("Sequence Name (alph.)", Comparator.comparing(f -> f.getFastaResult().getSubjectSequenceName())),
-		LENGTH("Hit Length (desc.)",
-				Comparator.comparing(f -> f.getFastaResult().getSubjectSequenceLength(), Comparator.reverseOrder())),
-		BITSCORE("Bit Score (desc.)",
-				Comparator.comparing(f -> f.getFastaResult().getBitScore(), Comparator.reverseOrder())),
-		EVALUE("E()-Value (asc.)", Comparator.comparing(f -> f.getFastaResult().getExpectationValue())),
-		SMITHWATERMANSCORE("Smith-Waterman Score (desc.)",
-				Comparator.comparing(f -> f.getFastaResult().getSmithWatermanScore(), Comparator.reverseOrder())),
-		IDENTITY("Identity (desc.)",
-				Comparator.comparing(f -> f.getFastaResult().getIdentity(), Comparator.reverseOrder())),
-		SIMILARITY("Similarity/Positives (desc.)",
-				Comparator.comparing(f -> f.getFastaResult().getSimilarity(), Comparator.reverseOrder()));
-
-		private final String label;
-
-		private final Comparator<FastaResultDisplayWrapper> comp;
-
-		private SortItem(String label, Comparator<FastaResultDisplayWrapper> comp) {
-			this.label = label;
-			this.comp = comp;
-		}
-
-		public String getLabel() {
-			return label;
-		}
-
-		public Comparator<FastaResultDisplayWrapper> getComp() {
-			return comp;
-		}
-	}
-
 	private SortItem[] sortByItems = SortItem.values();
-
-	public enum SearchMode {
-		PROTEIN_PROTEIN("Protein query -> Protein library (fasta36 -p)", "-p"),
-//		RNA_RNA("RNA query -> RNA library (fasta36 -U)", "-U"),
-		DNA_DNA("DNA query -> DNA library (fasta36 -n)", "-n");
-
-		private final String label;
-
-		private final String param;
-
-		SearchMode(String label, String param) {
-			this.label = label;
-			this.param = param;
-		}
-
-		public String getLabel() {
-			return label;
-		}
-
-		public String getParam() {
-			return param;
-		}
-	}
 
 	private SearchMode[] searchModeItems = SearchMode.values();
 
@@ -150,14 +92,6 @@ public class FastaLibrarySearchBean implements Serializable {
 	@Inject
 	private transient Logger logger;
 
-	@PostConstruct
-	public void init() {
-		conf = new FastaResultDisplayConfig();
-		conf.setPrefixSpaces(2);
-		conf.setSuffixSpaces(2);
-		conf.setLineLength(60);
-	}
-
 	/*
 	 * Library search
 	 */
@@ -166,16 +100,20 @@ public class FastaLibrarySearchBean implements Serializable {
 			sequences = SequenceUtil.readFasta(in);
 		}
 
+		File libraryFile = null;
+		File queryFile = null;
 		try {
-			File libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
-			File queryFile = writeToTempFile("FastaQuery", ".fasta", query);
+			libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
+			queryFile = writeToTempFile("FastaQuery", ".fasta", query);
 
 			// execute fasta program
 			fastaOutput = execFastaProgram(libraryFile, queryFile);
 
-			// clean up
-			libraryFile.delete();
-			queryFile.delete();
+			// display config
+			ResultDisplayConfig conf = searchMode.getSearchFactory().getDisplayConfig();
+			conf.setPrefixSpaces(2);
+			conf.setSuffixSpaces(2);
+			conf.setLineLength(60);
 
 			// collect results from the program's output
 			results = new ArrayList<>();
@@ -185,12 +123,17 @@ public class FastaLibrarySearchBean implements Serializable {
 		} catch (Exception e) {
 			logger.info(fastaOutput);
 			logger.severe(ExceptionUtils.getStackTrace(e));
+		} finally {
+			// clean up
+			deleteFileIfNotNull(libraryFile);
+			deleteFileIfNotNull(queryFile);
 		}
 	}
 
 	private File writeToTempFile(String prefix, String suffix, String content) throws IOException {
 		// create a file in /tmp
 		File file = File.createTempFile(prefix, suffix);
+
 		// just in case we forget to delete it
 		file.deleteOnExit();
 
@@ -201,43 +144,37 @@ public class FastaLibrarySearchBean implements Serializable {
 		return file;
 	}
 
-	private String execFastaProgram(File libraryFile, File queryFile) throws IOException {
-		ProcessBuilder builder = new ProcessBuilder(FASTA_PROGRAM, "-q", "-m", "10", "-d", Integer.toString(maxResults),
-				"-b", Integer.toString(maxResults), searchMode.getParam(), queryFile.getAbsolutePath(),
-				libraryFile.getAbsolutePath());
-		Process process = builder.start();
-
-		StringJoiner sj = new StringJoiner("\n");
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				sj.add(line);
-			}
+	private void deleteFileIfNotNull(File file) {
+		if (file != null) {
+			file.delete();
 		}
+	}
 
-		return sj.toString();
+	private String execFastaProgram(File libraryFile, File queryFile) throws IOException {
+		String[] params = { "-d", Integer.toString(maxResults), "-b", Integer.toString(maxResults) };
+
+		return searchMode.getSearchFactory().execSearch(libraryFile, queryFile, params);
 	}
 
 	/*
 	 * Examples
 	 */
 	public void actionProteinExample() throws IOException {
-		library = readInputStreamToString(
-				FastaLibrarySearchBean.class.getResourceAsStream("example_protein_library.fasta"));
-		query = ">query1 my query sequence\nSAVQQKLAALEKSSGGRLGVALIDTADNTQVLYRGDERFPMCSTSKVMAA";
+		library = readResourceToString("example_protein_library.fasta");
+		query = readResourceToString("example_protein_query.fasta");
 		searchMode = SearchMode.PROTEIN_PROTEIN;
 	}
 
 	public void actionDNAExample() throws IOException {
-		library = readInputStreamToString(
-				FastaLibrarySearchBean.class.getResourceAsStream("example_DNA_library.fasta"));
-		query = ">query1 my query sequence\nCCTGCCGATCTGGTTAACTACAATCCGATTGCCGAAAAACACGTCAACGGCACAATGACGCTGGCAGAACTGAGCGCGGCCGCTTTGCAGTACAGCGAC";
+		library = readResourceToString("example_DNA_library.fasta");
+		query = readResourceToString("example_DNA_query.fasta");
 		searchMode = SearchMode.DNA_DNA;
 	}
 
-//	public void actionRNAExample() {
-//		searchMode = SearchMode.RNA_RNA;
-//	}
+	private String readResourceToString(String name) throws IOException {
+		InputStream in = FastaLibrarySearchBean.class.getResourceAsStream(name);
+		return readInputStreamToString(in);
+	}
 
 	private String readInputStreamToString(InputStream in) throws IOException {
 		if (in == null) {
@@ -324,7 +261,7 @@ public class FastaLibrarySearchBean implements Serializable {
 	}
 
 	private void sortResults() {
-		results.sort(sortBy.getComp());
+		results.sort(sortBy.getComparator());
 	}
 
 	/*
