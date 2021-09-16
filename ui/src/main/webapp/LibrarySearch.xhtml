@@ -30,7 +30,8 @@
 </h:head>
 <h:body>
 	<b:container>
-		<h1>Sequence library search with the FASTA program</h1>
+		<h1>Sequence library search with the FASTA program suite</h1>
+		This software is available at <a href="https://github.com/ipb-halle/fasta-playground">GitHub</a>.
 		<h2>Input</h2>
 		<b:form>
 			<b:panelGrid col-spans="9,3">
@@ -110,7 +111,7 @@
 						id="translationTableId"
 						value="#{fastaLibrarySearchBean.translationTable}"
 						required="true"
-						label="Translation Table"
+						label="Translation table (fastx and tfastx only)"
 						disabled="#{fastaLibrarySearchBean.translationTableDisabled}"
 						ajax="true"
 						process="@this"
@@ -121,6 +122,9 @@
 							itemValue="#{item}"
 							itemLabel="#{item.name}" />
 					</b:selectOneMenu>
+					<h:panelGroup>
+						(see <a href="https://github.com/wrpearson/fasta36/blob/v36.3.8/src/faatran.c">faatran.c</a> for the implementation in the fasta programs)
+					</h:panelGroup>
 				</b:panelGrid>
 			</b:panel>
 			<hr />

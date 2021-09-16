@@ -18,6 +18,7 @@
 package de.ipb_halle.fasta_playground.display;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class FastaResultDisplayWrapperTest {
 		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results1.txt"));
 		FastaResult result = new FastaResultParser(reader).parse().get(0);
 
-		assertEquals(result, new FastaResultDisplayWrapper(result).getFastaResult());
+		assertSame(result, new FastaResultDisplayWrapper(result).getFastaResult());
 	}
 
 	@Test
@@ -49,7 +50,7 @@ public class FastaResultDisplayWrapperTest {
 		FastaResult result = new FastaResultParser(reader).parse().get(0);
 		ResultDisplayConfig config = new ResultDisplayConfig();
 
-		assertEquals(config, new FastaResultDisplayWrapper(result).config(config).getConfig());
+		assertSame(config, new FastaResultDisplayWrapper(result).config(config).getConfig());
 	}
 
 	@Test
