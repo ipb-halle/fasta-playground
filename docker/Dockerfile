@@ -19,8 +19,6 @@ RUN mvn -B -e -C package
 FROM debian:buster-slim AS fasta36Build
 LABEL stage=fasta-playground-builder
 
-COPY ./docker/fasta36_issue30.patch /
-
 RUN set -ex \
 	&& apt-get update \
 	&& apt-get -y install gcc make git \
@@ -28,9 +26,8 @@ RUN set -ex \
 	&& cd /build \
 	&& git clone https://github.com/wrpearson/fasta36.git \
 	&& cd fasta36 \
-	&& git checkout 05eab5260a329fd509840fc81277a685a37286c7 \
+	&& git checkout 8036daa401eb5420202bd0d216d047a0cd2a61fe \
 	&& cd src \
-	&& patch mshowalign2.c < /fasta36_issue30.patch \
 	&& make -f ../make/Makefile.linux_sse2 all
 
 #
