@@ -733,4 +733,86 @@ public class FastaResultParserTest {
 
 		// TODO: other results
 	}
+
+	@Test
+	public void testParseResultsTfastxMgstm1() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results_tfastx_mgstm1_1.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(1, results.size());
+
+		result = results.get(0);
+		assertEquals(Frame.FORWARD, result.getFrame());
+		assertEquals(Double.NEGATIVE_INFINITY, r = result.getBitScore(), r * delta);
+		assertEquals(1.0d, r = result.getExpectationValue(), r * delta);
+		assertEquals(12, result.getSmithWatermanScore());
+		assertEquals(1.0d, r = result.getIdentity(), r * delta);
+		assertEquals(1.0d, r = result.getSimilarity(), r * delta);
+		assertEquals(2, result.getOverlap());
+		assertEquals("pGT875", result.getQuerySequenceName());
+		assertEquals("| 266 with an average of 5% of residues modified by mutr.", result.getQuerySequenceDescription());
+		assertEquals(1135, result.getQuerySequenceLength());
+		assertEquals(187, result.getQueryAlignmentStart());
+		assertEquals(188, result.getQueryAlignmentStop());
+		assertEquals(187, result.getQueryAlignmentDisplayStart());
+		assertEquals("NT", result.getQueryAlignmentLine());
+		assertEquals("sp|P10649|GSTM1_MOUSE", result.getSubjectSequenceName());
+		assertEquals("Glutathione S-transferase Mu 1; GST 1-1; GST class-mu 1; Glutathione S-transferase GT8.7; pmGT10",
+				result.getSubjectSequenceDescription());
+		assertEquals(155, result.getSubjectSequenceLength());
+		assertEquals(78, result.getSubjectAlignmentStart());
+		assertEquals(83, result.getSubjectAlignmentStop());
+		assertEquals(78, result.getSubjectAlignmentDisplayStart());
+		assertEquals("NT", result.getSubjectAlignmentLine());
+		assertEquals("::", result.getConsensusLine());
+	}
+
+	@Test
+	public void testParseResultsTfastxMgstm2() throws IOException, FastaResultParserException {
+		Reader reader = new InputStreamReader(FastaResultParserTest.class.getResourceAsStream("results_tfastx_mgstm1_2.txt"));
+		List<FastaResult> results = new FastaResultParser(reader).parse();
+		FastaResult result;
+		double r;
+
+		assertEquals(2, results.size());
+
+		result = results.get(0);
+		assertEquals(Frame.FORWARD, result.getFrame());
+		assertEquals(295.7d, r = result.getBitScore(), r * delta);
+		assertEquals(2.3e-84d, r = result.getExpectationValue(), r * delta);
+		assertEquals(997, result.getSmithWatermanScore());
+		assertEquals(0.872d, r = result.getIdentity(), r * delta);
+		assertEquals(0.927d, r = result.getSimilarity(), r * delta);
+		assertEquals(219, result.getOverlap());
+		assertEquals("sp|P10649|GSTM1_MOUSE", result.getQuerySequenceName());
+		assertEquals("Glutathione S-transferase Mu 1; GST 1-1; GST class-mu 1; Glutathione S-transferase GT8.7; pmGT10", result.getQuerySequenceDescription());
+		assertEquals(218, result.getQuerySequenceLength());
+		assertEquals(1, result.getQueryAlignmentStart());
+		assertEquals(218, result.getQueryAlignmentStop());
+		assertEquals(1, result.getQueryAlignmentDisplayStart());
+		assertEquals("MPMI-LGYWNVRGLTHPIRMLLEYTDSSYDEKRYTMGD-APDFDRSQWLN"
+				   + "EK-FKLGLDFP-NLPYLIDGSHKITQ-SNAILRYLA-RKHHLDGETEEER"
+				   + "IRADIVENQVM-DTRMQLIMLC-YNPDFEKQKPEFLKTIPEKM-KLYSEF"
+				   + "LG-KRPWFAGDK-VTYVDFLAYDILDQYRMFEP-KCLDAFPNLR-DFLAR"
+				   + "FEGLKKISA-YMKSSRYIATP-IFSKMAHWSNK", result.getQueryAlignmentLine());
+		assertEquals("pGT875", result.getSubjectSequenceName());
+		assertEquals("| 266 with an average of 5% of residues modified by mutr.",
+				result.getSubjectSequenceDescription());
+		assertEquals(1135, result.getSubjectSequenceLength());
+		assertEquals(40, result.getSubjectAlignmentStart());
+		assertEquals(697, result.getSubjectAlignmentStop());
+		assertEquals(40, result.getSubjectAlignmentDisplayStart());
+		assertEquals("MPMI/MGYWKVRGLTHPIRMLLEYTDPSYDEKRYTMGD\\APDFDR-QWLN"
+				   + "EK\\FKLGLEFP\\NLPYLIDGSHKITQ/ENAILRYLA/HKAHLEEMTEEER"
+				   + "IRADIVENQIA\\GNPLQXXMLS\\YNLDFEKQKPEFLKTIPEKM/ELYSEF"
+				   + "LGCKRPWFAWDK\\VTYVDFFAYDILDQYRMFEP/KCLDAFPNLR\\DFLAR"
+				   + "FEGLKKISA\\YMKSSRYIGTA\\IFTKMAHWSNK", result.getSubjectAlignmentLine());
+		assertEquals("::::-.:::.:::::::::::::::: :::::::::::-::::::-::::"
+				   + "::-:::::.::-::::::::::::::- ::::::::-.: ::.  :::::"
+				   + ":::::::::. - . .:  :: -:: :::::::::::::::::-.:::::"
+				   + "::-:::::: ::-::::::.:::::::::::::-::::::::::-:::::"
+				   + ":::::::::-::::::::.: -::.::::::::", result.getConsensusLine());
+	}
 }

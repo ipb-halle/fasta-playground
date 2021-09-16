@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class FastaResultParser {
 	private final BufferedReader reader;
 
@@ -126,8 +128,12 @@ public class FastaResultParser {
 			 * "  1>>>query1 first query sequence - 50 aa".
 			 */
 			if (!parsedHeader && QUERY_START_PATTERN.matcher(line).matches()) {
+				// gives "query1 first query sequence - 50 aa"
+				String rightPartOfQueryHeaderLine = StringUtils.substringAfter(line, ">>>");
+
 				// gives "query1 first query sequence"
-				String queryString = line.split(">>>")[1].split("-")[0].trim();
+				String queryString = StringUtils.substringBeforeLast(rightPartOfQueryHeaderLine, "-").trim();
+
 				int firstSpace = queryString.indexOf(" ");
 				if (firstSpace < 0) {
 					querySequenceName = queryString;
@@ -228,56 +234,56 @@ public class FastaResultParser {
 			 * Frame
 			 */
 			else if ((builder != null) && FRAME_PATTERN.matcher(line).matches()) {
-				builder.frame(Frame.fromPattern((line.split(":")[1].trim())));
+				builder.frame(Frame.fromPattern(parseStringAssignment(line)));
 			}
 
 			/*
 			 * BitScore
 			 */
 			else if ((builder != null) && BITSCORE_PATTERN.matcher(line).matches()) {
-				builder.bitScore(Double.parseDouble(line.split(":")[1].trim()));
+				builder.bitScore(parseDoubleAssignment(line));
 			}
 
 			/*
 			 * E()-value
 			 */
 			else if ((builder != null) && EVALUE_PATTERN.matcher(line).matches()) {
-				builder.expectationValue(Double.parseDouble(line.split(":")[1].trim()));
+				builder.expectationValue(parseDoubleAssignment(line));
 			}
 
 			/*
 			 * Smith-Waterman score
 			 */
 			else if ((builder != null) && SWSCORE_PATTERN.matcher(line).matches()) {
-				builder.smithWatermanScore(Integer.parseInt(line.split(":")[1].trim()));
+				builder.smithWatermanScore(parseIntAssignment(line));
 			}
 
 			/*
 			 * Identity
 			 */
 			else if ((builder != null) && IDENTITY_PATTERN.matcher(line).matches()) {
-				builder.identity(Double.parseDouble(line.split(":")[1].trim()));
+				builder.identity(parseDoubleAssignment(line));
 			}
 
 			/*
 			 * Similarity
 			 */
 			else if ((builder != null) && SIMILARITY_PATTERN.matcher(line).matches()) {
-				builder.similarity(Double.parseDouble(line.split(":")[1].trim()));
+				builder.similarity(parseDoubleAssignment(line));
 			}
 
 			/*
 			 * Overlap
 			 */
 			else if ((builder != null) && OVERLAP_PATTERN.matcher(line).matches()) {
-				builder.overlap(Integer.parseInt(line.split(":")[1].trim()));
+				builder.overlap(parseIntAssignment(line));
 			}
 
 			/*
 			 * Start of the query block: matches for example ">query1 ..".
 			 */
 			else if ((builder != null) && !inQueryBlock && !inSubjectBlock
-					&& line.equals(">" + querySequenceName + " ..")) {
+					&& line.equals(">" + StringUtils.left(querySequenceName, 12) + " ..")) {
 				inQueryBlock = true;
 				builder.querySequenceName(querySequenceName).querySequenceDescription(querySequenceDescription);
 			}
@@ -303,7 +309,7 @@ public class FastaResultParser {
 			 * Sequence length
 			 */
 			else if ((builder != null) && SEQUENCE_LENGTH_PATTERN.matcher(line).matches()) {
-				int value = Integer.parseInt(line.split(":")[1].trim());
+				int value = parseIntAssignment(line);
 
 				if (inQueryBlock && !inSubjectBlock) {
 					builder.querySequenceLength(value);
@@ -319,7 +325,7 @@ public class FastaResultParser {
 			 * Alignment start
 			 */
 			else if ((builder != null) && ALIGNMENT_START_PATTERN.matcher(line).matches()) {
-				int value = Integer.parseInt(line.split(":")[1].trim());
+				int value = parseIntAssignment(line);
 
 				if (inQueryBlock && !inSubjectBlock) {
 					builder.queryAlignmentStart(value);
@@ -335,7 +341,7 @@ public class FastaResultParser {
 			 * Alignment stop
 			 */
 			else if ((builder != null) && ALIGNMENT_STOP_PATTERN.matcher(line).matches()) {
-				int value = Integer.parseInt(line.split(":")[1].trim());
+				int value = parseIntAssignment(line);
 
 				if (inQueryBlock && !inSubjectBlock) {
 					builder.queryAlignmentStop(value);
@@ -352,7 +358,7 @@ public class FastaResultParser {
 			 * string.
 			 */
 			else if ((builder != null) && ALIGNMENT_DISPLAY_START_PATTERN.matcher(line).matches()) {
-				int value = Integer.parseInt(line.split(":")[1].trim());
+				int value = parseIntAssignment(line);
 
 				if (inQueryBlock && !inSubjectBlock) {
 					builder.queryAlignmentDisplayStart(value);
@@ -400,5 +406,18 @@ public class FastaResultParser {
 		}
 
 		return results;
+	}
+
+	private String parseStringAssignment(String line) {
+		return line.split(":")[1].trim();
+	}
+
+	private int parseIntAssignment(String line) {
+		return Integer.parseInt(parseStringAssignment(line));
+	}
+
+	private double parseDoubleAssignment(String line) {
+		String value = parseStringAssignment(line).replace("inf", "Infinity");
+		return Double.parseDouble(value);
 	}
 }

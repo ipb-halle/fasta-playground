@@ -65,4 +65,16 @@ Some example sequence data was taken from [renzok/docker-ncbi-blast-demo](https:
 This example tries to reproduce Fig. 5 in *W. R. Pearson, T. C. Wood, Z. Zhang, and W. Miller*: Comparison of DNA sequences with protein sequences. Genomics, 46:24-36, 1997 ([doi:10.1006/geno.1997.4995](https://doi.org/10.1006/geno.1997.4995)). The underlying sequences were taken from the [fasta36 repository](https://github.com/wrpearson/fasta36/tree/v36.3.8/seq).
 
 #### results_fastx_mgstm1.txt ####
-* `$FASTA_PATH/bin/fastx36 -m 10 -n seq/mgstm1.e05 seq/mgstm1.aa > results_fastx_mgstm1.txt`
+* `$FASTA_PATH/bin/fastx36 -m 10 -n mgstm1.e05 mgstm1.aa > results_fastx_mgstm1.txt`
+
+### Just for fun (and testing) ###
+
+#### results_tfastx_mgstm1_1.txt ####
+* `$FASTA_PATH/bin/tfastx36 -m 10 -p mgstm1.e05 mgstm1.aa > results_tfastx_mgstm1_1.txt`
+* infinite number for *tfx_bits*
+* not every tfastx36 run shows such a result
+
+#### results_tfastx_mgstm1_2.txt ####
+* `$FASTA_PATH/bin/tfastx36 -m 10 -p mgstm1.aa mgstm1.e05 > results_tfastx_mgstm1_2.txt`
+* the name of the query sequence is very long, thus fasta truncates it
+* query sequence has a '-' character
