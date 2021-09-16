@@ -18,7 +18,7 @@ Start a container: `docker run -itp 8080:8080 --rm --name fasta-playground fasta
 
 Requires a JDK Version ≥ 8, Apache Maven, gcc, glibc and make.
 
-Download and compile the [fasta36 package](https://github.com/wrpearson/fasta36) and alter the path to the fasta36 executable in [FastaLibrarySearchBean.java](https://github.com/flange-ipb/fasta-playground/blob/main/ui/src/main/java/de/ipb_halle/fasta_playground/bean/FastaLibrarySearchBean.java) (field `FASTA_PROGRAM`) accordingly.
+Download and compile the [fasta36 package](https://github.com/wrpearson/fasta36) and alter the path to fasta36's *bin* directory in [SearchFactory.java](https://github.com/ipb-halle/fasta-playground/blob/main/ui/src/main/java/de/ipb_halle/fasta_playground/search/SearchFactory.java) (field `FASTA_BIN_DIRECTORY`) accordingly.
 
 ### Deployment via embedded Java EE application server
 
