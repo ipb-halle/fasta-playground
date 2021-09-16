@@ -25,11 +25,19 @@ import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
 public abstract class SearchFactory {
 	private static final String FASTA_BIN_DIRECTORY = "/usr/local/fasta36/bin";
 
+	protected static final String PARAM_PROTEIN_QUERY = "-p";
+	protected static final String PARAM_NUCLEOTIDE_QUERY = "-n";
+	protected static final String PARAM_TRANSLATION_TABLE_FORMAT = "-t %d";
+
 	public abstract String getProgramName();
 
 	public abstract String[] getParams();
 
 	public abstract ResultDisplayConfig getDisplayConfig();
+
+	public SearchFactory withTranslationTable(TranslationTable table) {
+		return this;
+	}
 
 	public final String execSearch(File libraryFile, File queryFile, String[] params) throws IOException {
 		String program = FASTA_BIN_DIRECTORY + "/" + getProgramName();
@@ -38,5 +46,9 @@ public abstract class SearchFactory {
 		exec.addCommands(program, "-q", "-m", "10").addCommands(params).addCommands(getParams())
 				.addCommands(queryFile.getAbsolutePath(), libraryFile.getAbsolutePath());
 		return exec.execute();
+	}
+
+	public interface Builder {
+		public SearchFactory build();
 	}
 }

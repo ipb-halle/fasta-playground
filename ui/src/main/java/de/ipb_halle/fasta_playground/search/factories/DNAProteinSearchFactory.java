@@ -17,13 +17,17 @@
  */
 package de.ipb_halle.fasta_playground.search.factories;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.ipb_halle.fasta_playground.display.FastxyResultDisplayConfig;
 import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
 import de.ipb_halle.fasta_playground.search.SearchFactory;
+import de.ipb_halle.fasta_playground.search.TranslationTable;
 
 public class DNAProteinSearchFactory extends SearchFactory {
-	private static String PROGRAM_NAME = "fastx36";
-	private static String[] PARAMS = { "-n" };
+	private static final String PROGRAM_NAME = "fastx36";
+	private TranslationTable translationTable = TranslationTable.STANDARD;
 
 	@Override
 	public String getProgramName() {
@@ -32,11 +36,27 @@ public class DNAProteinSearchFactory extends SearchFactory {
 
 	@Override
 	public String[] getParams() {
-		return PARAMS;
+		List<String> params = new ArrayList<>();
+		params.add(PARAM_NUCLEOTIDE_QUERY);
+		params.add(String.format(PARAM_TRANSLATION_TABLE_FORMAT, translationTable.getId()));
+		return (String[]) params.toArray(new String[0]);
 	}
 
 	@Override
 	public ResultDisplayConfig getDisplayConfig() {
 		return new FastxyResultDisplayConfig();
+	}
+
+	@Override
+	public SearchFactory withTranslationTable(TranslationTable table) {
+		this.translationTable = table;
+		return this;
+	}
+
+	public static class Builder implements SearchFactory.Builder {
+		@Override
+		public SearchFactory build() {
+			return new DNAProteinSearchFactory();
+		}
 	}
 }

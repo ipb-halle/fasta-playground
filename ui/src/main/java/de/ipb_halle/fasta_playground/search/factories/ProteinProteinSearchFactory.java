@@ -22,8 +22,7 @@ import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
 import de.ipb_halle.fasta_playground.search.SearchFactory;
 
 public class ProteinProteinSearchFactory extends SearchFactory {
-	private static String PROGRAM_NAME = "fasta36";
-	private static String[] PARAMS = { "-p" };
+	private static final String PROGRAM_NAME = "fasta36";
 
 	@Override
 	public String getProgramName() {
@@ -32,11 +31,18 @@ public class ProteinProteinSearchFactory extends SearchFactory {
 
 	@Override
 	public String[] getParams() {
-		return PARAMS;
+		return new String[] { PARAM_PROTEIN_QUERY };
 	}
 
 	@Override
 	public ResultDisplayConfig getDisplayConfig() {
 		return new FastaResultDisplayConfig();
+	}
+
+	public static class Builder implements SearchFactory.Builder {
+		@Override
+		public SearchFactory build() {
+			return new ProteinProteinSearchFactory();
+		}
 	}
 }

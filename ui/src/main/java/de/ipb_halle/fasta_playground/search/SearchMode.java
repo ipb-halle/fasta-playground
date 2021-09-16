@@ -23,19 +23,19 @@ import de.ipb_halle.fasta_playground.search.factories.ProteinDNASearchFactory;
 import de.ipb_halle.fasta_playground.search.factories.ProteinProteinSearchFactory;
 
 public enum SearchMode {
-	PROTEIN_PROTEIN("Protein query -> Protein library (fasta36 -p)", new ProteinProteinSearchFactory()),
-//	RNA_RNA("RNA query -> RNA library (fasta36 -U)", new RNARNASearchFactory()),
-	DNA_DNA("DNA query -> DNA library (fasta36 -n)", new DNADNASearchFactory()),
-	DNA_PROTEIN("DNA query -> Protein library (fastx36 -n)", new DNAProteinSearchFactory()),
-	PROTEIN_DNA("Protein query -> DNA library (tfastx36 -p)", new ProteinDNASearchFactory());
+	PROTEIN_PROTEIN("Protein query -> Protein library (fasta36 -p)", new ProteinProteinSearchFactory.Builder()),
+//	RNA_RNA("RNA query -> RNA library (fasta36 -U)", new RNARNASearchFactory.Builder()),
+	DNA_DNA("DNA query -> DNA library (fasta36 -n)", new DNADNASearchFactory.Builder()),
+	DNA_PROTEIN("DNA query -> Protein library (fastx36 -n)", new DNAProteinSearchFactory.Builder()),
+	PROTEIN_DNA("Protein query -> DNA library (tfastx36 -p)", new ProteinDNASearchFactory.Builder());
 
 	private final String label;
 
-	private final SearchFactory searchFactory;
+	private final SearchFactory.Builder searchFactoryBuilder;
 
-	SearchMode(String label, SearchFactory searchFactory) {
+	SearchMode(String label, SearchFactory.Builder searchFactoryBuilder) {
 		this.label = label;
-		this.searchFactory = searchFactory;
+		this.searchFactoryBuilder = searchFactoryBuilder;
 	}
 
 	public String getLabel() {
@@ -43,6 +43,6 @@ public enum SearchMode {
 	}
 
 	public SearchFactory getSearchFactory() {
-		return searchFactory;
+		return searchFactoryBuilder.build();
 	}
 }

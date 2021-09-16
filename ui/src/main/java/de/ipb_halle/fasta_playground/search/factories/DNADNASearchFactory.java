@@ -23,7 +23,6 @@ import de.ipb_halle.fasta_playground.search.SearchFactory;
 
 public class DNADNASearchFactory extends SearchFactory {
 	private static String PROGRAM_NAME = "fasta36";
-	private static String[] PARAMS = { "-n" };
 
 	@Override
 	public String getProgramName() {
@@ -32,11 +31,18 @@ public class DNADNASearchFactory extends SearchFactory {
 
 	@Override
 	public String[] getParams() {
-		return PARAMS;
+		return new String[] { PARAM_NUCLEOTIDE_QUERY };
 	}
 
 	@Override
 	public ResultDisplayConfig getDisplayConfig() {
 		return new FastaResultDisplayConfig();
+	}
+
+	public static class Builder implements SearchFactory.Builder {
+		@Override
+		public SearchFactory build() {
+			return new DNADNASearchFactory();
+		}
 	}
 }
