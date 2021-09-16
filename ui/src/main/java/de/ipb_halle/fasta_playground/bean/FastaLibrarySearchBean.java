@@ -28,8 +28,10 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.logging.Logger;
 
@@ -45,8 +47,10 @@ import org.omnifaces.util.Faces;
 
 import de.ipb_halle.fasta_playground.display.FastaResultDisplayWrapper;
 import de.ipb_halle.fasta_playground.display.ResultDisplayConfig;
+import de.ipb_halle.fasta_playground.fastaresult.FastaResult;
 import de.ipb_halle.fasta_playground.fastaresult.FastaResultParser;
 import de.ipb_halle.fasta_playground.search.SearchMode;
+import de.ipb_halle.fasta_playground.search.TranslationTable;
 
 @Named
 //@RequestScoped
@@ -55,11 +59,10 @@ import de.ipb_halle.fasta_playground.search.SearchMode;
 public class FastaLibrarySearchBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int[] maxResultSelectItems = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 750, 1000 };
-
-	private SortItem[] sortByItems = SortItem.values();
-
-	private SearchMode[] searchModeItems = SearchMode.values();
+	private final int[] maxResultSelectItems = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200, 250, 500, 750, 1000 };
+	private final SortItem[] sortByItems = SortItem.values();
+	private final SearchMode[] searchModeItems = SearchMode.values();
+	private final TranslationTable[] translationTableItems = TranslationTable.values();
 
 	/*
 	 * data supplied by user
@@ -70,12 +73,10 @@ public class FastaLibrarySearchBean implements Serializable {
 	@NotNull
 	private String query = "";
 
-	// @Min(1)
 	private int maxResults = maxResultSelectItems[4];
-
 	private SortItem sortBy = SortItem.EVALUE;
-
 	private SearchMode searchMode = SearchMode.PROTEIN_PROTEIN;
+	private TranslationTable translationTable = TranslationTable.STANDARD;
 
 	/*
 	 * calculated data
@@ -106,7 +107,7 @@ public class FastaLibrarySearchBean implements Serializable {
 			libraryFile = writeToTempFile("FastaLibrary", ".fasta", library);
 			queryFile = writeToTempFile("FastaQuery", ".fasta", query);
 
-			// execute fasta program
+			// execute program
 			fastaOutput = execFastaProgram(libraryFile, queryFile);
 
 			// display config
@@ -117,8 +118,10 @@ public class FastaLibrarySearchBean implements Serializable {
 
 			// collect results from the program's output
 			results = new ArrayList<>();
-			new FastaResultParser(new StringReader(fastaOutput)).parse()
-					.forEach(r -> results.add(new FastaResultDisplayWrapper(r).config(conf)));
+			for (FastaResult result : new FastaResultParser(new StringReader(fastaOutput)).parse()) {
+				results.add(new FastaResultDisplayWrapper(result).config(conf));
+			}
+
 			sortResults();
 		} catch (Exception e) {
 			logger.info(fastaOutput);
@@ -153,7 +156,8 @@ public class FastaLibrarySearchBean implements Serializable {
 	private String execFastaProgram(File libraryFile, File queryFile) throws IOException {
 		String[] params = { "-d", Integer.toString(maxResults), "-b", Integer.toString(maxResults) };
 
-		return searchMode.getSearchFactory().execSearch(libraryFile, queryFile, params);
+		return searchMode.getSearchFactory().withTranslationTable(translationTable).execSearch(libraryFile, queryFile,
+				params);
 	}
 
 	/*
@@ -265,6 +269,18 @@ public class FastaLibrarySearchBean implements Serializable {
 	}
 
 	/*
+	 * Getters with logic
+	 */
+	public boolean isTranslationTableDisabled() {
+		Set<SearchMode> enabled = EnumSet.of(SearchMode.DNA_PROTEIN, SearchMode.PROTEIN_DNA);
+		if (enabled.contains(searchMode)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/*
 	 * Getters/Setters
 	 */
 	public String getLibrary() {
@@ -325,5 +341,17 @@ public class FastaLibrarySearchBean implements Serializable {
 
 	public String getFastaOutput() {
 		return fastaOutput;
+	}
+
+	public TranslationTable[] getTranslationTableItems() {
+		return translationTableItems;
+	}
+
+	public TranslationTable getTranslationTable() {
+		return translationTable;
+	}
+
+	public void setTranslationTable(TranslationTable translationTable) {
+		this.translationTable = translationTable;
 	}
 }

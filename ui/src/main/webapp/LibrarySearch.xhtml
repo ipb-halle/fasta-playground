@@ -73,9 +73,14 @@
 					<b:message for="@previous" />
 				</h:panelGroup>
 				<h:panelGroup>
-					<b:selectOneMenu id="searchModeId"
-						value="#{fastaLibrarySearchBean.searchMode}" required="true"
-						label="Search mode">
+					<b:selectOneMenu
+						id="searchModeId"
+						value="#{fastaLibrarySearchBean.searchMode}"
+						required="true"
+						label="Search mode"
+						ajax="true"
+						process="@this"
+						update="translationTableId">
 						<f:selectItems value="#{fastaLibrarySearchBean.searchModeItems}"
 							var="item" itemValue="#{item}" itemLabel="#{item.label}" />
 					</b:selectOneMenu>
@@ -95,6 +100,29 @@
 						look="primary" />
 				</h:panelGroup>
 			</b:panelGrid>
+			<br />
+			<b:panel collapsed="true">
+				<f:facet name="heading">
+					<h:outputText value="Advanced Options" />
+				</f:facet>
+				<b:panelGrid col-spans="6,6">
+					<b:selectOneMenu
+						id="translationTableId"
+						value="#{fastaLibrarySearchBean.translationTable}"
+						required="true"
+						label="Translation Table"
+						disabled="#{fastaLibrarySearchBean.translationTableDisabled}"
+						ajax="true"
+						process="@this"
+						update="@none">
+						<f:selectItems 
+							value="#{fastaLibrarySearchBean.translationTableItems}"
+							var="item"
+							itemValue="#{item}"
+							itemLabel="#{item.name}" />
+					</b:selectOneMenu>
+				</b:panelGrid>
+			</b:panel>
 			<hr />
 			<h2>Results</h2>
 			<h:panelGroup id="resultsId">
