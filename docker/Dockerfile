@@ -1,9 +1,8 @@
 #
 # Build web project with Maven
 #
-
 # Dockerfile: https://github.com/carlossg/docker-maven/blob/master/adoptopenjdk-8/Dockerfile
-FROM maven:3.8.1-adoptopenjdk-8 AS mavenBuild
+FROM maven:3.8.3-adoptopenjdk-8 AS mavenBuild
 LABEL stage=fasta-playground-builder
 
 WORKDIR /usr/src/app
@@ -13,9 +12,13 @@ COPY ./ui/ .
 RUN mvn -B -e -C package
 
 #
-# Patch and build fasta36
+# Build fasta36
 #
-
+# Note:
+# The build and runtime environments need to be the same. Different Debian 
+# versions come with different versions of glibc, thus, this build and the
+# TomEE images use the same Debian version.
+#
 FROM debian:buster-slim AS fasta36Build
 LABEL stage=fasta-playground-builder
 
@@ -33,7 +36,6 @@ RUN set -ex \
 #
 # Prepare a TomEE container with empty webapps directory and start TomEE as unprivileged user
 #
-
 # Dockerfile: https://github.com/tomitribe/docker-tomee/blob/master/TomEE-7.1/jre8/webprofile/Dockerfile
 # inherits from https://github.com/docker-library/openjdk/blob/master/8/jre/buster/Dockerfile
 FROM tomee:8-jre-7.1.4-webprofile
