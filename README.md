@@ -1,3 +1,8 @@
+# Archive notice
+This GitHub repository is archived. Development of the artifacts will continue in the following projects:
+* [fasta-search-service](https://github.com/ipb-halle/fasta-search-service): execution of fasta searches and result file parsing
+* [CRIMSy](https://github.com/ipb-halle/CRIMSy): JSF frontend including display of alignments.
+
 # fasta-playground
 
 fasta-playground demonstrates sequence library searching via the [FASTA package](https://fasta.bioch.virginia.edu/fasta_www2/fasta_intro.shtml), result processing and visualization using Java Server Faces (JSF). This is a spin-off project of the [CRIMSy (Cloud Resource & Information Management System)](https://github.com/ipb-halle/CRIMSy).
